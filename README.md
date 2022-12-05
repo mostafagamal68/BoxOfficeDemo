@@ -19,12 +19,12 @@ Microsoft.AspNetCore.Identity.EntityFrameworkCore
 
 Microsoft.AspNetCore.Authentication.JwtBearer
 
-![alt text](https://github.com/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 230851.jpg?raw=true)
+![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 230851.jpg?raw=true)
 
-![alt text](https://github.com/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 230917.jpg?raw=true)
+![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 230917.jpg?raw=true)
 
-![alt text](https://github.com/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 230949.jpg?raw=true)
+![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 230949.jpg?raw=true)
 
-![alt text](https://github.com/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 231012.jpg?raw=true)
+![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 231012.jpg?raw=true)
 
-![alt text](https://github.com/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 231036.jpg?raw=true)
+![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot 2022-12-05 231036.jpg?raw=true)
