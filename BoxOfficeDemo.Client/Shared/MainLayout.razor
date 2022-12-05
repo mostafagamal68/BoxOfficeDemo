@@ -1,0 +1,41 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <AuthLinks />
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <WatchListNotify ShowWatchList="ShowWatchLater"></WatchListNotify>
+        </div>
+
+        <article class="content px-4">
+            <CascadingValue Value="_DateFormat" Name="DateFormat">
+                <CascadingValue Value="_TimeFormat" Name="TimeFormat">
+                    <CascadingValue Value="_Culture" Name="Culture">
+                        @Body
+                        @if (ToggleWatchLater)
+                        {
+                            <MyWatchList/>
+                        }
+                    </CascadingValue>
+                </CascadingValue>
+            </CascadingValue>
+        </article>
+    </main>
+</div>
+
+@code {
+    string _DateFormat = "dd/MM/yyyy";
+    string _TimeFormat = "hh\\:mm";
+    bool ToggleWatchLater { get; set; } = false;
+    IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
+    public async Task ShowWatchLater(bool show)
+    {
+        ToggleWatchLater = true;
+
+    }
+}

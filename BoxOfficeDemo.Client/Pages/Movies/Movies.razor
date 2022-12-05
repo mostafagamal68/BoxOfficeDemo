@@ -1,0 +1,94 @@
+﻿@page "/Movies"
+@inject IMoviesService MoviesService
+@inject IJSRuntime JSRuntime
+@inject NotifyService MoviesNotifyService
+@inject NavigationManager NavigationManager
+@inherits MovieCard
+<PageTitle>Movies</PageTitle>
+<AuthorizeView Roles="Administrator">
+    <Authorized>
+        <div class="row">
+            <div class="col-8">
+                <h3 class="d-inline my-2 align-middle">Movies</h3>
+                <button class="btn btn-outline-secondary m-2 " @onclick="()=> NavigateToMovie(null,true)">Add</button>
+            </div>
+            <div class="col-4">
+                <div class="position-relative d-inline-block w-75">
+                    <input type="text" class="form-control d-inline my-2 align-middle" style="padding-right: 1.4em;" @bind="searchText" @bind:event="oninput" @onkeyup="Search" />
+                    <span class="bi bi-search" style="
+                color:gray;
+                position: absolute;
+                top: 0;
+                right: 0;
+                font-weight: bold;
+                font-size: 1.4em;
+                padding: 0 0.2em;
+                line-height: 2.4em;
+                cursor: pointer;">
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <TableTemplate Items="MoviesService.MoviesList" Context="Movies" class="table table-striped table-hover">
+            <TableHeader>
+                <th scope="col" style="border-top-left-radius:20px">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">ReleasedDate</th>
+                <th scope="col">ParentalGuide</th>
+                <th scope="col">Length</th>
+                <th scope="col">Genere</th>
+                <th></th>
+                <th></th>
+                <th style="border-top-right-radius:20px"></th>
+            </TableHeader>
+            <RowTemplate>
+                @if (Movies.Item2.Equals(Movies.Item3))
+                {
+                    <th scope="row" style="border-bottom-left-radius:20px">@Movies.Item2</th>
+                }
+                else
+                {
+                    <th scope="row">@Movies.Item2</th>
+                }
+                <td>@Movies.Item1.MovieName</td>
+                <td>@(Movies.Item1.ReleasedDate == null ? "" : ((DateTime)Movies.Item1.ReleasedDate).ToString(DateFormat))</td>
+                <td>@Movies.Item1.ParentalGuide</td>
+                <td>@(Movies.Item1.Length == null ? "" : ((TimeSpan)Movies.Item1.Length).ToString(TimeFormat))</td>
+                <td>@Movies.Item1.Genere</td>
+                <td>
+                    <button class="btn btn-outline-primary" style="width:80px" @onclick="()=> NavigateToMovie(Movies.Item1.MovieID,false)">Details</button>
+                </td>
+                <td>
+                    <button class="btn btn-outline-success" style="width:80px" @onclick="()=> NavigateToMovie(Movies.Item1.MovieID,true)">Edit</button>
+                </td>
+                <td style="border-bottom-right-radius:20px">
+                    <button class=" btn btn-outline-danger" style="width:80px" @onclick="()=> Delete(Movies.Item1.MovieID)">Delete</button>
+                </td>
+            </RowTemplate>
+        </TableTemplate>
+    </Authorized>
+</AuthorizeView>
+@code {
+    string? searchText { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await MoviesService.GetMovies();
+    }
+
+    void Search()
+    {
+        MoviesService.MoviesList = MoviesService.MoviesList.Where(s => s.MovieName.Contains(searchText)).ToList();
+    }
+
+    async Task Delete(decimal? id)
+    {
+        bool answer = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        if (answer)
+        {
+            await MoviesService.DeleteMovie(id);
+        }
+
+    }
+}

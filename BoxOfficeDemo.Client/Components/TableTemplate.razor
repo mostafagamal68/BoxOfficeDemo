@@ -1,0 +1,34 @@
+﻿@typeparam TItem
+@inject NotifyService TableNotifyService
+
+<table class="table" @attributes="AdditionalAttributes">
+    <thead class="table-dark">
+        <tr class="align-middle text-center">@TableHeader</tr>
+    </thead>
+    <tbody>
+        @{
+            var last = Items.Last();
+        }
+        @foreach (var (item, index) in Items.Select((value, i) => (value, i + 1)))
+        {
+            if (RowTemplate is not null)
+            {
+                <tr class="align-middle text-center">@RowTemplate((item,index.ToString(),last))</tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public RenderFragment? TableHeader { get; set; }
+
+    [Parameter]
+    public RenderFragment<(TItem ,string, object)> RowTemplate { get; set; }
+
+    [Parameter, AllowNull]
+    public IReadOnlyList<TItem> Items { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; }
+}

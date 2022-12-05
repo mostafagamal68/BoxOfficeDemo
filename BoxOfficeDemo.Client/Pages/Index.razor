@@ -1,0 +1,62 @@
+﻿@page "/"
+@inject IMoviesService MoviesService
+@inject IWatchListService WatchListService
+@*@inject NotifyService WatchList*@
+@inherits BaseComponent
+
+<PageTitle>Box Office</PageTitle>
+
+<div class="row">
+    <h1 style="margin:0 20px ">Movies</h1>
+    <MessageAlert AddedMessage="@AddedMessage">
+    </MessageAlert>
+    <Loader Toggle="IsLoading"></Loader>
+</div>
+
+<div class="container">
+    <div class="row">
+        <Virtualize Context="Movie" Items="MoviesService.MoviesList">
+
+            <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 p-2">
+                <MovieCard MovieID="@Movie.MovieID"
+                           MovieName="@(Movie.MovieName.Length > 15 ? $"{Movie.MovieName.Substring(0,12)}..." : Movie.MovieName)"
+                           Genere="@Movie.Genere"
+                           Image="@Movie.Image"
+                           Length="@Movie.Length"
+                           ParentalGuide="@Movie.ParentalGuide"
+                           Rate="@Movie.Rate"
+                           ReleasedDate="@Movie.ReleasedDate"
+                           AddWatchList="AddtoWatchLater"
+                           Index="true">
+                </MovieCard>
+            </div>
+        </Virtualize>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        await MoviesService.GetMovies();
+        IsLoading = false;
+        base.OnInitialized();
+    }
+
+    public string AddedMessage = "";
+
+    public async Task AddtoWatchLater(SingleWatchList watchList)
+    {
+        if (WatchListService.AddMovieToWatchList(watchList.MovieName))
+        {
+            await WatchListService.AddWatchList(watchList);
+            AddedMessage = $"{watchList.MovieName} has been added successfully";
+        }
+        else
+            AddedMessage = $"{watchList.MovieName} already added";
+
+        await Task.Delay(3000);
+        AddedMessage = "";
+
+    }
+}
