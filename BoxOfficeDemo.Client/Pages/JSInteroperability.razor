@@ -1,0 +1,88 @@
+﻿@page "/JSInteroperability"
+@implements IAsyncDisposable
+@inject IJSRuntime _JSRuntime
+
+<h3>JSInteroperability</h3>
+<button class="btn btn-info" @onclick="Alert">Alert</button>
+<button class="btn btn-dark" @onclick="GetWidth">Get Width</button>
+<button class="btn btn-warning" @onclick="UndefinedFunction">Exception</button>
+<button class="btn btn-secondary" @onclick="Prompt">Prompt</button>
+<button class="btn btn-success" onclick="jsReturnArray()">ReturnArray</button>
+<button class="btn btn-primary" @onclick="Trigger">GetName</button>
+<br />
+<br />
+<div @ref="_Div" class="bg-danger w-50">Div width is @_width</div>
+<br />
+<label>@result</label>
+<br />
+<input @bind-value="name" />
+@code {
+    async Task Alert()
+    {
+        await _JSRuntime.InvokeVoidAsync("alert", "Hi :D");
+    }
+
+    double _width;
+
+    ElementReference _Div;
+
+    async Task GetWidth()
+    {
+        _width = await _JSRuntime.InvokeAsync<double>("getElementWidth", _Div);
+    }
+
+    private string result;
+
+    async Task UndefinedFunction()
+    {
+        try
+        {
+            await _JSRuntime.InvokeVoidAsync("undefined", "Hi :D");
+        }
+        catch (JSException ex)
+        {
+            result = ex.Message;
+        }
+    }
+
+    private IJSObjectReference module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await _JSRuntime.InvokeAsync<IJSObjectReference>("import", "./scripts/script.js");
+
+        }
+    }
+
+    async Task Prompt()
+    {
+        result = await module.InvokeAsync<string>("showPrompt", "Hi :D");
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+            await module.DisposeAsync();
+    }
+
+    [JSInvokable]
+    public static Task<int[]> ReturnArray()
+    {
+        return Task.FromResult(Enumerable.Range(0, new Random().Next(100)).ToArray());
+    }
+
+    private string name;
+
+    private DotNetObjectReference<JSInteroperability> objRef;
+
+    public async Task Trigger()
+    {
+        objRef = DotNetObjectReference.Create(this);
+        result = await _JSRuntime.InvokeAsync<string>("sayMessage", objRef);
+    }
+
+    [JSInvokable]
+    public string GetMessage() => $"Hello,{name}";
+}

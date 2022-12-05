@@ -1,0 +1,136 @@
+﻿@inject NavigationManager NavigationManager
+<style>
+    .zooming {
+        transition: transform .2s;
+    }
+
+        .zooming:hover {
+            transition: transform .2s;
+            transform: scale(1.1);
+        }
+
+    .btn-watchlist {
+        color: darkblue;
+        background-color: white;
+        border-color: darkblue;
+        border-radius: 15px;
+    }
+
+        .btn-watchlist:hover {
+            background-color: darkblue;
+            color: white;
+        }
+
+    .image-card {
+        width: 100%;
+    }
+
+        .image-card img {
+            border-radius: 20px;
+            height: 400px;
+        }
+</style>
+
+<div class="card zooming" style="margin:10px;border-radius:20px">
+
+    <div class="card-header" style="border-radius:20px">
+        <div class="row">
+            <h4 class="col" style="margin:5px;padding:0">@MovieName</h4>
+            @if (!Index)
+            {
+                <button @onclick="async ()=> await AddToWatchList()" class="btn btn-watchlist w-auto"><span class="bi-plus-lg"></span> Watchlist</button>
+            }
+            <h4 class="col-auto" style="text-align:right;padding:0;margin:5px;"><span class="bi-star-fill" style="margin:0 5px;padding:0;color:gold;"></span>@Rate</h4>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-auto image-card">
+            <a class="col custom-cursor" href="#" @onclick="()=> NavigateToMovie(MovieID,false)" @onclick:preventDefault>
+                <img class="card-img-top " src="@Image" alt="Card image cap">
+            </a>
+        </div>
+        <div class="col" style="margin:10px">
+            <h4>Released: @(ReleasedDate == null ? "" : ((DateTime)ReleasedDate).ToString(DateFormat))</h4>
+            <h4>@Genere  PG-@ParentalGuide @(Length == null ? "" : ((TimeSpan)Length).ToString(TimeFormat, Culture))</h4>
+            @Description
+            @if (Index)
+            {
+                <div class="Col text-center">
+                    <button @onclick="async ()=> await AddToWatchList()" class="btn btn-watchlist"><span class="bi-plus-lg"></span> Watchlist</button>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row ms-1 mt-2 w-50">
+        @Reviews
+        <AuthorizeView>
+            <Authorized Context="Auth">
+                @ReviewForm
+            </Authorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public decimal? MovieID { get; set; }
+    [Parameter]
+    public string? MovieName { get; set; }
+    [Parameter]
+    public string? Image { get; set; }
+    [Parameter]
+    public DateTime? ReleasedDate { get; set; }
+    [Parameter]
+    public int? ParentalGuide { get; set; }
+    [Parameter]
+    public TimeSpan? Length { get; set; }
+    [Parameter]
+    public string? Genere { get; set; }
+    [Parameter]
+    public decimal? Rate { get; set; }
+
+    [Parameter]
+    public RenderFragment? Description { get; set; }
+
+    [Parameter]
+    public RenderFragment? Reviews { get; set; }
+
+    [Parameter]
+    public RenderFragment? ReviewForm { get; set; }
+
+
+    [CascadingParameter(Name = "DateFormat")]
+    public string DateFormat { get; set; }
+
+    [CascadingParameter(Name = "TimeFormat")]
+    public string TimeFormat { get; set; }
+
+    [CascadingParameter(Name = "Culture")]
+    public IFormatProvider Culture { get; set; }
+
+    [Parameter]
+    public EventCallback<SingleWatchList> AddWatchList { get; set; }
+
+    [Parameter]
+    public bool Index { get; set; }
+
+    public async Task AddToWatchList()
+    {
+        SingleWatchList watchList = new()
+            {
+                Id = new GenerateNewID().GetNewID,
+                MovieID = (decimal)MovieID,
+                MovieName = MovieName,
+                UserID = LoggedUser.Id
+            };
+        await AddWatchList.InvokeAsync(watchList);
+    }
+
+    public void NavigateToMovie(decimal? id, bool Form)
+    {
+        if (Form)
+            NavigationManager.NavigateTo($"/Movie/{id}");
+        else
+            NavigationManager.NavigateTo($"/Movies/{id}");
+    }
+}

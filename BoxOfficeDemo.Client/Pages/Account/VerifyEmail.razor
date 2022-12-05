@@ -1,0 +1,39 @@
+﻿@page "/VerifyEmail/{Id}"
+@inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
+@*@attribute [Authorize]*@
+
+@if (ShowVerifyEmailError)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
+
+<h3>VerifyEmail</h3>
+<div class="position-relative">
+    <div class="card card-body bg-light mt-5 w-50 align-items-center position-absolute" style="top: 50%; left: 25%;">
+        <p>Click the button below to verify your email</p>
+        <button type="submit" class="btn btn-outline-success" @onclick="Verify">Verify</button>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    public bool ShowVerifyEmailError { get; set; }
+    public string Error { get; set; }
+    public async Task Verify()
+    {
+        ShowVerifyEmailError = false;
+        var result = await AuthenticationService.VerifyEmail(Id);
+        if (!result.IsAuthSuccessful)
+        {
+            Error = result.ErrorMessage;
+            ShowVerifyEmailError = true;
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}

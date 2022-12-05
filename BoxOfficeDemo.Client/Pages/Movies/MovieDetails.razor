@@ -1,0 +1,160 @@
+﻿@page "/Movies/{id:decimal}"
+@inject IMoviesService MoviesService
+@inject IReviewsService ReviewsService
+@inject IJSRuntime JSRuntime
+@inherits Pages.Index
+
+<PageTitle>Movie : @Movie.MovieName</PageTitle>
+<style>
+    .zooming {
+        transition: transform 0s !important;
+    }
+
+        .zooming:hover {
+            transition: transform 0s !important;
+            transform: scale(1.0) !important;
+        }
+
+    .custom-cursor {
+        cursor: default;
+    }
+
+    .image-card {
+        width: auto !important;
+    }
+</style>
+
+<MessageAlert AddedMessage="@AddedMessage">
+</MessageAlert>
+<Loader Toggle="IsLoading"></Loader>
+<MovieCard MovieID="@Movie.MovieID"
+           MovieName="@Movie.MovieName"
+           Genere="@Movie.Genere"
+           Image="@Movie.Image"
+           Length="@Movie.Length"
+           ParentalGuide="@Movie.ParentalGuide"
+           Rate="@Movie.Rate"
+           ReleasedDate="@Movie.ReleasedDate"
+           AddWatchList="AddtoWatchLater"
+           Index="false">
+    <Description>
+        <h5>@Movie.Description</h5>
+        <h5><strong>Director: </strong>@Movie.Director</h5>
+        <h5><strong>Writer: </strong>@Movie.Writer</h5>
+        <h5>
+            <strong>Stars: </strong>@Movie.Stars
+        </h5>
+    </Description>
+    <Reviews>
+        @if (ReviewsService.ReviewsList.Any())
+        {
+            <h4>Previous Reviews</h4>
+            foreach (var item in ReviewsService.ReviewsList)
+            {
+                if (item.UserID == LoggedUser.Id)
+                {
+                    <a href="#" class="w-auto d-inline" @onclick="()=> Edit(item.ReviewID)" @onclick:preventDefault>Edit Your Review</a>
+                    <a href="#" class="w-auto d-inline" @onclick="()=> Delete(item.ReviewID)" @onclick:preventDefault>Delete</a>
+                }
+                <p><strong>Name: </strong>@($"{item.FirstName} {item.LastName}")</p>
+                <p><strong>Rate: </strong>@item.Rate @(item.Rate <= 1 ? "Star" : "Stars")</p>
+                <p><strong>Feedback: </strong>@item.Feedback</p>
+                <p><strong>Date: </strong>@item.ReviewDate</p>
+            }
+        }
+        else
+        {
+            <h4>No Reviews</h4>
+        }
+    </Reviews>
+    <ReviewForm>
+        @if (!IsReviewed || IsEdit)
+        {
+            <EditForm Model="@Review" OnValidSubmit="Save">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <h4>Your Review</h4>
+                <label>Rate</label>
+                <InputSelect class="form-select m-2" @bind-Value="Review.Rate">
+                    <span class="oi oi-arrow-bottom"></span>
+                    <option value="" selected disabled hidden>Click and Choose here</option>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </InputSelect>
+                <label>Feedback</label>
+                <InputTextArea class="form-control m-2" @bind-Value="Review.Feedback" />
+                <button type="submit" class="btn btn-primary my-3">Save</button>
+                @if (IsEdit)
+                {
+                    <button class="btn btn-danger d-inline" @onclick="()=> IsEdit = false">Cancel</button>
+                }
+            </EditForm>
+        }
+    </ReviewForm>
+</MovieCard>
+
+@code {
+    SingleMovie Movie = new();
+    SingleReview Review = new();
+    bool IsReviewed = false;
+    bool IsEdit = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        Movie = await MoviesService.GetMovie(ID);
+        await GetAll();
+    }
+
+    async Task GetAll()
+    {
+        IsLoading = true;
+        await ReviewsService.GetReviews(ID);
+        IsReviewed = ReviewsService.ReviewsList.Where(w => w.UserID == LoggedUser.Id).Any();
+        IsLoading = false;
+    }
+
+    async Task Save()
+    {
+        if (!IsReviewed)
+        {
+            Review.IsNew = true;
+            Review.ReviewID = new GenerateNewID().GetNewID; 
+            Review.UserID = LoggedUser.Id;
+            Review.MovieID = ID;
+            Review.ReviewDate = DateTime.Now;
+            await ReviewsService.SaveReview(Review);
+        }
+        else
+        {
+            Review.IsNew = false;
+            await ReviewsService.SaveReview(Review);
+            IsEdit = false;
+        }
+        await GetAll();
+        Review = new();
+    }
+
+    async Task Edit(decimal? id)
+    {
+        IsEdit = true;
+        Review = await ReviewsService.GetSingleReview(id);
+    }
+
+    async Task Delete(decimal? id)
+    {
+        bool answer = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        if (answer)
+        {
+            await ReviewsService.DeleteReview(id);
+            await GetAll();
+        }
+
+    }
+
+    [Parameter]
+    public decimal? ID { get; set; }
+}
