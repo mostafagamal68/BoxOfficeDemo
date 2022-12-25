@@ -14,7 +14,7 @@ namespace BoxOfficeDemo.Server.Models
         public User()
         {
             Reviews = new HashSet<Review>();
-            WatchLists = new HashSet<WatchList>();
+            WatchList = new HashSet<WatchList>();
         }
 
         public string FirstName { get; set; }
@@ -24,8 +24,7 @@ namespace BoxOfficeDemo.Server.Models
 
         [InverseProperty("User")]
         public virtual ICollection<Review> Reviews { get; set; }
-
         [InverseProperty("User")]
-        public virtual ICollection<WatchList> WatchLists { get; set; }
+        public virtual ICollection<WatchList> WatchList { get; set; }
     }
 }

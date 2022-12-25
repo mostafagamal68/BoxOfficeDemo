@@ -8,22 +8,41 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoxOfficeDemo.Server.Models
 {
+    //public partial class WatchList
+    //{
+    //    [Key]
+    //    [Column(TypeName = "decimal(28, 8)")]
+    //    public decimal Id { get; set; }
+    //    public string UserID { get; set; }
+
+    //    [Column(TypeName = "decimal(28, 8)")] 
+    //    public decimal MovieID { get; set; }
+
+    //    [ForeignKey("MovieID")]
+    //    [InverseProperty("WatchLists")]
+    //    public virtual Movie Movie { get; set; }
+
+    //    [ForeignKey("UserID")]
+    //    [InverseProperty("WatchLists")]
+    //    public virtual User User { get; set; }
+    //}
+    [Index("MovieID", Name = "IX_WatchList_MovieID")]
+    [Index("UserID", Name = "IX_WatchList_UserID")]
     public partial class WatchList
     {
+        [Required]
+        public string UserID { get; set; }
+        [Column(TypeName = "decimal(28, 8)")]
+        public decimal MovieID { get; set; }
         [Key]
         [Column(TypeName = "decimal(28, 8)")]
         public decimal Id { get; set; }
-        public string UserID { get; set; }
-
-        [Column(TypeName = "decimal(28, 8)")] 
-        public decimal MovieID { get; set; }
 
         [ForeignKey("MovieID")]
-        [InverseProperty("WatchLists")]
+        [InverseProperty("WatchList")]
         public virtual Movie Movie { get; set; }
-
         [ForeignKey("UserID")]
-        [InverseProperty("WatchLists")]
+        [InverseProperty("WatchList")]
         public virtual User User { get; set; }
     }
 }

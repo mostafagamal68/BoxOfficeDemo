@@ -22,29 +22,19 @@ namespace BoxOfficeDemo.Client.Services
 
         public List<WatchListList> GetWatchList(string? id)
         {
-            var List = _context.WatchLists.Where(w => w.UserID == id).ToList();
-
-            List<WatchListList> ReviewsList = _mapper.Map<List<WatchListList>>(List);
-            return ReviewsList;
+            return _mapper.Map<List<WatchListList>>(_context.WatchList.Where(w => w.UserID == id).Include(i => i.User).ToList());
         }
 
         public void AddWatchList(SingleWatchList singleWatchList)
         {
-            //WatchList WatchList = _mapper.Map<WatchList>(singleWatchList);
-            WatchList WatchList = new()
-            {
-                Id = singleWatchList.Id,
-                MovieID = singleWatchList.MovieID,
-                UserID= singleWatchList.UserID,
-            };
-            _context.WatchLists.Add(WatchList);
+            _context.WatchList.Add(_mapper.Map<WatchList>(singleWatchList));
             _context.SaveChanges();
         }
         public void DeleteWatchList(decimal? id)
         {
-            WatchList WatchList = _context.WatchLists.Find(id);
+            var WatchList = _context.WatchList.Find(id);
             if (WatchList != null)
-                _context.WatchLists.Remove(WatchList);
+                _context.WatchList.Remove(WatchList);
             _context.SaveChanges();
         }
 
