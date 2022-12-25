@@ -8,22 +8,43 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoxOfficeDemo.Server.Models
 {
+    //public partial class Review
+    //{
+    //    [Key]
+    //    [Column(TypeName = "decimal(28, 8)")]
+    //    public decimal? ReviewID { get; set; }
+    //    public string UserID { get; set; }
+    //    [Column(TypeName = "decimal(28, 8)")]
+    //    public decimal? MovieID { get; set; }
+    //    public int? Rate { get; set; }
+    //    public string? Feedback { get; set; }
+    //    public DateTime? ReviewDate { get; set; }
+
+    //    [ForeignKey("MovieID")]
+    //    [InverseProperty("Reviews")]
+    //    public virtual Movie Movie { get; set; }
+
+    //    [ForeignKey("UserID")]
+    //    [InverseProperty("Reviews")]
+    //    public virtual User User { get; set; }
+    //}
+    [Index("MovieID", Name = "IX_Reviews_MovieID")]
+    [Index("UserID", Name = "IX_Reviews_UserID")]
     public partial class Review
     {
         [Key]
         [Column(TypeName = "decimal(28, 8)")]
-        public decimal? ReviewID { get; set; }
+        public decimal ReviewID { get; set; }
         public string UserID { get; set; }
         [Column(TypeName = "decimal(28, 8)")]
         public decimal? MovieID { get; set; }
         public int? Rate { get; set; }
-        public string? Feedback { get; set; }
+        public string Feedback { get; set; }
         public DateTime? ReviewDate { get; set; }
 
         [ForeignKey("MovieID")]
         [InverseProperty("Reviews")]
         public virtual Movie Movie { get; set; }
-
         [ForeignKey("UserID")]
         [InverseProperty("Reviews")]
         public virtual User User { get; set; }

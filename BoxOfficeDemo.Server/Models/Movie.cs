@@ -8,41 +8,77 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoxOfficeDemo.Server.Models
 {
+    //public partial class Movie
+    //{
+    //    public Movie()
+    //    {
+    //        Reviews = new HashSet<Review>();
+    //        WatchLists = new HashSet<WatchList>();
+    //    }
+
+    //    [Key]
+    //    [Column(TypeName = "decimal(28, 8)")] 
+    //    public decimal? MovieID { get; set; }
+    //    [Required]
+    //    [StringLength(100)]
+    //    public string? MovieName { get; set; }
+    //    [StringLength(100)]
+    //    public string? Image { get; set; }
+    //    public string? Description { get; set; }
+    //    [Column(TypeName = "date")]
+    //    public DateTime? ReleasedDate { get; set; }
+    //    public int? ParentalGuide { get; set; }
+    //    public TimeSpan? Length { get; set; }
+    //    [StringLength(50)]
+    //    public string? Genere { get; set; }
+    //    [Column(TypeName = "decimal(3, 1)")]
+    //    public decimal? Rate { get; set; }
+    //    [StringLength(50)]
+    //    public string? Director { get; set; }
+    //    [StringLength(50)]
+    //    public string? Writer { get; set; }
+    //    public string? Stars { get; set; }
+
+    //    [InverseProperty("Movie")]
+    //    public virtual ICollection<Review> Reviews { get; set; }
+
+    //    [InverseProperty("Movie")]
+    //    public virtual ICollection<WatchList> WatchLists { get; set; }
+    //}
     public partial class Movie
     {
         public Movie()
         {
             Reviews = new HashSet<Review>();
-            WatchLists = new HashSet<WatchList>();
+            WatchList = new HashSet<WatchList>();
         }
 
         [Key]
-        [Column(TypeName = "decimal(28, 8)")] 
-        public decimal? MovieID { get; set; }
+        [Column(TypeName = "decimal(28, 8)")]
+        public decimal MovieID { get; set; }
         [Required]
         [StringLength(100)]
-        public string? MovieName { get; set; }
+        public string MovieName { get; set; }
         [StringLength(100)]
-        public string? Image { get; set; }
-        public string? Description { get; set; }
+        public string Image { get; set; }
+        public string Description { get; set; }
         [Column(TypeName = "date")]
         public DateTime? ReleasedDate { get; set; }
         public int? ParentalGuide { get; set; }
         public TimeSpan? Length { get; set; }
         [StringLength(50)]
-        public string? Genere { get; set; }
+        public string Genere { get; set; }
         [Column(TypeName = "decimal(3, 1)")]
         public decimal? Rate { get; set; }
         [StringLength(50)]
-        public string? Director { get; set; }
+        public string Director { get; set; }
         [StringLength(50)]
-        public string? Writer { get; set; }
-        public string? Stars { get; set; }
+        public string Writer { get; set; }
+        public string Stars { get; set; }
 
         [InverseProperty("Movie")]
         public virtual ICollection<Review> Reviews { get; set; }
-
         [InverseProperty("Movie")]
-        public virtual ICollection<WatchList> WatchLists { get; set; }
+        public virtual ICollection<WatchList> WatchList { get; set; }
     }
 }

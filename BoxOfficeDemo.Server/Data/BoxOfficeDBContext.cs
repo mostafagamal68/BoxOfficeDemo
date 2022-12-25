@@ -17,28 +17,28 @@ namespace BoxOfficeDemo.Server.Data
             : base(options)
         {
         }
-
+        
+        public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<WatchList> WatchLists { get; set; }
+        public virtual DbSet<WatchList> WatchList { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Data Source=MOSTAFAGAMAL;Initial Catalog=BlazorTestApp;Integrated Security=True");
-//            }
-//        }
+        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //        {
+        //            if (!optionsBuilder.IsConfigured)
+        //            {
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        //                optionsBuilder.UseSqlServer("Data Source=MOSTAFAGAMAL;Initial Catalog=BlazorTestApp;Integrated Security=True");
+        //            }
+        //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
-            modelBuilder.ApplyConfiguration(new DefaultUsersConfiguration());
-            modelBuilder.ApplyConfiguration(new UsersRolesConfiguration());
-            modelBuilder.ApplyConfiguration(new MoviesConfiguration());
+            //modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            //modelBuilder.ApplyConfiguration(new DefaultUsersConfiguration());
+            //modelBuilder.ApplyConfiguration(new UsersRolesConfiguration());
+            //modelBuilder.ApplyConfiguration(new MoviesConfiguration());
             //modelBuilder.Entity<Review>(entity =>
             //{
             //    entity.HasOne(d => d.Movie)
@@ -68,7 +68,13 @@ namespace BoxOfficeDemo.Server.Data
             //        .OnDelete(DeleteBehavior.ClientSetNull)
             //        .HasConstraintName("FK_WatchList_AspNetUsers");
             //});
-
+            //modelBuilder.Entity<WatchList>(entity =>
+            //{
+            //    entity.HasOne(d => d.User)
+            //        .WithMany(p => p.WatchList)
+            //        .HasForeignKey(d => d.UserID)
+            //        .OnDelete(DeleteBehavior.ClientSetNull);
+            //});
             //OnModelCreatingPartial(modelBuilder);
         }
 
