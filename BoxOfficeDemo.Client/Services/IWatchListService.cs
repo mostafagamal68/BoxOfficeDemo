@@ -9,9 +9,9 @@ namespace BoxOfficeDemo.Client.Services
         Task AddWatchList(SingleWatchList review);
         Task DeleteWatchList(decimal? id);
         int Count { get; set; }
-
+        Task Init();
         event Action OnChange;
 
-        bool AddMovieToWatchList(string name);
+        bool AddMovieToWatchList(decimal id);
     }
 }

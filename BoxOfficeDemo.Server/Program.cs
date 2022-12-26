@@ -27,8 +27,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BoxOfficeDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BoxOfficeDemoConnection")));
-//builder.Services.AddDefaultIdentity<User>()
-    //.AddRoles<IdentityRole>()
 builder.Services.AddIdentity<User, IdentityRole>()
   .AddEntityFrameworkStores<BoxOfficeDBContext>();
 builder.Services.AddScoped<IMoviesLogic, MoviesLogic>();

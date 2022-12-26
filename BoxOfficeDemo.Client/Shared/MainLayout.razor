@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@inject IWatchListService WatchListService
+@inherits LayoutComponentBase
 
 <div class="page">
     <div class="sidebar">
@@ -9,7 +10,40 @@
         <div class="top-row px-4">
             <AuthLinks />
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            <WatchListNotify ShowWatchList="ShowWatchLater"></WatchListNotify>
+
+            @*<button @onclick="() => Modal.Open()">Open Modal</button>*@
+            <WatchListNotify ShowWatchList="Open"></WatchListNotify>
+        </div>
+
+
+        <div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">My WatchLater List</h5>
+                        <Loader Toggle="IsLoading"></Loader>
+                    </div>
+                    <div class="modal-body">
+
+                        <Virtualize Context="WatchList" Items="WatchListService.WatchListList">
+                            <div class="row">
+                                <div class="col">
+                                    <img src="@WatchList.Image" width="40" height="60" />
+                                </div>
+                                <div class="col-6 m-auto">
+                                    <h4>@WatchList.MovieName</h4>
+                                </div>
+                                <div class="col m-auto">
+                                    <button class="btn btn-danger" @onclick="async ()=> await Remove(WatchList.Id)">Remove</button>
+                                </div>
+                            </div>
+                        </Virtualize>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <article class="content px-4">
@@ -17,10 +51,6 @@
                 <CascadingValue Value="_TimeFormat" Name="TimeFormat">
                     <CascadingValue Value="_Culture" Name="Culture">
                         @Body
-                        @if (ToggleWatchLater)
-                        {
-                            <MyWatchList/>
-                        }
                     </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
@@ -31,11 +61,42 @@
 @code {
     string _DateFormat = "dd/MM/yyyy";
     string _TimeFormat = "hh\\:mm";
-    bool ToggleWatchLater { get; set; } = false;
+    public bool ToggleWatchLater { get; set; } = false;
+    public bool IsLoading { get; set; }
+
     IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
-    public async Task ShowWatchLater(bool show)
+    
+    string ModalDisplay = "none;";
+    string ModalClass = "";
+    bool ShowBackdrop = false;
+
+    private async Task Open()
     {
         ToggleWatchLater = true;
+        ModalDisplay = "block;";
+        ModalClass = "Show";
+        ShowBackdrop = true;
+        IsLoading = true;
+        await WatchListService.GetWatchList(LoggedUser.Id);
+        StateHasChanged();
+        IsLoading = false;
+    }
 
+    private async Task Remove(decimal? id)
+    {
+        IsLoading = true;
+        await WatchListService.DeleteWatchList(id);
+        await WatchListService.GetWatchList(LoggedUser.Id);
+        StateHasChanged();
+        IsLoading = false;
+    }
+
+    private void Close()
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        ShowBackdrop = false;
+        ToggleWatchLater = false;
+        StateHasChanged();
     }
 }
