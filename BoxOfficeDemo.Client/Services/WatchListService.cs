@@ -1,4 +1,5 @@
-﻿using BoxOfficeDemo.Shared.Models;
+﻿using BoxOfficeDemo.Client.Configurations;
+using BoxOfficeDemo.Shared.Models;
 using System.Net.Http.Json;
 
 namespace BoxOfficeDemo.Client.Services
@@ -16,17 +17,27 @@ namespace BoxOfficeDemo.Client.Services
             => await _client.PostAsJsonAsync("WatchList/AddWatchList", WatchList);
 
         public async Task DeleteWatchList(decimal? id)
-            => await _client.DeleteAsync($"WatchList/DeleteWatchList/{id}");
+        {
+            await _client.DeleteAsync($"WatchList/DeleteWatchList/{id}");
+            Count--;
+        }
 
         public int Count { get; set; } = 0;
 
         public event Action OnChange;
 
-        public bool AddMovieToWatchList(string name)
+        public async Task Init()
         {
-            if (!WatchListList.Where(w=>w.MovieName.Contains(name)).Any())
+            await GetWatchList(LoggedUser.Id);
+            Count = WatchListList.Count;
+            OnChange?.Invoke();
+        }
+
+        public bool AddMovieToWatchList(decimal id)
+        {
+            if (!WatchListList.Any(a=>a.MovieID == id))
             {
-                Count = WatchListList.Count;
+                Count++;
                 OnChange?.Invoke();
                 return true;
             }

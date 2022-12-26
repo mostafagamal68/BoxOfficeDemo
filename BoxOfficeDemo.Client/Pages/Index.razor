@@ -5,11 +5,11 @@
 @inherits BaseComponent
 
 <PageTitle>Box Office</PageTitle>
+
 @*<MyWatchList/>*@
 <div class="row">
     <h1 style="margin:0 20px ">Movies</h1>
-    <MessageAlert AddedMessage="@AddedMessage">
-    </MessageAlert>
+    <MessageAlert AddedMessage="@AddedMessage"></MessageAlert>
     <Loader Toggle="IsLoading"></Loader>
 </div>
 
@@ -47,16 +47,16 @@
 
     public async Task AddtoWatchLater(SingleWatchList watchList)
     {
-        if (WatchListService.AddMovieToWatchList(watchList.MovieName))
+        if (WatchListService.AddMovieToWatchList(watchList.MovieID))
         {
             await WatchListService.AddWatchList(watchList);
             AddedMessage = $"{watchList.MovieName} has been added successfully";
         }
         else
             AddedMessage = $"{watchList.MovieName} already added";
-
+        StateHasChanged();
         await Task.Delay(3000);
         AddedMessage = "";
-
+        StateHasChanged();
     }
 }

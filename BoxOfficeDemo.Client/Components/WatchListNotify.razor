@@ -1,8 +1,8 @@
-﻿@inject NotifyService WatchListNotifyService
+﻿@inject IWatchListService WatchListNotifyService
 <AuthorizeView>
     <Authorized>
         <button type="button" class="btn btn-outline-primary position-relative mx-3" style="border-radius:15px;"
-                @onclick="async ()=> await ShowWatchList.InvokeAsync(true)">
+                @onclick="async ()=> await ShowWatchList.InvokeAsync()">
             @*@onclick="WatchListNotifyService.Reset"*@
             My Watchlist
             <i class="oi oi-list-rich"></i>
@@ -19,8 +19,9 @@
 @code {
     [Parameter]
     public EventCallback<bool> ShowWatchList { get; set; }
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         WatchListNotifyService.OnChange += StateHasChanged;
+        //await WatchListNotifyService.Init();
     }
 }
