@@ -19,6 +19,8 @@ Microsoft.AspNetCore.Authentication.JwtBearer
 
 ![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot_2022-12-05_230851.jpg?raw=true)
 
+![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot_2022-12-27_195911.jpg?raw=true)
+
 ![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot_2022-12-05_230917.jpg?raw=true)
 
 ![alt text](https://github.com/mostafagamal68/BoxOfficeDemo/blob/master/Screenshots/Screenshot_2022-12-05_230949.jpg?raw=true)
