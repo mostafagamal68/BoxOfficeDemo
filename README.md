@@ -1,11 +1,9 @@
 # BoxOfficeDemo
 A Demo Project For Showing Box Office Movies Developed with Blazor and ASP.NET Web Api. With Identity Authentication, Blazor Autorization roled based and JWT token.
 
-# Notes:
+# Description:
+A demo website for box office movies. you can add movies by admin rigths. registered users can view, add reviews and save their watchlist.
 
-Watchlater functionality not working right now. To be implemented soon.
-
-WatchList page is not designed yet. To be designed soon.
 
 # Packages Used:
 
