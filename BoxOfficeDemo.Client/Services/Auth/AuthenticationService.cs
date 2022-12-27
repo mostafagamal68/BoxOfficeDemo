@@ -103,11 +103,5 @@ namespace BoxOfficeDemo.Client.Services.Auth
             return result.Token;
         }
 
-        //public async Task GetUserIDFromToken(string? email)
-        //{
-        //    var content = JsonSerializer.Serialize(email);
-        //    var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-        //    var authResult = await _client.PutAsync("accounts/getid", bodyContent);
-        //}
     }
 }

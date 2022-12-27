@@ -12,14 +12,12 @@ namespace BoxOfficeDemo.Client.Services.Auth
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationState _anonymous;
-        //private readonly IAuthenticationService _authService;
 
-        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage/*, IAuthenticationService authenticationService*/)
+        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
             _anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-            //_authService= authenticationService;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -48,16 +46,4 @@ namespace BoxOfficeDemo.Client.Services.Auth
             NotifyAuthenticationStateChanged(authState);
         }
     }
-    //public async override Task<AuthenticationState> GetAuthenticationStateAsync()
-    //{
-    //    await Task.Delay(1500);
-    //    //var claims = new List<Claim>
-    //    //{
-    //    //    new Claim(ClaimTypes.Name, "John Doe"),
-    //    //    new Claim(ClaimTypes.Role, "Administrator")
-    //    //};
-    //    //var anonymous = new ClaimsIdentity(claims, "testAuthType");
-    //    var anonymous = new ClaimsIdentity();
-    //    return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal(anonymous)));
-    //}
 }
