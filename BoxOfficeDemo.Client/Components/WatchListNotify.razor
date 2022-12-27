@@ -19,9 +19,8 @@
 @code {
     [Parameter]
     public EventCallback<bool> ShowWatchList { get; set; }
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         WatchListNotifyService.OnChange += StateHasChanged;
-        //await WatchListNotifyService.Init();
     }
 }

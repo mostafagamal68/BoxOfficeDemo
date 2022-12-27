@@ -117,12 +117,13 @@
     public async Task AddToWatchList()
     {
         SingleWatchList watchList = new()
-        {
-            Id = new GenerateNewID().GetNewID,
-            MovieID = (decimal)MovieID,
-            MovieName = MovieName,
-            UserID = LoggedUser.Id
-        };
+            {
+                Id = new GenerateNewID().GetNewID,
+                MovieID = (decimal)MovieID,
+                MovieName = MovieName,
+                UserID = LoggedUser.Id,
+                AddedDate = DateTime.Now
+            };
 
         await AddWatchList.InvokeAsync(watchList);
     }

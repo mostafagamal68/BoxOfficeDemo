@@ -10,5 +10,6 @@ namespace BoxOfficeDemo.Shared.Models
         public decimal MovieID { get; set; }
         public string? MovieName { get; set; }
         public string? UserID { get; set; }
+        public DateTime? AddedDate { get; set;}
     }
 }

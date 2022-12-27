@@ -22,7 +22,7 @@ namespace BoxOfficeDemo.Client.Services
 
         public List<WatchListList> GetWatchList(string? id)
         {
-            return _mapper.Map<List<WatchListList>>(_context.WatchList.Where(w => w.UserID == id).Include(i => i.Movie).ToList());
+            return _mapper.Map<List<WatchListList>>(_context.WatchList.Where(w => w.UserID == id).Include(i => i.Movie).OrderByDescending(o=>o.AddedDate).ToList());
         }
 
         public void AddWatchList(SingleWatchList singleWatchList)

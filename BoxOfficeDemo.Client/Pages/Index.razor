@@ -40,6 +40,7 @@
         IsLoading = true;
         await MoviesService.GetMovies();
         IsLoading = false;
+        await WatchListService.Init();
         base.OnInitialized();
     }
 

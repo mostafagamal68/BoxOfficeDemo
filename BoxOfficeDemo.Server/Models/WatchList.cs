@@ -37,7 +37,7 @@ namespace BoxOfficeDemo.Server.Models
         [Key]
         [Column(TypeName = "decimal(28, 8)")]
         public decimal Id { get; set; }
-
+        public DateTime? AddedDate { get; set; }
         [ForeignKey("MovieID")]
         [InverseProperty("WatchList")]
         public virtual Movie Movie { get; set; }
