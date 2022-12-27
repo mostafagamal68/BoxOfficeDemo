@@ -1,15 +1,15 @@
-﻿@inject IWatchListService WatchListNotifyService
+﻿@inject IWatchListService WatchListervice
 <AuthorizeView>
     <Authorized>
         <button type="button" class="btn btn-outline-primary position-relative mx-3" style="border-radius:15px;"
                 @onclick="async ()=> await ShowWatchList.InvokeAsync()">
-            @*@onclick="WatchListNotifyService.Reset"*@
+            @*@onclick="WatchListervice.Reset"*@
             My Watchlist
             <i class="oi oi-list-rich"></i>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                @if (WatchListNotifyService.Count > 0)
+                @if (WatchListervice.Count > 0)
                 {
-                    @WatchListNotifyService.Count
+                    @WatchListervice.Count
                 }
             </span>
         </button>
@@ -21,6 +21,6 @@
     public EventCallback<bool> ShowWatchList { get; set; }
     protected override void OnInitialized()
     {
-        WatchListNotifyService.OnChange += StateHasChanged;
+        WatchListervice.OnChange += StateHasChanged;
     }
 }

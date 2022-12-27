@@ -48,7 +48,7 @@
 
     public async Task AddtoWatchLater(SingleWatchList watchList)
     {
-        if (WatchListService.AddMovieToWatchList(watchList.MovieID))
+        if (WatchListService.CheckMovieExistance(watchList.MovieID))
         {
             await WatchListService.AddWatchList(watchList);
             AddedMessage = $"{watchList.MovieName} has been added successfully";

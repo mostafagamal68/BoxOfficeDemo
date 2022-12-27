@@ -12,6 +12,6 @@ namespace BoxOfficeDemo.Client.Services
         Task Init();
         event Action OnChange;
 
-        bool AddMovieToWatchList(decimal id);
+        bool CheckMovieExistance(decimal id);
     }
 }
