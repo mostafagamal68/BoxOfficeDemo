@@ -6,6 +6,7 @@
         public decimal MovieID { get; set; }
         public string MovieName { get; set; }
         public string Image { get; set; }
+        public DateTime? AddedDate { get; set; }
 
     }
 }

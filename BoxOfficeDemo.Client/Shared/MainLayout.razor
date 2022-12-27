@@ -24,10 +24,13 @@
                         <Loader Toggle="IsLoading"></Loader>
                     </div>
                     <div class="modal-body">
-
+                        @if (WatchListService.WatchListList.Count == 0)
+                        {
+                            <h4>Watch later list is empty.</h4>
+                        }
                         <Virtualize Context="WatchList" Items="WatchListService.WatchListList">
                             <div class="row">
-                                <div class="col">
+                                <div class="col text-center p-0">
                                     <img src="@WatchList.Image" width="40" height="60" />
                                 </div>
                                 <div class="col-6 m-auto">
@@ -38,6 +41,7 @@
                                 </div>
                             </div>
                         </Virtualize>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Close</button>
@@ -65,7 +69,7 @@
     public bool IsLoading { get; set; }
 
     IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
-    
+
     string ModalDisplay = "none;";
     string ModalClass = "";
     bool ShowBackdrop = false;
