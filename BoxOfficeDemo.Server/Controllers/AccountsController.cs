@@ -86,5 +86,14 @@ namespace BoxOfficeDemo.Server.Controllers
             return Ok(new AuthResponseDto { IsAuthSuccessful = true, VerifiedEmail = true });
         }
 
+        //[HttpPut("GetId")]
+        //public async Task<IActionResult> GetId([FromBody] string email)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(email);
+        //    if (user == null)
+        //        return NotFound(new AuthResponseDto { ErrorMessage = "User not found" });
+        //    return Ok(user.Id);
+        //}
+
     }
 }

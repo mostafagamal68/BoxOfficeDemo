@@ -10,5 +10,6 @@ namespace BoxOfficeDemo.Client.Services.Auth
         Task<AuthResponseDto> VerifyEmail(string id);
         Task Logout();
         Task<string> RefreshToken();
+        //Task GetUserIDFromToken(string? email);
     }
 }
