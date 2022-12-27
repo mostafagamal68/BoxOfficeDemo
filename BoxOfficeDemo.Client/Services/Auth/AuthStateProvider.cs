@@ -12,12 +12,14 @@ namespace BoxOfficeDemo.Client.Services.Auth
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationState _anonymous;
+        //private readonly IAuthenticationService _authService;
 
-        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage)
+        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage/*, IAuthenticationService authenticationService*/)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
             _anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            //_authService= authenticationService;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -27,7 +29,7 @@ namespace BoxOfficeDemo.Client.Services.Auth
                 return _anonymous;
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-
+            LoggedUser.Id = JwtParser.ParseClaimsFromJwt(token).Select(s => s.Value).ToArray()[2];
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
         }
 

@@ -41,7 +41,7 @@ namespace BoxOfficeDemo.Server.Services.TokenHelpers
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
             return claims;
         }
 
