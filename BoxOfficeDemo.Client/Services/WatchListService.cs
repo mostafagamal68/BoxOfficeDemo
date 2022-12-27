@@ -28,14 +28,17 @@ namespace BoxOfficeDemo.Client.Services
 
         public async Task Init()
         {
-            await GetWatchList(LoggedUser.Id);
-            Count = WatchListList.Count;
-            OnChange?.Invoke();
+            if (!string.IsNullOrEmpty(LoggedUser.Id))
+            {
+                await GetWatchList(LoggedUser.Id);
+                Count = WatchListList.Count;
+                OnChange?.Invoke();
+            }
         }
 
-        public bool AddMovieToWatchList(decimal id)
+        public bool CheckMovieExistance(decimal id)
         {
-            if (!WatchListList.Any(a=>a.MovieID == id))
+            if (!WatchListList.Any(a => a.MovieID == id))
             {
                 Count++;
                 OnChange?.Invoke();
