@@ -1,6 +1,4 @@
 ﻿using BoxOfficeDemo.Server.Models;
-using System.IO;
-using System.Net.Http.Json;
 using BoxOfficeDemo.Server.Data;
 using BoxOfficeDemo.Shared.Models;
 using AutoMapper;
@@ -42,7 +40,7 @@ namespace BoxOfficeDemo.Client.Services
             }
             else if (singleMovie.IsNew == false)
             {
-                var movie = _context.Movies.Find(singleMovie.MovieID);
+                Movie movie = _context.Movies.Find(singleMovie.MovieID);
                 if (movie != null)
                     _ = _mapper.Map<Movie>(singleMovie);
             }

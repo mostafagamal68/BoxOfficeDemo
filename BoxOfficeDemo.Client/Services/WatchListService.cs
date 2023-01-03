@@ -1,4 +1,5 @@
 ﻿using BoxOfficeDemo.Client.Configurations;
+using BoxOfficeDemo.Shared.DTO.Account;
 using BoxOfficeDemo.Shared.Models;
 using System.Net.Http.Json;
 
