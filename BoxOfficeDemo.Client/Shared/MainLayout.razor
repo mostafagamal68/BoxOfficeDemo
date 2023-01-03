@@ -9,9 +9,7 @@
     <main>
         <div class="top-row px-4">
             <AuthLinks />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-
-            @*<button @onclick="() => Modal.Open()">Open Modal</button>*@
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>            
             <WatchListNotify ShowWatchList="Open"></WatchListNotify>
         </div>
 
@@ -81,7 +79,8 @@
         ModalClass = "Show";
         ShowBackdrop = true;
         IsLoading = true;
-        await WatchListService.GetWatchList(LoggedUser.Id);
+        if (LoggedUser.Id != null)
+            await WatchListService.GetWatchList(LoggedUser.Id);
         StateHasChanged();
         IsLoading = false;
     }
