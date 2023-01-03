@@ -6,9 +6,7 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await AuthenticationService.Logout();
-        LoggedUser.Id = null;
-        LoggedUser.VerifiedEmail = null;
+        await AuthenticationService.Logout();        
         NavigationManager.NavigateTo("/");
     }
 }

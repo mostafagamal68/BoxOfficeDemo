@@ -65,7 +65,7 @@
         else
         {
             LoggedUser.Id = result.UserID;
-            LoggedUser.VerifiedEmail = result.VerifiedEmail;
+            LoggedUser.EmailConfirmed = result.VerifiedEmail;
             NavigationManager.NavigateTo("/");
         }
     }

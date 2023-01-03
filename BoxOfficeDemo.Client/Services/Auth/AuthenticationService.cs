@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using BoxOfficeDemo.Client.Services.Auth;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using BoxOfficeDemo.Client.Configurations;
+using System.Net.Http;
 
 namespace BoxOfficeDemo.Client.Services.Auth
 {
@@ -58,6 +60,12 @@ namespace BoxOfficeDemo.Client.Services.Auth
             ((AuthStateProvider)_authStateProvider).NotifyUserAuthentication(result.Token);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
 
+            var user = await _client.GetFromJsonAsync<UserForLoginDto>("accounts/getuserinfo/" + result.UserID);
+            LoggedUser.FirstName = user.FirstName;
+            LoggedUser.LastName = user.LastName;
+            LoggedUser.Email = user.Email;
+            LoggedUser.Id = user.Id;
+            LoggedUser.EmailConfirmed = user.EmailConfirmed;
             return result;
         }
 
@@ -78,7 +86,7 @@ namespace BoxOfficeDemo.Client.Services.Auth
             await _localStorage.RemoveItemAsync("authToken");
             await _localStorage.RemoveItemAsync("refreshToken");
             ((AuthStateProvider)_authStateProvider).NotifyUserLogout();
-            _client.DefaultRequestHeaders.Authorization = null;
+            _client.DefaultRequestHeaders.Authorization = null;            
         }
         public async Task<string> RefreshToken()
         {

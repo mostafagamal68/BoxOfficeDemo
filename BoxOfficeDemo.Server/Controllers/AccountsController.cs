@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 
 namespace BoxOfficeDemo.Server.Controllers
-{   
+{
     [Route("api/accounts")]
     [ApiController]
     [AllowAnonymous]
@@ -61,8 +61,8 @@ namespace BoxOfficeDemo.Server.Controllers
             if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
                 return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
             if (!await _userManager.IsEmailConfirmedAsync(user))
-                return Unauthorized(new AuthResponseDto { IsAuthSuccessful = true, VerifiedEmail = false, ErrorMessage = "Email not confirmed" , UserID = user.Id });
-            
+                return Unauthorized(new AuthResponseDto { IsAuthSuccessful = true, VerifiedEmail = false, ErrorMessage = "Email not confirmed", UserID = user.Id });
+
             var signingCredentials = _tokenService.GetSigningCredentials();
             var claims = await _tokenService.GetClaims(user);
             var tokenOptions = _tokenService.GenerateTokenOptions(signingCredentials, claims);
@@ -70,9 +70,14 @@ namespace BoxOfficeDemo.Server.Controllers
 
             user.RefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
-
             await _userManager.UpdateAsync(user);
-            return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token, RefreshToken = user.RefreshToken, VerifiedEmail = true , UserID = user.Id});
+            //_ = _mapper.Map<LoggedUser>(user);
+            //LoggedUser.FirstName = user.FirstName;
+            //LoggedUser.LastName = user.LastName;
+            //LoggedUser.Email = user.Email;
+            //LoggedUser.Id = user.Id;
+            //LoggedUser.EmailConfirmed = user.EmailConfirmed;
+            return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token, RefreshToken = user.RefreshToken, VerifiedEmail = true, UserID = user.Id });
         }
 
         [HttpPut("VerifyEmail")]
@@ -86,5 +91,16 @@ namespace BoxOfficeDemo.Server.Controllers
             return Ok(new AuthResponseDto { IsAuthSuccessful = true, VerifiedEmail = true });
         }
 
+        [HttpGet("GetUserInfo/{id}")]
+        public async Task<IActionResult> GetUserInfo(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            //LoggedUser.FirstName = user.FirstName;
+            //LoggedUser.LastName = user.LastName;
+            //LoggedUser.Email = user.Email;
+            //LoggedUser.Id = user.Id;
+            //LoggedUser.EmailConfirmed = user.EmailConfirmed;
+            return Ok(new UserForLoginDto { Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, EmailConfirmed = user.EmailConfirmed, UserName = user.UserName });
+        }
     }
 }
