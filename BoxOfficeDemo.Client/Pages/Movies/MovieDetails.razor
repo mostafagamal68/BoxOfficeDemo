@@ -1,4 +1,4 @@
-﻿@page "/Movies/{id:decimal}"
+﻿@page "/Movies/{id}"
 @inject IMoviesService MoviesService
 @inject IReviewsService ReviewsService
 @inject IJSRuntime JSRuntime
@@ -105,14 +105,14 @@
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        Movie = await MoviesService.GetMovie(ID);
+        Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O','.')));
         await GetAll();
     }
 
     async Task GetAll()
     {
         IsLoading = true;
-        await ReviewsService.GetReviews(ID);
+        await ReviewsService.GetReviews(Convert.ToDecimal(Id.Replace('O', '.')));
         IsReviewed = ReviewsService.ReviewsList.Where(w => w.UserID == LoggedUser.Id).Any();
         IsLoading = false;
     }
@@ -124,7 +124,7 @@
             Review.IsNew = true;
             Review.ReviewID = new GenerateNewID().GetNewID; 
             Review.UserID = LoggedUser.Id;
-            Review.MovieID = ID;
+            Review.MovieID = Convert.ToDecimal(Id.Replace('O', '.'));
             Review.ReviewDate = DateTime.Now;
             await ReviewsService.SaveReview(Review);
         }
@@ -156,5 +156,5 @@
     }
 
     [Parameter]
-    public decimal? ID { get; set; }
+    public string Id { get; set; }
 }

@@ -133,6 +133,6 @@
         if (Form)
             NavigationManager.NavigateTo($"/Movie/{id}");
         else
-            NavigationManager.NavigateTo($"/Movies/{id}");
+            NavigationManager.NavigateTo($"/Movies/{id.ToString().Replace('.','O')}");
     }
 }

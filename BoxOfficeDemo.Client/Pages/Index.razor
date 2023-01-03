@@ -1,12 +1,10 @@
 ﻿@page "/"
 @inject IMoviesService MoviesService
 @inject IWatchListService WatchListService
-@*@inject NotifyService WatchList*@
 @inherits BaseComponent
 
 <PageTitle>Box Office</PageTitle>
 
-@*<MyWatchList/>*@
 <div class="row">
     <h1 style="margin:0 20px ">Movies</h1>
     <MessageAlert AddedMessage="@AddedMessage"></MessageAlert>
@@ -52,12 +50,11 @@
         {
             await WatchListService.AddWatchList(watchList);
             AddedMessage = $"{watchList.MovieName} has been added successfully";
+            await WatchListService.GetWatchList(LoggedUser.Id);
         }
         else
             AddedMessage = $"{watchList.MovieName} already added";
-        StateHasChanged();
         await Task.Delay(3000);
         AddedMessage = "";
-        StateHasChanged();
     }
 }
