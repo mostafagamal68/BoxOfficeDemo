@@ -35,10 +35,10 @@ namespace BoxOfficeDemo.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfiguration(new RoleConfiguration());
-            //modelBuilder.ApplyConfiguration(new DefaultUsersConfiguration());
-            //modelBuilder.ApplyConfiguration(new UsersRolesConfiguration());
-            //modelBuilder.ApplyConfiguration(new MoviesConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new DefaultUsersConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersRolesConfiguration());
+            modelBuilder.ApplyConfiguration(new MoviesConfiguration());
             //modelBuilder.Entity<Review>(entity =>
             //{
             //    entity.HasOne(d => d.Movie)
