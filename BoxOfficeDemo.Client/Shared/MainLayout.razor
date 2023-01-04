@@ -1,5 +1,12 @@
-﻿@inject IWatchListService WatchListService
+﻿@using BoxOfficeDemo.Client.Configurations.Toast;
+@inject IWatchListService WatchListService
 @inherits LayoutComponentBase
+
+<Toasts Position="ToastPosition.BottomLeft"
+        Timeout="3"
+        SuccessClass="success-toast-override"
+        SuccessIconClass="fa fa-thumbs-up"
+        ErrorIconClass="fa fa-bug" />
 
 <div class="page">
     <div class="sidebar">
@@ -9,7 +16,7 @@
     <main>
         <div class="top-row px-4">
             <AuthLinks />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>            
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
             <WatchListNotify ShowWatchList="Open"></WatchListNotify>
         </div>
 

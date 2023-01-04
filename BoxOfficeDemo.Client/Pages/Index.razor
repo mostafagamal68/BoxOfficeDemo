@@ -1,13 +1,13 @@
 ﻿@page "/"
 @inject IMoviesService MoviesService
 @inject IWatchListService WatchListService
+@inject IToastService ToastService
 @inherits BaseComponent
 
 <PageTitle>Box Office</PageTitle>
 
 <div class="row">
     <h1 style="margin:0 20px ">Movies</h1>
-    <MessageAlert AddedMessage="@AddedMessage"></MessageAlert>
     <Loader Toggle="IsLoading"></Loader>
 </div>
 
@@ -49,12 +49,10 @@
         if (WatchListService.CheckMovieExistance(watchList.MovieID))
         {
             await WatchListService.AddWatchList(watchList);
-            AddedMessage = $"{watchList.MovieName} has been added successfully";
+            ToastService.ShowSuccess($"{watchList.MovieName} has been added successfully");
             await WatchListService.GetWatchList(LoggedUser.Id);
         }
         else
-            AddedMessage = $"{watchList.MovieName} already added";
-        await Task.Delay(3000);
-        AddedMessage = "";
+            ToastService.ShowWarning($"{watchList.MovieName} already added");
     }
 }
