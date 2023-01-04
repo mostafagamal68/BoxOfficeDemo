@@ -1,6 +1,6 @@
 ﻿using BoxOfficeDemo.Shared.Models;
 
-namespace BoxOfficeDemo.Client.Services
+namespace BoxOfficeDemo.Client.Services.Watchlist
 {
     public interface IWatchListService
     {

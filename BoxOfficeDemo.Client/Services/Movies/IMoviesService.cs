@@ -1,11 +1,10 @@
 ﻿using BoxOfficeDemo.Shared.Models;
 
-namespace BoxOfficeDemo.Client.Services
+namespace BoxOfficeDemo.Client.Services.Movies
 {
     public interface IMoviesService
     {
-        List<MoviesList> MoviesList { get; set; }
-        //SingleMovie Movie { get; set; }
+        List<MoviesList> MoviesList { get; set; }        
         Task GetMovies();
         Task<SingleMovie> GetMovie(decimal? id);
         Task SaveMovie(SingleMovie movie);
