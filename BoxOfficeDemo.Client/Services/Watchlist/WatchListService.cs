@@ -3,7 +3,7 @@ using BoxOfficeDemo.Shared.DTO.Account;
 using BoxOfficeDemo.Shared.Models;
 using System.Net.Http.Json;
 
-namespace BoxOfficeDemo.Client.Services
+namespace BoxOfficeDemo.Client.Services.Watchlist
 {
     public class WatchListService : IWatchListService
     {

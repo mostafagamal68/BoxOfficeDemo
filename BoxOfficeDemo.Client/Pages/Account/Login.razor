@@ -64,9 +64,10 @@
         }
         else
         {
-            LoggedUser.Id = result.UserID;
-            LoggedUser.EmailConfirmed = result.VerifiedEmail;
+            //LoggedUser.Id = result.UserID;
+            //LoggedUser.EmailConfirmed = result.VerifiedEmail;
             NavigationManager.NavigateTo("/");
+            StateHasChanged();
         }
     }
 }
