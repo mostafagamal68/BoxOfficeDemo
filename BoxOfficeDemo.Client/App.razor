@@ -1,16 +1,18 @@
 ﻿<CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
-        <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                <Authorizing>
-                    <text>Please wait, we are authorizing the user.</text>
-                </Authorizing>
-            </AuthorizeRouteView>
-        </Found>
-        <NotFound>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <text>Sorry, Page is not found.</text>
-            </LayoutView>
-        </NotFound>
-    </Router>
+    <CascadingBlazoredModal ActivateFocusTrap="false" ContentScrollable="true" Position="ModalPosition.TopRight" AnimationType="ModalAnimationType.FadeInOut">
+        <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                    <Authorizing>
+                        <text>Please wait, we are authorizing the user.</text>
+                    </Authorizing>
+                </AuthorizeRouteView>
+            </Found>
+            <NotFound>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <text>Sorry, Page is not found.</text>
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </CascadingBlazoredModal>
 </CascadingAuthenticationState>

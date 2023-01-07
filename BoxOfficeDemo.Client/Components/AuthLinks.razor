@@ -1,12 +1,14 @@
-﻿<AuthorizeView>
+﻿@using BoxOfficeDemo.Client.Pages.Account
+@inject IModalService ModalService
+<AuthorizeView>
     <Authorized>
         @*Hello, @context.User.Identity.Name!*@
         Hello, @LoggedUser.FirstName @LoggedUser.LastName
         <a href="Logout">Log out</a>
     </Authorized>
     <NotAuthorized>
-        <a href="Registration">Register</a>
-        <a href="Login">Log in</a>
+        <a href="Registration" @onclick="@(()=> ModalService.Show<Registration>("New Account",new ModalOptions{ActivateFocusTrap=false,AnimationType=ModalAnimationType.FadeInOut,HideHeader =true,Position=ModalPosition.Middle}))" @onclick:preventDefault>Register</a>
+        <a href="Login" @onclick="@(()=> ModalService.Show<Login>("Login",new ModalOptions{ActivateFocusTrap=false,AnimationType=ModalAnimationType.FadeInOut,HideHeader =true,Position=ModalPosition.Middle}))" @onclick:preventDefault>Log in</a>
     </NotAuthorized>
 </AuthorizeView>
 
