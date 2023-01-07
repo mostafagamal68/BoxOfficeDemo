@@ -24,11 +24,10 @@
     }
 </style>
 
-<MessageAlert AddedMessage="@AddedMessage">
-</MessageAlert>
 <Loader Toggle="IsLoading"></Loader>
 <MovieCard MovieID="@Movie.MovieID"
            MovieName="@Movie.MovieName"
+           MovieNameTooltip="@Movie.MovieName"
            Genere="@Movie.Genere"
            Image="@Movie.Image"
            Length="@Movie.Length"
