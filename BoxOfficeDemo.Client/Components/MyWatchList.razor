@@ -1,61 +1,43 @@
 ﻿@inject IWatchListService WatchListService
-@inject IJSRuntime JSRuntime
 @inherits BaseComponent
 
-<div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <Loader Toggle="IsLoading"></Loader>
-
-                <Virtualize Context="WatchList" Items="WatchListService.WatchListList">
-                    <div class="row">
-                        <img src="@WatchList.Image" />
-                        <h4>@WatchList.MovieName</h4>
-                        <button class="btn btn-danger">Remove</button>
-                    </div>
-                </Virtualize>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Close</button>
-            </div>
+@if (WatchListService.WatchListList.Count == 0)
+{
+    <h4>Watch later list is empty.</h4>
+}
+<Virtualize Context="WatchList" Items="WatchListService.WatchListList">
+    <div class="row">
+        <div class="col text-center p-0">
+            <img src="@WatchList.Image" width="40" height="60" />
+        </div>
+        <div class="col-6 m-auto">
+            <h4>@WatchList.MovieName</h4>
+        </div>
+        <div class="col m-auto">
+            <button class="btn btn-danger" @onclick="async ()=> await Remove(WatchList.Id)">Remove</button>
         </div>
     </div>
-</div>
+</Virtualize>
 
 @code {
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-        await WatchListService.GetWatchList(LoggedUser.Id);
-        IsLoading = false;
+        await LoadList();
         base.OnInitialized();
     }
 
-    string ModalDisplay = "none;";
-    string ModalClass = "";
-    bool ShowBackdrop = false;
-
-    public void Open()
+    private async Task LoadList()
     {
-        ModalDisplay = "block;";
-        ModalClass = "Show";
-        ShowBackdrop = true;
-        StateHasChanged();
+        IsLoading = true;
+        if (LoggedUser.Id != null)
+            await WatchListService.GetWatchList(LoggedUser.Id);
+        IsLoading = false;
     }
 
-    public void Close()
+    private async Task Remove(decimal? id)
     {
-        ModalDisplay = "none";
-        ModalClass = "";
-        ShowBackdrop = false;
+        await WatchListService.DeleteWatchList(id);
+        await LoadList();
         StateHasChanged();
     }
 }

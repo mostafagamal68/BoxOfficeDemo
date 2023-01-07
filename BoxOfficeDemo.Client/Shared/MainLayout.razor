@@ -1,5 +1,6 @@
 ﻿@using BoxOfficeDemo.Client.Configurations.Toast;
 @inject IWatchListService WatchListService
+@inject IModalService ModalService
 @inherits LayoutComponentBase
 
 <Toasts Position="ToastPosition.BottomLeft"
@@ -17,42 +18,7 @@
         <div class="top-row px-4">
             <AuthLinks />
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-            <WatchListNotify ShowWatchList="Open"></WatchListNotify>
-        </div>
-
-
-        <div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">My WatchLater List</h5>
-                        <Loader Toggle="IsLoading"></Loader>
-                    </div>
-                    <div class="modal-body">
-                        @if (WatchListService.WatchListList.Count == 0)
-                        {
-                            <h4>Watch later list is empty.</h4>
-                        }
-                        <Virtualize Context="WatchList" Items="WatchListService.WatchListList">
-                            <div class="row">
-                                <div class="col text-center p-0">
-                                    <img src="@WatchList.Image" width="40" height="60" />
-                                </div>
-                                <div class="col-6 m-auto">
-                                    <h4>@WatchList.MovieName</h4>
-                                </div>
-                                <div class="col m-auto">
-                                    <button class="btn btn-danger" @onclick="async ()=> await Remove(WatchList.Id)">Remove</button>
-                                </div>
-                            </div>
-                        </Virtualize>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Close</button>
-                    </div>
-                </div>
-            </div>
+            <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List"))"></WatchListNotify>
         </div>
 
         <article class="content px-4">
@@ -74,39 +40,4 @@
     public bool IsLoading { get; set; }
 
     IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
-
-    string ModalDisplay = "none;";
-    string ModalClass = "";
-    bool ShowBackdrop = false;
-
-    private async Task Open()
-    {
-        ToggleWatchLater = true;
-        ModalDisplay = "block;";
-        ModalClass = "Show";
-        ShowBackdrop = true;
-        IsLoading = true;
-        if (LoggedUser.Id != null)
-            await WatchListService.GetWatchList(LoggedUser.Id);
-        StateHasChanged();
-        IsLoading = false;
-    }
-
-    private async Task Remove(decimal? id)
-    {
-        IsLoading = true;
-        await WatchListService.DeleteWatchList(id);
-        await WatchListService.GetWatchList(LoggedUser.Id);
-        StateHasChanged();
-        IsLoading = false;
-    }
-
-    private void Close()
-    {
-        ModalDisplay = "none";
-        ModalClass = "";
-        ShowBackdrop = false;
-        ToggleWatchLater = false;
-        StateHasChanged();
-    }
 }
