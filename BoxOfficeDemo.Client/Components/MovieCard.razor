@@ -33,16 +33,20 @@
         }
 </style>
 
-<div class="card zooming" style="margin:10px;border-radius:20px">
+<div class="card zooming m-1" style="border-radius:20px">
 
     <div class="card-header" style="border-radius:20px">
         <div class="row">
-            <h4 class="col" style="margin:5px;padding:0">@MovieName</h4>
-            @if (!Index)
-            {
-                <button @onclick="async ()=> await AddToWatchList()" class="btn btn-watchlist w-auto"><span class="bi-plus-lg"></span> Watchlist</button>
-            }
-            <h4 class="col-auto" style="text-align:right;padding:0;margin:5px;"><span class="bi-star-fill" style="margin:0 5px;padding:0;color:gold;"></span>@Rate</h4>
+            <div class="d-inline-flex col-9 m-auto p-0">
+                <h5 class="m-1" data-toggle="tooltip" data-placement="top" title="@MovieNameTooltip"><strong>@MovieNameTooltip</strong></h5>
+            </div>
+            <div class="d-inline-flex col-3 text-center m-auto p-0">
+                @if (!Index)
+                {
+                    <button @onclick="async ()=> await AddToWatchList()" class="btn btn-watchlist m-auto"><span class="bi-plus-lg"></span> Watchlist</button>
+                }
+                <h4 class="m-1"><span class="bi-star-fill" style="margin:0 5px;padding:0;color:gold;"></span>@Rate</h4>
+            </div>
         </div>
     </div>
     <div class="row justify-content-center">
@@ -78,6 +82,8 @@
     public decimal? MovieID { get; set; }
     [Parameter]
     public string? MovieName { get; set; }
+    [Parameter]
+    public string? MovieNameTooltip { get; set; }
     [Parameter]
     public string? Image { get; set; }
     [Parameter]
