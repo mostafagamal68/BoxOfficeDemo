@@ -46,6 +46,18 @@
     string Error { get; set; }
     bool EmailIsNotConfirmed { get; set; } = false;
     string UserID { get; set; }
+
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var user = (await AuthStat).User;
+        if (user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        base.OnInitialized();
+    }
     async Task ExecuteLogin()
     {
         ShowAuthError = false;
@@ -64,8 +76,6 @@
         }
         else
         {
-            //LoggedUser.Id = result.UserID;
-            //LoggedUser.EmailConfirmed = result.VerifiedEmail;
             NavigationManager.NavigateTo("/");
             StateHasChanged();
         }
