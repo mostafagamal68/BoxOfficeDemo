@@ -50,10 +50,8 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-12 col-md-auto image-card">
-            <a class="col custom-cursor" href="#" @onclick="()=> NavigateToMovie(MovieID,false)" @onclick:preventDefault>
-                <img class="card-img-top " src="@Image" alt="Card image cap">
-            </a>
+        <div class="col-12 col-md-auto image-card" style="cursor:pointer;">
+            <img class="card-img-top" src="@Image" alt="@MovieNameTooltip image card" @onclick="()=> NavigateToMovie(MovieID,false)">
         </div>
         <div class="col" style="margin:10px">
             <h4>Released: @(ReleasedDate == null ? "" : ((DateTime)ReleasedDate).ToString(DateFormat))</h4>
