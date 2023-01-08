@@ -71,6 +71,19 @@
     private UserForRegistrationDto _userForRegistration = new();
     public bool ShowRegistrationErrors { get; set; }
     public IEnumerable<string> Errors { get; set; }
+
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var user = (await AuthStat).User;
+        if (user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        base.OnInitialized();
+    }
+
     public async Task Register()
     {
         ShowRegistrationErrors = false;
