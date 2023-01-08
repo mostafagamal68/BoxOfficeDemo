@@ -10,12 +10,18 @@
         ErrorIconClass="fa fa-bug" />
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
+    <div class="sidebar" style="visibility:@hiddenSidebar;">
+        <NavMenu HideSideBar="ToggleSidebar" />
     </div>
 
     <main>
         <div class="top-row px-4">
+            <div class="container-fluid">
+                <button class="navbar-toggler" @onclick="ToggleSidebar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="">Box Office</a>
+            </div>
             <AuthLinks />
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
             <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List", new ModalOptions{ActivateFocusTrap=false, Position=ModalPosition.TopRight, AnimationType=ModalAnimationType.FadeInOut}))"></WatchListNotify>
@@ -40,4 +46,12 @@
     public bool IsLoading { get; set; }
 
     IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
+    private string? hiddenSidebar => collapseSidebar ? "hidden" : "visible";
+
+    private bool collapseSidebar = true;
+
+    private void ToggleSidebar()
+    {
+        collapseSidebar = !collapseSidebar;
+    }
 }

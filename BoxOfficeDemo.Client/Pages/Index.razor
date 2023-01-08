@@ -6,7 +6,7 @@
 
 <PageTitle>Box Office</PageTitle>
 
-<div class="row mx-2">
+<div class="container">
     <h1>Movies</h1>
     <Loader Toggle="IsLoading"></Loader>
 </div>
@@ -15,7 +15,7 @@
     <div class="row">
         <Virtualize Context="Movie" Items="MoviesService.MoviesList">
 
-            <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 p-2">
+            <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-3 col-xxl-3 p-2">
                 <MovieCard MovieID="@Movie.MovieID"
                            MovieName="@(Movie.MovieName.Length > 15 ? $"{Movie.MovieName.Substring(0,12)}..." : Movie.MovieName)"
                            MovieNameTooltip="@Movie.MovieName"
