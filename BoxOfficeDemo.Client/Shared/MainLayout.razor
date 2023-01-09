@@ -1,6 +1,7 @@
 ﻿@using BoxOfficeDemo.Client.Configurations.Toast;
 @inject IWatchListService WatchListService
 @inject IModalService ModalService
+@inject IJSRuntime JS
 @inherits LayoutComponentBase
 
 <Toasts Position="ToastPosition.BottomLeft"
@@ -10,17 +11,17 @@
         ErrorIconClass="fa fa-bug" />
 
 <div class="page">
-    <div class="sidebar" style="visibility:@hiddenSidebar;">
+    <div class="sidebar" >
         <NavMenu HideSideBar="ToggleSidebar" />
     </div>
 
     <main>
         <div class="top-row px-4">
             <div class="container-fluid">
-                <button class="navbar-toggler" @onclick="ToggleSidebar">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="btn btn-outline-primary" @onclick="ToggleSidebar">
+                    <span class="bi bi-list"></span>
                 </button>
-                <a class="navbar-brand" href="">Box Office</a>
+                <a class="navbar-brand m-auto text-center align-middle" href="/">Box Office</a>
             </div>
             <AuthLinks />
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
@@ -44,14 +45,14 @@
     string _TimeFormat = "hh\\:mm";
     public bool ToggleWatchLater { get; set; } = false;
     public bool IsLoading { get; set; }
-
     IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
-    private string? hiddenSidebar => collapseSidebar ? "hidden" : "visible";
 
     private bool collapseSidebar = true;
+    private string? hiddenSidebar => collapseSidebar ? "hidden" : "visible";
 
-    private void ToggleSidebar()
+    private async Task ToggleSidebar()
     {
         collapseSidebar = !collapseSidebar;
+        await JS.InvokeVoidAsync("ToggleSidebar", hiddenSidebar);
     }
 }

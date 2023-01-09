@@ -2,8 +2,15 @@
     return element.offsetWidth;
 };
 
-export function showPrompt(message) {
+//export
+function showPrompt(message) {
     return prompt(message, "type here");
+}
+
+function ToggleSidebar(elementValue) {
+    console.log(elementValue);
+    element = document.querySelector('.sidebar');
+    element.style.visibility = elementValue;
 }
 
 window.jsReturnArray = () => {
