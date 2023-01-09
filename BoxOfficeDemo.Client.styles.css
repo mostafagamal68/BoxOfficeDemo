@@ -13,6 +13,8 @@ main[b-54ddjuuld6] {
 
 .sidebar[b-54ddjuuld6] {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    z-index: 10;
+    visibility: hidden;
 }
 
 .top-row[b-54ddjuuld6] {
@@ -30,18 +32,27 @@ main[b-54ddjuuld6] {
         text-decoration: none;
     }
 
-    .top-row[b-54ddjuuld6]  a:hover, .top-row[b-54ddjuuld6]  .btn-link:hover {
-        text-decoration: underline;
-    }
+        .top-row[b-54ddjuuld6]  a:hover, .top-row[b-54ddjuuld6]  .btn-link:hover {
+            text-decoration: underline;
+        }
 
-    .top-row[b-54ddjuuld6]  a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+        .top-row[b-54ddjuuld6]  a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
 @media (max-width: 640.98px) {
-    .top-row:not(.auth)[b-54ddjuuld6] {
+    /*.top-row:not(.auth) {
         display: none;
+    }*/
+    .brand-name[b-54ddjuuld6] {
+        visibility: hidden;
+    }
+
+    .sidebar[b-54ddjuuld6] {
+        width: 100%;
+        position: relative;
+        visibility: visible;
     }
 
     .top-row.auth[b-54ddjuuld6] {
@@ -61,7 +72,9 @@ main[b-54ddjuuld6] {
     .sidebar[b-54ddjuuld6] {
         width: 250px;
         height: 100vh;
-        position: sticky;
+        position: fixed;
+        overflow: auto;
+        visibility: hidden;
         top: 0;
     }
 
@@ -71,11 +84,11 @@ main[b-54ddjuuld6] {
         z-index: 1;
     }
 
-    .top-row.auth[b-54ddjuuld6]  a:first-child {
-        flex: 1;
-        text-align: right;
-        width: 0;
-    }
+        .top-row.auth[b-54ddjuuld6]  a:first-child {
+            flex: 1;
+            text-align: right;
+            width: 0;
+        }
 
     .top-row[b-54ddjuuld6], article[b-54ddjuuld6] {
         padding-left: 2rem !important;
@@ -85,6 +98,12 @@ main[b-54ddjuuld6] {
 /* /Shared/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-cds4edw71s] {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-close[b-cds4edw71s] {
+    display: none;
+    color:white;
+    background-color:white;
 }
 
 .top-row[b-cds4edw71s] {
@@ -139,7 +158,9 @@ main[b-54ddjuuld6] {
     .navbar-toggler[b-cds4edw71s] {
         display: none;
     }
-
+    .navbar-close[b-cds4edw71s]{
+        display:block;
+    }
     .collapse[b-cds4edw71s] {
         /* Never collapse the sidebar for wide screens */
         display: block;

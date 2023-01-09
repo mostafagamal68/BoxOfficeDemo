@@ -1,7 +1,7 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-OIIdFTetQL85IHFsN0FnmGOhJW5ZtcpXGIzKg2B+IDg=",
+      "hash": "sha256-eXKMd6\/yX7axkSp2M7g1ssJZ83YTayQXKVIKsxUsAy8=",
       "url": "BoxOfficeDemo.Client.styles.css"
     },
     {
@@ -109,7 +109,7 @@
       "url": "images\/WheretheCrawdadsSing.jpg"
     },
     {
-      "hash": "sha256-E7AkC99c7AYRj0YrffhD3+2+iPsulsp4EucuEyRy67U=",
+      "hash": "sha256-yXVn7Ysgr0gRnicySQN8oOAs8VghQrWFOnvXZCpBL5s=",
       "url": "index.html"
     },
     {
@@ -121,7 +121,7 @@
       "url": "sample-data\/weather.json"
     },
     {
-      "hash": "sha256-hUz+2nAPN646MTYu8c4qfm\/LcjdI5H+ukIkw05XaEq8=",
+      "hash": "sha256-xKuirpElYNlYghldpsNdeQSMzIHeXV7sCIq4Wv57OZg=",
       "url": "scripts\/script.js"
     },
     {
@@ -157,7 +157,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-rGgStZNe8cGhf3gh3gvmxnXfISy5us3R71v1pfWYovY=",
+      "hash": "sha256-tuuR6pysCvFAyUi7Qe4g6HpAQOarMXHtOhHY4iuEzlY=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -169,7 +169,7 @@
       "url": "_framework\/Blazored.Modal.dll"
     },
     {
-      "hash": "sha256-abTKUw0KqXcUlkYRTP1TeiCirBS8xqSbcOiAuXNg34g=",
+      "hash": "sha256-mswSv4SPPYm2yUf6zxHNk\/INX1uTA+Mjl0HCyqTX+fE=",
       "url": "_framework\/BoxOfficeDemo.Client.dll"
     },
     {
@@ -649,5 +649,5 @@
       "url": "_content\/Blazored.Modal\/BlazoredModal.razor.js"
     }
   ],
-  "version": "QaA2BAP\/"
+  "version": "pWj4kYU9"
 };
