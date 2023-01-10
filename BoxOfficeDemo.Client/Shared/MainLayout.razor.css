@@ -9,9 +9,9 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);    
-    z-index:10;
-    visibility:hidden;
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    z-index: 10;
+    visibility: hidden;
 }
 
 .top-row {
@@ -29,24 +29,27 @@ main {
         text-decoration: none;
     }
 
-    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
-        text-decoration: underline;
-    }
+        .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+            text-decoration: underline;
+        }
 
-    .top-row ::deep a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+        .top-row ::deep a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
 @media (max-width: 640.98px) {
-    .top-row:not(.auth) {
+    /*.top-row:not(.auth) {
         display: none;
+    }*/
+    .brand-name {
+        visibility: hidden;
     }
 
-    .sidebar{
-        width:100%;
-        position:relative;
-        visibility:visible;
+    .sidebar {
+        width: 100%;
+        position: relative;
+        visibility: visible;
     }
 
     .top-row.auth {
@@ -68,7 +71,7 @@ main {
         height: 100vh;
         position: fixed;
         overflow: auto;
-        visibility:hidden;
+        visibility: hidden;
         top: 0;
     }
 
@@ -78,11 +81,11 @@ main {
         z-index: 1;
     }
 
-    .top-row.auth ::deep a:first-child {
-        flex: 1;
-        text-align: right;
-        width: 0;
-    }
+        .top-row.auth ::deep a:first-child {
+            flex: 1;
+            text-align: right;
+            width: 0;
+        }
 
     .top-row, article {
         padding-left: 2rem !important;
