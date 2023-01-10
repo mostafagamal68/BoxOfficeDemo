@@ -71,12 +71,6 @@ namespace BoxOfficeDemo.Server.Controllers
             user.RefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
             await _userManager.UpdateAsync(user);
-            //_ = _mapper.Map<LoggedUser>(user);
-            //LoggedUser.FirstName = user.FirstName;
-            //LoggedUser.LastName = user.LastName;
-            //LoggedUser.Email = user.Email;
-            //LoggedUser.Id = user.Id;
-            //LoggedUser.EmailConfirmed = user.EmailConfirmed;
             return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token, RefreshToken = user.RefreshToken, VerifiedEmail = true, UserID = user.Id });
         }
 
@@ -95,12 +89,7 @@ namespace BoxOfficeDemo.Server.Controllers
         public async Task<IActionResult> GetUserInfo(string Id)
         {
             var user = await _userManager.FindByIdAsync(Id);
-            //LoggedUser.FirstName = user.FirstName;
-            //LoggedUser.LastName = user.LastName;
-            //LoggedUser.Email = user.Email;
-            //LoggedUser.Id = user.Id;
-            //LoggedUser.EmailConfirmed = user.EmailConfirmed;
-            return Ok(new UserForLoginDto { Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, EmailConfirmed = user.EmailConfirmed, UserName = user.UserName });
+            return Ok(new UserForLoginDto { Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, Email = user.Email, UserName = user.UserName });
         }
     }
 }

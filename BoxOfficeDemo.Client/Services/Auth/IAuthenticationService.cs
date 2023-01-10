@@ -6,9 +6,10 @@ namespace BoxOfficeDemo.Client.Services.Auth
     {
         Task<RegistrationResponseDto> RegisterUser(UserForRegistrationDto userForRegistration);
         Task<AuthResponseDto> Login(UserForAuthenticationDto userForAuthentication);
-
         Task<AuthResponseDto> VerifyEmail(string id);
         Task Logout();
         Task<string> RefreshToken();
+        Task<UserForLoginDto> GetCurrentUserInfo(string userId);
+
     }
 }
