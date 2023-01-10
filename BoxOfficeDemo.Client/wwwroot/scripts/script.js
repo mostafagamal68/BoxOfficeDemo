@@ -7,10 +7,14 @@ function showPrompt(message) {
     return prompt(message, "type here");
 }
 
-function ToggleSidebar(elementValue) {
-    console.log(elementValue);
-    element = document.querySelector('.sidebar');
-    element.style.visibility = elementValue;
+function ToggleSidebar(toggleValue) {
+    var element = document.querySelector('.sidebar');
+    if (toggleValue == true) {
+        element.removeAttribute('style');
+    }
+    else {
+        element.setAttribute('style', 'visibility: visible;');
+    }
 }
 
 window.jsReturnArray = () => {
