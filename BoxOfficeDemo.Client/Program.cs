@@ -1,6 +1,7 @@
 using Blazored.LocalStorage;
 using Blazored.Modal;
 using BoxOfficeDemo.Client;
+using BoxOfficeDemo.Client.Configurations;
 using BoxOfficeDemo.Client.Services.Auth;
 using BoxOfficeDemo.Client.Services.Movies;
 using BoxOfficeDemo.Client.Services.Reviews;
@@ -27,6 +28,7 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddHttpClientInterceptor();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<CurrentSession>();
 builder.Services.AddScoped<RefreshTokenService>();
 builder.Services.AddScoped<HttpInterceptorService>();
 await builder.Build().RunAsync();

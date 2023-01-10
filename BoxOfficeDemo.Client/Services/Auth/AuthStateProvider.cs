@@ -33,14 +33,7 @@ namespace BoxOfficeDemo.Client.Services.Auth
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             var id = JwtParser.ParseClaimsFromJwt(token).Select(s => s.Value).ToArray()[1];
-            //var content = JsonSerializer.Serialize(id);
-            //var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
             var user = await _httpClient.GetFromJsonAsync<UserForLoginDto>("accounts/getuserinfo/"+ id);
-            LoggedUser.FirstName = user.FirstName;
-            LoggedUser.LastName = user.LastName;
-            LoggedUser.Email = user.Email;
-            LoggedUser.Id = user.Id;
-            LoggedUser.EmailConfirmed = user.EmailConfirmed;
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
         }
 
@@ -55,11 +48,6 @@ namespace BoxOfficeDemo.Client.Services.Auth
         {
             var authState = Task.FromResult(_anonymous);
             LoggedUser.Id = null;
-            LoggedUser.FirstName = null;
-            LoggedUser.LastName = null;
-            LoggedUser.Email = null;
-            LoggedUser.UserName = null;
-            LoggedUser.EmailConfirmed = null;
             NotifyAuthenticationStateChanged(authState);
         }
     }
