@@ -47,19 +47,30 @@
     <Reviews>
         @if (ReviewsService.ReviewsList.Any())
         {
-            <h4>Previous Reviews</h4>
-            foreach (var item in ReviewsService.ReviewsList)
-            {
-                if (item.UserID == LoggedUser.Id)
+            <h4>Users Reviews</h4>
+            <div class="row">
+                @foreach (var item in ReviewsService.ReviewsList)
                 {
-                    <a href="#" class="w-auto d-inline" @onclick="()=> Edit(item.ReviewID)" @onclick:preventDefault>Edit Your Review</a>
-                    <a href="#" class="w-auto d-inline" @onclick="()=> Delete(item.ReviewID)" @onclick:preventDefault>Delete</a>
+                    <div class="col-3">
+                        <div>
+                            <p class="d-inline-block"><strong>Name: </strong>@($"{item.FirstName} {item.LastName}")</p>
+                            @if (item.UserID == LoggedUser.Id)
+                            {
+                                <button class="btn d-inline" @onclick="()=> Edit(item.ReviewID)"><span class="bi bi-pencil-fill"></span></button>
+                                <button class="btn d-inline" @onclick="()=> Delete(item.ReviewID)"><span class="bi bi-trash-fill"></span></button>
+                            }
+                        </div>
+                        <p><strong>Rate: </strong>
+                            @for(int stars = 1;stars <= item.Rate; stars++)
+                            {
+                                <span class="bi bi-star-fill"></span>
+                            }
+                        </p>
+                        <p><strong>Feedback: </strong>@item.Feedback</p>
+                        <p><strong>Date: </strong>@item.ReviewDate</p>
+                    </div>
                 }
-                <p><strong>Name: </strong>@($"{item.FirstName} {item.LastName}")</p>
-                <p><strong>Rate: </strong>@item.Rate @(item.Rate <= 1 ? "Star" : "Stars")</p>
-                <p><strong>Feedback: </strong>@item.Feedback</p>
-                <p><strong>Date: </strong>@item.ReviewDate</p>
-            }
+            </div>
         }
         else
         {
@@ -72,17 +83,24 @@
             <EditForm Model="@Review" OnValidSubmit="Save">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-                <h4>Your Review</h4>
-                <label>Rate</label>
-                <InputSelect class="form-select m-2" @bind-Value="Review.Rate">
-                    <span class="oi oi-arrow-bottom"></span>
-                    <option value="" selected disabled hidden>Click and Choose here</option>
-                    <option value="1">1 Star</option>
-                    <option value="2">2 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="5">5 Stars</option>
-                </InputSelect>
+                <h4>Submit Your Review</h4>
+                @*<InputSelect class="form-select m-2" @bind-Value="Review.Rate">
+            <span class="oi oi-arrow-bottom"></span>
+            <option value="" selected disabled hidden>Click and Choose here</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+            </InputSelect>*@
+                <div>
+                    <label>Rate</label>
+                    <button type="button" class="btn" @onclick="()=> SetRate(1)"><span class="bi @firstStar" style="color:goldenrod;"></span></button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(2)"><span class="bi @secondStar" style="color:goldenrod;"></span></button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(3)"><span class="bi @thirdStar" style="color:goldenrod;"></span></button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(4)"><span class="bi @fourthStar" style="color:goldenrod;"></span></button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(5)"><span class="bi @fifthStar" style="color:goldenrod;"></span></button>
+                </div>
                 <label>Feedback</label>
                 <InputTextArea class="form-control m-2" @bind-Value="Review.Feedback" />
                 <button type="submit" class="btn btn-primary my-3">Save</button>
@@ -100,11 +118,15 @@
     SingleReview Review = new();
     bool IsReviewed = false;
     bool IsEdit = false;
-
+    string firstStar = "bi-star";
+    string secondStar = "bi-star";
+    string thirdStar = "bi-star";
+    string fourthStar = "bi-star";
+    string fifthStar = "bi-star";
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O','.')));
+        Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
         await GetAll();
     }
 
@@ -121,7 +143,7 @@
         if (!IsReviewed)
         {
             Review.IsNew = true;
-            Review.ReviewID = new GenerateNewID().GetNewID; 
+            Review.ReviewID = new GenerateNewID().GetNewID;
             Review.UserID = LoggedUser.Id;
             Review.MovieID = Convert.ToDecimal(Id.Replace('O', '.'));
             Review.ReviewDate = DateTime.Now;
@@ -152,6 +174,48 @@
             await GetAll();
         }
 
+    }
+
+    void SetRate(int stars)
+    {
+        switch (stars)
+        {
+            case 1:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star";
+                thirdStar = "bi-star";
+                fourthStar = "bi-star";
+                fifthStar = "bi-star";
+                break;
+            case 2:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star";
+                fourthStar = "bi-star";
+                fifthStar = "bi-star";
+                break;
+            case 3:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star-fill";
+                fourthStar = "bi-star";
+                fifthStar = "bi-star";
+                break;
+            case 4:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star-fill";
+                fourthStar = "bi-star-fill";
+                fifthStar = "bi-star";
+                break;
+            case 5:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star-fill";
+                fourthStar = "bi-star-fill";
+                fifthStar = "bi-star-fill";
+                break;
+        }
     }
 
     [Parameter]
