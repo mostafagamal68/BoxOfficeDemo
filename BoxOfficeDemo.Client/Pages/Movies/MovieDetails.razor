@@ -1,7 +1,8 @@
 ﻿@page "/Movies/{id}"
+@using Microsoft.JSInterop.Implementation;
 @inject IMoviesService MoviesService
 @inject IReviewsService ReviewsService
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JS
 @inherits Pages.Index
 
 <PageTitle>Movie : @Movie.MovieName</PageTitle>
@@ -15,6 +16,9 @@
             transform: scale(1.0) !important;
         }
 
+    .btn-star{
+        color:goldenrod;
+    }
     .custom-cursor {
         cursor: default;
     }
@@ -60,7 +64,8 @@
                                 <button class="btn d-inline" @onclick="()=> Delete(item.ReviewID)"><span class="bi bi-trash-fill"></span></button>
                             }
                         </div>
-                        <p><strong>Rate: </strong>
+                        <p>
+                            <strong>Rate: </strong>
                             @for(int stars = 1;stars <= item.Rate; stars++)
                             {
                                 <span class="bi bi-star-fill"></span>
@@ -93,13 +98,23 @@
             <option value="4">4 Stars</option>
             <option value="5">5 Stars</option>
             </InputSelect>*@
-                <div>
-                    <label>Rate</label>
-                    <button type="button" class="btn" @onclick="()=> SetRate(1)"><span class="bi @firstStar" style="color:goldenrod;"></span></button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(2)"><span class="bi @secondStar" style="color:goldenrod;"></span></button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(3)"><span class="bi @thirdStar" style="color:goldenrod;"></span></button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(4)"><span class="bi @fourthStar" style="color:goldenrod;"></span></button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(5)"><span class="bi @fifthStar" style="color:goldenrod;"></span></button>
+                <div class="stars">
+                    <label @onmouseover="()=> SetRate(0)">Rate</label>
+                    <button type="button" class="btn" @onclick="()=> SetRate(1)">
+                        <span id="firstStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    </button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(2)">
+                        <span id="secondStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    </button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(3)">
+                        <span id="thirdStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    </button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(4)">
+                        <span id="fourthStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    </button>
+                    <button type="button" class="btn" @onclick="()=> SetRate(5)">
+                        <span id="fifthStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    </button>
                 </div>
                 <label>Feedback</label>
                 <InputTextArea class="form-control m-2" @bind-Value="Review.Feedback" />
@@ -118,16 +133,20 @@
     SingleReview Review = new();
     bool IsReviewed = false;
     bool IsEdit = false;
-    string firstStar = "bi-star";
-    string secondStar = "bi-star";
-    string thirdStar = "bi-star";
-    string fourthStar = "bi-star";
-    string fifthStar = "bi-star";
+
+    IJSObjectReference module;
+
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
         Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
         await GetAll();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstrender)
+    {
+        if (firstrender)
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./scripts/MovieDetailsScript.js");
     }
 
     async Task GetAll()
@@ -167,7 +186,7 @@
 
     async Task Delete(decimal? id)
     {
-        bool answer = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        bool answer = await JS.InvokeAsync<bool>("confirm", "Are you sure to delete your review?");
         if (answer)
         {
             await ReviewsService.DeleteReview(id);
@@ -176,46 +195,10 @@
 
     }
 
-    void SetRate(int stars)
+    async void SetRate(int stars)
     {
-        switch (stars)
-        {
-            case 1:
-                firstStar = "bi-star-fill";
-                secondStar = "bi-star";
-                thirdStar = "bi-star";
-                fourthStar = "bi-star";
-                fifthStar = "bi-star";
-                break;
-            case 2:
-                firstStar = "bi-star-fill";
-                secondStar = "bi-star-fill";
-                thirdStar = "bi-star";
-                fourthStar = "bi-star";
-                fifthStar = "bi-star";
-                break;
-            case 3:
-                firstStar = "bi-star-fill";
-                secondStar = "bi-star-fill";
-                thirdStar = "bi-star-fill";
-                fourthStar = "bi-star";
-                fifthStar = "bi-star";
-                break;
-            case 4:
-                firstStar = "bi-star-fill";
-                secondStar = "bi-star-fill";
-                thirdStar = "bi-star-fill";
-                fourthStar = "bi-star-fill";
-                fifthStar = "bi-star";
-                break;
-            case 5:
-                firstStar = "bi-star-fill";
-                secondStar = "bi-star-fill";
-                thirdStar = "bi-star-fill";
-                fourthStar = "bi-star-fill";
-                fifthStar = "bi-star-fill";
-                break;
-        }
+        await module.InvokeVoidAsync("SetStars", stars);
+        Review.Rate = stars;
     }
 
     [Parameter]
