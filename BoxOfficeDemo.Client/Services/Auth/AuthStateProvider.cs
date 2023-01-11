@@ -33,6 +33,7 @@ namespace BoxOfficeDemo.Client.Services.Auth
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             var id = JwtParser.ParseClaimsFromJwt(token).Select(s => s.Value).ToArray()[1];
+            LoggedUser.Id = id;
             var user = await _httpClient.GetFromJsonAsync<UserForLoginDto>("accounts/getuserinfo/"+ id);
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
         }
