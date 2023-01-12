@@ -24,9 +24,11 @@
                 <a class="navbar-brand m-auto text-center align-middle" href="/">Box Office</a>
             </div>
 
-            <div class="col col-md-8 col-sm-10 col-xs text-end">
+            <div class="col-4 col-sm-6 text-end">
                 <AuthLinks />
                 <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            </div>
+            <div class="col-5 col-xl-2 col-sm-3">
                 <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List", new ModalOptions{ActivateFocusTrap=false, Position=ModalPosition.TopRight, AnimationType=ModalAnimationType.FadeInOut}))"></WatchListNotify>
             </div>
         </div>

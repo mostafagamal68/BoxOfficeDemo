@@ -83,9 +83,9 @@
                 _userInfo = await AuthenticationService.GetCurrentUserInfo(result.UserID);
                 if(_userInfo != null)
                 {
-                    this.CurrentUser.Set(this, "Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
-                    this.CurrentUser.Set(this, "UserName", _userInfo.UserName);
-                    this.CurrentUser.Set(this, "Email", _userInfo.Email);
+                    CurrentUser.Set("Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
+                    CurrentUser.Set("UserName", _userInfo.UserName);
+                    CurrentUser.Set("Email", _userInfo.Email);
                 }
             }
             NavigationManager.NavigateTo("/");

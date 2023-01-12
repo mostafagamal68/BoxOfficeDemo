@@ -17,12 +17,14 @@ namespace BoxOfficeDemo.Client.Services.Auth
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationState _anonymous;
+        private readonly CurrentSession _currentUser;
 
-        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage)
+        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage, CurrentSession currentUser)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
             _anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            _currentUser = currentUser;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -35,6 +37,12 @@ namespace BoxOfficeDemo.Client.Services.Auth
             var id = JwtParser.ParseClaimsFromJwt(token).Select(s => s.Value).ToArray()[1];
             LoggedUser.Id = id;
             var user = await _httpClient.GetFromJsonAsync<UserForLoginDto>("accounts/getuserinfo/"+ id);
+            if (user != null)
+            {
+                _currentUser.Set("Name", $"{user.FirstName} {user.LastName}");
+                _currentUser.Set("UserName", user.UserName);
+                _currentUser.Set("Email", user.Email);
+            }
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
         }
 
@@ -49,6 +57,7 @@ namespace BoxOfficeDemo.Client.Services.Auth
         {
             var authState = Task.FromResult(_anonymous);
             LoggedUser.Id = null;
+            _currentUser.Clear();
             NotifyAuthenticationStateChanged(authState);
         }
     }
