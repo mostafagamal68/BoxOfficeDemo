@@ -23,7 +23,7 @@ builder.Services.AddScoped<IMoviesService,MoviesService>();
 builder.Services.AddScoped<IReviewsService,ReviewsService>();
 builder.Services.AddScoped<IWatchListService, WatchListService>();
 builder.Services.AddScoped<IToastService, ToastService>();
-builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddBlazoredModal();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddHttpClientInterceptor();

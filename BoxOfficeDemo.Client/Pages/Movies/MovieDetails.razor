@@ -16,9 +16,10 @@
             transform: scale(1.0) !important;
         }
 
-    .btn-star{
-        color:goldenrod;
+    .btn-star {
+        color: goldenrod;
     }
+
     .custom-cursor {
         cursor: default;
     }
@@ -49,9 +50,9 @@
         </h5>
     </Description>
     <Reviews>
+        <h4>Users Reviews</h4>
         @if (ReviewsService.ReviewsList.Any())
         {
-            <h4>Users Reviews</h4>
             <div class="row">
                 @foreach (var item in ReviewsService.ReviewsList)
                 {
@@ -66,7 +67,7 @@
                         </div>
                         <p>
                             <strong>Rate: </strong>
-                            @for(int stars = 1;stars <= item.Rate; stars++)
+                            @for (int stars = 1; stars <= item.Rate; stars++)
                             {
                                 <span class="bi bi-star-fill"></span>
                             }
@@ -79,7 +80,7 @@
         }
         else
         {
-            <h4>No Reviews</h4>
+            <h5>No Reviews</h5>
         }
     </Reviews>
     <ReviewForm>
@@ -89,35 +90,33 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <h4>Submit Your Review</h4>
-                @*<InputSelect class="form-select m-2" @bind-Value="Review.Rate">
-            <span class="oi oi-arrow-bottom"></span>
-            <option value="" selected disabled hidden>Click and Choose here</option>
-            <option value="1">1 Star</option>
-            <option value="2">2 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="5">5 Stars</option>
-            </InputSelect>*@
-                <div class="stars">
-                    <label @onmouseover="()=> SetRate(0)">Rate</label>
-                    <button type="button" class="btn" @onclick="()=> SetRate(1)">
-                        <span id="firstStar" class="bi bi-star" style="color:goldenrod;"></span>
+                <div class="d-flex">
+                    <label class="my-2">Rate </label>
+                    <button type="button" class="btn"
+                        @onmouseout="@(()=> SetRate("out",1))" @onmouseover="@(()=> SetRate("over",1))" @onclick="@(()=> SetRate("click",1))">
+                        <span class="bi @firstStar" style="color:goldenrod;"></span>
                     </button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(2)">
-                        <span id="secondStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    <button type="button" class="btn"
+                        @onmouseout="@(()=> SetRate("out",2))" @onmouseover="@(()=> SetRate("over",2))" @onclick="@(()=> SetRate("click",2))">
+                        <span class="bi @secondStar" style="color:goldenrod;"></span>
                     </button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(3)">
-                        <span id="thirdStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    <button type="button" class="btn"
+                        @onmouseout="@(()=> SetRate("out",3))" @onmouseover="@(()=> SetRate("over",3))" @onclick="@(()=> SetRate("click",3))">
+                        <span class="bi @thirdStar" style="color:goldenrod;"></span>
                     </button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(4)">
-                        <span id="fourthStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    <button type="button" class="btn"
+                        @onmouseout="@(()=> SetRate("out",4))" @onmouseover="@(()=> SetRate("over",4))" @onclick="@(()=> SetRate("click",4))">
+                        <span class="bi @fourthStar" style="color:goldenrod;"></span>
                     </button>
-                    <button type="button" class="btn" @onclick="()=> SetRate(5)">
-                        <span id="fifthStar" class="bi bi-star" style="color:goldenrod;"></span>
+                    <button type="button" class="btn"
+                        @onmouseout="@(()=> SetRate("out",5))" @onmouseover="@(()=> SetRate("over",5))" @onclick="@(()=> SetRate("click",5))">
+                        <span class="bi @fifthStar" style="color:goldenrod;"></span>
                     </button>
                 </div>
-                <label>Feedback</label>
-                <InputTextArea class="form-control m-2" @bind-Value="Review.Feedback" />
+                <div class="col-md-6">
+                    <label>Feedback</label>
+                    <InputTextArea class="form-control col-md-6" @bind-Value="Review.Feedback" />
+                </div>
                 <button type="submit" class="btn btn-primary my-3">Save</button>
                 @if (IsEdit)
                 {
@@ -133,20 +132,17 @@
     SingleReview Review = new();
     bool IsReviewed = false;
     bool IsEdit = false;
-
-    IJSObjectReference module;
+    string firstStar = "bi-star";
+    string secondStar = "bi-star";
+    string thirdStar = "bi-star";
+    string fourthStar = "bi-star";
+    string fifthStar = "bi-star";
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
         Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
         await GetAll();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstrender)
-    {
-        if (firstrender)
-            module = await JS.InvokeAsync<IJSObjectReference>("import", "./scripts/MovieDetailsScript.js");
     }
 
     async Task GetAll()
@@ -195,10 +191,58 @@
 
     }
 
-    async void SetRate(int stars)
+    void SetRate(string type, int? stars)
     {
-        await module.InvokeVoidAsync("SetStars", stars);
-        Review.Rate = stars;
+        if (type == "out")
+            stars = Review.Rate;
+        switch (stars)
+        {
+            case 1:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star";
+                thirdStar = "bi-star";
+                fourthStar = "bi-star";
+                fifthStar = "bi-star";
+                break;
+            case 2:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star";
+                fourthStar = "bi-star";
+                fifthStar = "bi-star";
+                break;
+            case 3:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star-fill";
+                fourthStar = "bi-star";
+                fifthStar = "bi-star";
+                break;
+            case 4:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star-fill";
+                fourthStar = "bi-star-fill";
+                fifthStar = "bi-star";
+                break;
+            case 5:
+                firstStar = "bi-star-fill";
+                secondStar = "bi-star-fill";
+                thirdStar = "bi-star-fill";
+                fourthStar = "bi-star-fill";
+                fifthStar = "bi-star-fill";
+                break;
+            default:
+                firstStar = "bi-star";
+                secondStar = "bi-star";
+                thirdStar = "bi-star";
+                fourthStar = "bi-star";
+                fifthStar = "bi-star";
+                break;
+        }
+        if (type == "click")
+            Review.Rate = stars;
+
     }
 
     [Parameter]

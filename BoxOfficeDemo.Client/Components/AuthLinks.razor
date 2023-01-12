@@ -4,7 +4,7 @@
 <AuthorizeView>
     <Authorized>
         @*Hello, @context.User.Identity.Name!*@
-        Hello, @Name l
+        Hello, @this.CurrentUser.Get("Name")
         <a href="Logout">Log out</a>
     </Authorized>
     <NotAuthorized>
@@ -14,11 +14,9 @@
 </AuthorizeView>
 
 @code {
-    private string Name { get; set; }
     protected override void OnInitialized()
     {
-        var x = this.CurrentUser._state;
-        Name = (string)this.CurrentUser.Get("Name");
+        CurrentUser.OnChange += StateHasChanged;
     }
 
 }

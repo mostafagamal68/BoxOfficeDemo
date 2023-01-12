@@ -4,41 +4,47 @@ namespace BoxOfficeDemo.Client.Configurations
 {
     public class CurrentSession
     {
-        public readonly Dictionary<string, object> _state = new();
+        private readonly Dictionary<string, object> Session = new();
+        public event Action OnChange;
 
-        public void Set(ComponentBase source, string key, object value)
+        public void Set(string key, object value)
         {
-            if (_state.ContainsKey(key))
-                _state[key] = value;
+            if (Session.ContainsKey(key))
+                Session[key] = value;
             else
-                _state.Add(key, value);
-            NotifyStateChanged(source, key);
+                Session.Add(key, value);
+            OnChange?.Invoke();
         }
 
-        public void SilentSet(string key, object value)
+        public object? Get(string key)
         {
-            if (_state.ContainsKey(key))
-                _state[key] = value;
-            else
-                _state.Add(key, value);
-            NotifyStateChanged(null, key);
+            return Session.ContainsKey(key) ? Session[key] : null;
         }
 
-        public object Get(string key)
+        public void Clear()
         {
-            return _state.ContainsKey(key) ? _state[key] : null;
+            Session.Clear();
         }
+        //public void Set(ComponentBase source, string key, object value)
+        //{
+        //    if (Session.ContainsKey(key))
+        //        Session[key] = value;
+        //    else
+        //        Session.Add(key, value);
+        //    //NotifyStateChanged(source, key);
+        //    OnChange?.Invoke();
+        //}
 
-        public T Get<T>(string key)
-        {
-            return (T)Get(key);
-        }
+        //public T Get<T>(string key)
+        //{
+        //    return (T)Get(key);
+        //}
 
-        public event Action<ComponentBase, string> OnStateChange;
+        //public event Action<ComponentBase, string> OnStateChange;
 
-        public void NotifyStateChanged(ComponentBase source, string key)
-        {
-            OnStateChange?.Invoke(source, key);
-        }
+        //public void NotifyStateChanged(ComponentBase source, string key)
+        //{
+        //    OnStateChange?.Invoke(source, key);
+        //}
     }
 }
