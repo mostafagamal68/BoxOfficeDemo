@@ -1,7 +1,7 @@
 ﻿@page "/login"
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
-
+@inject CurrentSession CurrentUser
 <h3>Login</h3>
 
 @if (ShowAuthError)
@@ -42,6 +42,7 @@
 
 @code {
     UserForAuthenticationDto _userForAuthentication = new();
+    UserForLoginDto _userInfo = new();
     bool ShowAuthError { get; set; }
     string Error { get; set; }
     bool EmailIsNotConfirmed { get; set; } = false;
@@ -76,8 +77,18 @@
         }
         else
         {
+            if(!string.IsNullOrEmpty(result.UserID))
+            {
+                LoggedUser.Id = result.UserID;
+                _userInfo = await AuthenticationService.GetCurrentUserInfo(result.UserID);
+                if(_userInfo != null)
+                {
+                    CurrentUser.Set("Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
+                    CurrentUser.Set("UserName", _userInfo.UserName);
+                    CurrentUser.Set("Email", _userInfo.Email);
+                }
+            }
             NavigationManager.NavigateTo("/");
-            StateHasChanged();
         }
     }
 }

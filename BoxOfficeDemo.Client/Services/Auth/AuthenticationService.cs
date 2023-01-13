@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using BoxOfficeDemo.Client.Configurations;
 using System.Net.Http;
+using BoxOfficeDemo.Client.Components;
 
 namespace BoxOfficeDemo.Client.Services.Auth
 {
@@ -58,14 +59,7 @@ namespace BoxOfficeDemo.Client.Services.Auth
             await _localStorage.SetItemAsync("authToken", result.Token);
             await _localStorage.SetItemAsync("refreshToken", result.RefreshToken);
             ((AuthStateProvider)_authStateProvider).NotifyUserAuthentication(result.Token);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
-
-            var user = await _client.GetFromJsonAsync<UserForLoginDto>("accounts/getuserinfo/" + result.UserID);
-            LoggedUser.FirstName = user.FirstName;
-            LoggedUser.LastName = user.LastName;
-            LoggedUser.Email = user.Email;
-            LoggedUser.Id = user.Id;
-            LoggedUser.EmailConfirmed = user.EmailConfirmed;
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);;
             return result;
         }
 
@@ -111,5 +105,10 @@ namespace BoxOfficeDemo.Client.Services.Auth
             return result.Token;
         }
 
+        public async Task<UserForLoginDto> GetCurrentUserInfo(string userId)
+        {
+            var user = await _client.GetFromJsonAsync<UserForLoginDto>($"accounts/getuserinfo/{userId}");
+            return user;
+        }
     }
 }
