@@ -54,8 +54,8 @@
             <img class="card-img-top" src="@Image" alt="@MovieNameTooltip image card" @onclick="()=> NavigateToMovie(MovieID,false)">
         </div>
         <div class="col" style="margin:10px">
-            <h4>Released: @(ReleasedDate == null ? "" : ((DateTime)ReleasedDate).ToString(DateFormat))</h4>
-            <h4>@Genere  PG-@ParentalGuide @(Length == null ? "" : ((TimeSpan)Length).ToString(TimeFormat, Culture))</h4>
+            <h5>Released: @(ReleasedDate == null ? "" : ((DateTime)ReleasedDate).ToString(DateFormat))</h5>
+            <h5>@Genere  PG-@ParentalGuide @(Length == null ? "" : ((TimeSpan)Length).ToString(TimeFormat, Culture))</h5>
             @Description
             @if (Index)
             {

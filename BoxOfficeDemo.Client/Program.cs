@@ -16,8 +16,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7227/api/") }.EnableIntercept(sp));
-/*builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://mostafagamal68.bsite.net/api/") }.EnableIntercept(sp));*/
+/*builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7227/api/") }.EnableIntercept(sp));*/
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://mostafagamal68.bsite.net/api/") }.EnableIntercept(sp));
 //builder.HostEnvironment.BaseAddress
 builder.Services.AddScoped<IMoviesService,MoviesService>();
 builder.Services.AddScoped<IReviewsService,ReviewsService>();
