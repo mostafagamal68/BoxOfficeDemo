@@ -92,7 +92,7 @@ main[b-54ddjuuld6] {
 
     .top-row[b-54ddjuuld6], article[b-54ddjuuld6] {
         padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
+        /*padding-right: 1.5rem !important;*/
     }
 }
 /* /Shared/NavMenu.razor.rz.scp.css */
