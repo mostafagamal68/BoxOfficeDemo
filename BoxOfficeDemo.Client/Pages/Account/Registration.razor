@@ -1,4 +1,4 @@
-﻿@page "/registration"
+﻿@page "/BoxOfficeDemo/registration"
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
 
@@ -79,7 +79,7 @@
         var user = (await AuthStat).User;
         if (user.Identity.IsAuthenticated)
         {
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/BoxOfficeDemo/");
         }
         base.OnInitialized();
     }
@@ -95,7 +95,7 @@
         }
         else
         {
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/BoxOfficeDemo/");
         }
     }
 }

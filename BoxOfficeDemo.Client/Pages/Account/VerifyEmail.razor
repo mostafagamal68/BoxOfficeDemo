@@ -1,4 +1,4 @@
-﻿@page "/VerifyEmail/{Id}"
+﻿@page "/BoxOfficeDemo/VerifyEmail/{Id}"
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
 
@@ -32,7 +32,7 @@
         }
         else
         {
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/BoxOfficeDemo/");
         }
     }
 }

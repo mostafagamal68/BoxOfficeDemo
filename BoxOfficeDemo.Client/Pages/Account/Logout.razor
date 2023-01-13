@@ -1,4 +1,4 @@
-﻿@page "/Logout"
+﻿@page "/BoxOfficeDemo/Logout"
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
 <h3>Logout</h3>
@@ -7,6 +7,6 @@
     protected override async Task OnInitializedAsync()
     {
         await AuthenticationService.Logout();        
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/BoxOfficeDemo/");
     }
 }

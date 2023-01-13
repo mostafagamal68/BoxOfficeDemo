@@ -148,8 +148,8 @@
     public void NavigateToMovie(decimal? id, bool Form)
     {
         if (Form)
-            NavigationManager.NavigateTo($"/Movie/{id}");
+            NavigationManager.NavigateTo($"/BoxOfficeDemo/Movie/{id}");
         else
-            NavigationManager.NavigateTo($"/Movies/{id.ToString().Replace('.', 'O')}");
+            NavigationManager.NavigateTo($"/BoxOfficeDemo/Movies/{id.ToString().Replace('.', 'O')}");
     }
 }
