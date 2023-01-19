@@ -28,9 +28,13 @@
                 <AuthLinks />
                 <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
             </div>
-            <div class="col-6 col-xl-2 col-md-3 col-sm-4 text-center">
-                <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List", new ModalOptions{ActivateFocusTrap=false, Position=ModalPosition.TopRight, AnimationType=ModalAnimationType.FadeInOut}))"></WatchListNotify>
-            </div>
+            <AuthorizeView>
+                <Authorized>
+                    <div class="col-6 col-xl-2 col-md-3 col-sm-4 text-center">
+                        <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List", new ModalOptions{ActivateFocusTrap=false, Position=ModalPosition.TopRight, AnimationType=ModalAnimationType.FadeInOut}))"></WatchListNotify>
+                    </div>
+                </Authorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">

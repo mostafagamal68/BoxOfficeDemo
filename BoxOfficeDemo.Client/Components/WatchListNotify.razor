@@ -1,20 +1,17 @@
 ﻿@inject IWatchListService WatchListervice
-<AuthorizeView>
-    <Authorized>
-        <button type="button" class="btn btn-outline-primary position-relative mx-3" style="border-radius:15px;"
-                @onclick="async ()=> await ShowWatchList.InvokeAsync()">
-            @*@onclick="WatchListervice.Reset"*@
-            My Watchlist
-            <i class="oi oi-list-rich"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                @if (WatchListervice.Count > 0)
-                {
-                    @WatchListervice.Count
-                }
-            </span>
-        </button>
-    </Authorized>
-</AuthorizeView>
+
+<button type="button" class="btn btn-outline-primary position-relative m-0" style="border-radius:15px;"
+        @onclick="async ()=> await ShowWatchList.InvokeAsync()">
+    @*@onclick="WatchListervice.Reset"*@
+    My Watchlist
+    <i class="oi oi-list-rich"></i>
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        @if (WatchListervice.Count > 0)
+        {
+            @WatchListervice.Count
+        }
+    </span>
+</button>
 
 @code {
     [Parameter]
