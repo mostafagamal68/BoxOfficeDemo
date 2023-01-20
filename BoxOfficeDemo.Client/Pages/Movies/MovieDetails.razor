@@ -1,8 +1,10 @@
 ﻿@page "/Movies/{id}"
+@using Blazored.LocalStorage;
 @using Microsoft.JSInterop.Implementation;
 @inject IMoviesService MoviesService
 @inject IReviewsService ReviewsService
 @inject IJSRuntime JS
+@inject ILocalStorageService localStorage
 @inherits Pages.Index
 
 <PageTitle>Movie : @Movie.MovieName</PageTitle>
@@ -141,6 +143,12 @@
         IsLoading = true;
         Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
         await GetAll();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var ThemeName = await localStorage.GetItemAsync<string>("Theme");
+        await JS.InvokeVoidAsync("ToggleTheme", ThemeName);
     }
 
     async Task GetAll()
