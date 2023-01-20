@@ -1,11 +1,11 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-eXKMd6\/yX7axkSp2M7g1ssJZ83YTayQXKVIKsxUsAy8=",
+      "hash": "sha256-pKFOc\/OzZ\/5Ivx22ba84tHFBqmtdvuU1k6fHdlVEJrw=",
       "url": "BoxOfficeDemo.Client.styles.css"
     },
     {
-      "hash": "sha256-kfXT+\/7PwnK7UBTMq8\/AX20+soj7u1sV\/U1lCtnmSZI=",
+      "hash": "sha256-TkN37c\/qcX2gwmBf+0ipns8tnWiOxpEC1nnCJmMj0Z8=",
       "url": "css\/app.css"
     },
     {
@@ -109,7 +109,7 @@
       "url": "images\/WheretheCrawdadsSing.jpg"
     },
     {
-      "hash": "sha256-yXVn7Ysgr0gRnicySQN8oOAs8VghQrWFOnvXZCpBL5s=",
+      "hash": "sha256-78EBSwMokMg9HndROW\/mEQiUqVOM+JoasxbJkfMK\/rs=",
       "url": "index.html"
     },
     {
@@ -117,11 +117,7 @@
       "url": "manifest.json"
     },
     {
-      "hash": "sha256-4Yh4OTT5TEAPNyXEzOG+n5l2HPK294WFItz4SIelj88=",
-      "url": "sample-data\/weather.json"
-    },
-    {
-      "hash": "sha256-xKuirpElYNlYghldpsNdeQSMzIHeXV7sCIq4Wv57OZg=",
+      "hash": "sha256-\/+g3rKdAQf\/TKARGKpXrtEx4TuwAeGYAFEyu636lINQ=",
       "url": "scripts\/script.js"
     },
     {
@@ -157,7 +153,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-Y9GoZnG6QV9ZsAZrp2uU+P6opD8h\/4xjB51dZbox1v8=",
+      "hash": "sha256-cYRaymts0S8tBkP1FCKynZmH8pt4fuLEFLwoUF5OKEU=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -169,7 +165,7 @@
       "url": "_framework\/Blazored.Modal.dll"
     },
     {
-      "hash": "sha256-KwrXtbFbrabl1tBfml8bpjjSXYLMlPZqNqAxn9XVsSw=",
+      "hash": "sha256-HHxXidjGdLEtmIggHni3IEar0Cd\/GDjBO1KoR+kfNOk=",
       "url": "_framework\/BoxOfficeDemo.Client.dll"
     },
     {
@@ -649,5 +645,5 @@
       "url": "_content\/Blazored.Modal\/BlazoredModal.razor.js"
     }
   ],
-  "version": "\/lhgtU8T"
+  "version": "VvcQinkp"
 };
