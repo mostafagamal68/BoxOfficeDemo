@@ -11,18 +11,6 @@
             transform: scale(1.1);
         }
 
-    .btn-watchlist {
-        color: darkblue;
-        background-color: white;
-        border-color: darkblue;
-        border-radius: 15px;
-    }
-
-        .btn-watchlist:hover {
-            background-color: darkblue;
-            color: white;
-        }
-
     .image-card {
         width: 100%;
     }
@@ -32,57 +20,78 @@
             height: 400px;
         }
 </style>
-
-<div class="card zooming m-1" style="border-radius:20px">
-
-    <div class="card-header" style="border-radius:20px">
-        <div class="row">
-            <div class="d-inline-flex @(Index ? "col-9" : "col-6") col-sm-9 m-auto p-0">
-                <h5 class="m-1" data-toggle="tooltip" data-placement="top" title="@MovieNameTooltip"><strong>@MovieName</strong></h5>
-            </div>
-            <div class="d-inline-flex @(Index ? "col-3" : "col-6") col-sm-3 text-center m-auto p-0">
-                @if (!Index)
-                {
-                    <button @onclick="async ()=> await AddToWatchList()" class="btn btn-watchlist m-auto"><span class="bi-plus-lg"></span> Watchlist</button>
-                }
-                <h4 class="m-1"><span class="bi-star-fill" style="margin:0 5px;padding:0;color:gold;"></span>@Rate</h4>
+@if (Index)
+{
+    <div class="card zooming m-1 " style="border-radius:20px">
+        <div class="card-header" style="border-radius:20px">
+            <div class="row">
+                <div class="d-inline-flex col-9 col-sm-9 m-auto p-0">
+                    <h5 class="m-1" data-toggle="tooltip" data-placement="top" title="@MovieNameTooltip"><strong>@MovieName</strong></h5>
+                </div>
+                <div class="d-inline-flex col-3 col-sm-3 text-center m-auto p-0">
+                    <h4 class="m-1">
+                        <span class="bi-star-fill" style="margin:0 5px;padding:0;color:gold;"></span>
+                        @Rate
+                    </h4>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-auto image-card">
-            @if (Index)
-            {
-                <a class="col" href="#" @onclick="()=> NavigateToMovie(MovieID,false)" @onclick:preventDefault>
-                    <img class="card-img-top " src="@Image" alt="@MovieNameTooltip image card">
-                </a>
-            }
-            else
-            {
-                <img class="card-img-top" src="@Image" alt="@MovieNameTooltip image card">
-            }
-        </div>
-        <div class="col" style="margin:10px">
+        <a class="image-card" href="#" @onclick="()=> NavigateToMovie(MovieID,false)" @onclick:preventDefault>
+            <img class="card-img-top" src="@Image" alt="@MovieNameTooltip image card">
+        </a>
+        <div class="card-body">
             <h5>Released: @(ReleasedDate == null ? "" : ((DateTime)ReleasedDate).ToString(DateFormat))</h5>
             <h5>@Genere  PG-@ParentalGuide @(Length == null ? "" : ((TimeSpan)Length).ToString(TimeFormat, Culture))</h5>
-            @Description
-            @if (Index)
-            {
-                <div class="Col text-center">
-                    <button @onclick="async ()=> await AddToWatchList()" class="btn btn-watchlist"><span class="bi-plus-lg"></span> Watchlist</button>
-                </div>
-            }
+            <div class="text-center">
+                <button @onclick="async ()=> await AddToWatchList()" class="btn btn-outline-primary" style="border-radius: 15px;">
+                    <span class="bi-plus-lg"></span>
+                    Watchlist
+                </button>
+            </div>
+
         </div>
     </div>
-    <div class="row m-2 p-0">
-        @Reviews
-        <AuthorizeView>
-            <Authorized Context="Auth">
-                @ReviewForm
-            </Authorized>
-        </AuthorizeView>
+}
+else
+{
+    <div class="card zooming m-1" style="border-radius:20px">
+        <div class="card-header" style="border-radius:20px">
+            <div class="row">
+                <div class="d-inline-flex col-6 col-xl-10 col-md-9 col-sm-8 m-auto p-0">
+                    <h5 class="m-1" data-toggle="tooltip" data-placement="top" title="@MovieNameTooltip"><strong>@MovieName</strong></h5>
+                </div>
+                <div class="d-inline-flex col-6 col-xl-2 col-md-3 col-sm-4 text-center m-auto p-0">
+                    <button @onclick="async ()=> await AddToWatchList()" class="btn btn-outline-primary m-auto" style="border-radius: 15px;">
+                        <span class="bi-plus-lg"></span>
+                        Watchlist
+                    </button>
+                    <h4 class="m-1">
+                        <span class="bi-star-fill" style="margin:0 5px;padding:0;color:gold;"></span>
+                        @Rate
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="card-body row justify-content-center p-0 m-0">
+            <div class="col-12 col-md-auto image-card p-0">
+                <img class="card-img-top" src="@Image" alt="@MovieNameTooltip image card">
+            </div>
+            <div class="col m-2">
+                <h5>Released: @(ReleasedDate == null ? "" : ((DateTime)ReleasedDate).ToString(DateFormat))</h5>
+                <h5>@Genere  PG-@ParentalGuide @(Length == null ? "" : ((TimeSpan)Length).ToString(TimeFormat, Culture))</h5>
+                @Description
+            </div>
+        </div>
+        <div class="card-footer">
+            @Reviews
+            <AuthorizeView>
+                <Authorized Context="Auth">
+                    @ReviewForm
+                </Authorized>
+            </AuthorizeView>
+        </div>
     </div>
-</div>
+}
 
 @code {
     [Parameter]
