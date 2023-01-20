@@ -1,7 +1,4 @@
-﻿@using Blazored.LocalStorage;
-@inject IJSRuntime JS
-@inject ILocalStorageService localStorage
-<div class="top-row ps-3 navbar navbar-dark">
+﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Box Office</a>
         <button title="Close" class="navbar-close btn btn-close" @onclick="CloseSidebar"></button>
@@ -27,13 +24,6 @@
                 </div>
             </Authorized>
         </AuthorizeView>
-        <div class="nav-item px-3">
-            <select class="form-select" value="@SelectedTheme" @onchange="ToggleTheme">
-                <option value="@(Themes.Light)">Light</option>
-                <option value="@(Themes.Dark)">Dark</option>
-                <option value="@(Themes.Amoled)">Amoled</option>
-            </select>
-        </div>
     </nav>
 </div>
 
@@ -41,28 +31,14 @@
     [Parameter]
     public EventCallback<bool> HideSideBar { get; set; }
     private bool collapseNavMenu = true;
-    private string SelectedTheme { get; set; }
+
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-    enum Themes
-    {
-        Light,
-        Dark,
-        Amoled
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        SelectedTheme = await localStorage.GetItemAsync<string>("Theme");        
-        await JS.InvokeVoidAsync("ToggleTheme", SelectedTheme);
-    }
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
-    private async Task ToggleTheme(ChangeEventArgs e)
-    {
-        await JS.InvokeVoidAsync("ToggleTheme", e.Value);
-        await localStorage.SetItemAsync("Theme", e.Value);
-    }
-    private async Task CloseSidebar() => await HideSideBar.InvokeAsync(false);
 
+    private async Task CloseSidebar() => await HideSideBar.InvokeAsync(false);
+    
 }
