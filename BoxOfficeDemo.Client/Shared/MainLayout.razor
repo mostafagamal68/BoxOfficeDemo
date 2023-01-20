@@ -1,7 +1,9 @@
-﻿@using BoxOfficeDemo.Client.Configurations.Toast;
+﻿@using Blazored.LocalStorage;
+@using BoxOfficeDemo.Client.Configurations.Toast;
 @inject IWatchListService WatchListService
 @inject IModalService ModalService
 @inject IJSRuntime JS
+@inject ILocalStorageService localStorage
 @inherits LayoutComponentBase
 
 <Toasts Position="ToastPosition.BottomLeft"
@@ -26,18 +28,25 @@
 
             <AuthorizeView>
                 <Authorized>
-                    <div class="col-6 col-md-6 col-sm-8 text-end">
+                    <div class="col-6 col-sm-6 text-end">
                         <AuthLinks />
-                        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+                        <a href="https://docs.microsoft.com/aspnet/" class="mx-2" target="_blank">About</a>
                     </div>
-                    <div class="col-6 col-xl-2 col-md-3 col-sm-4 text-center">
-                        <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List", new ModalOptions{ActivateFocusTrap=false, Position=ModalPosition.TopRight, AnimationType=ModalAnimationType.FadeInOut}))"></WatchListNotify>
+                    <div class="col-6 col-xxl-1 col-xl-2 col-md-3 col-sm-4 text-center w-auto mx-2">
+                        <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List",
+                                new ModalOptions{
+                                    ActivateFocusTrap=false,
+                                    Position=ModalPosition.TopRight,
+                                    AnimationType=ModalAnimationType.FadeInOut
+                                }))">
+                        </WatchListNotify>
                     </div>
+
                 </Authorized>
                 <NotAuthorized>
-                    <div class="col-12 col-md-6 col-sm-8 text-end mx-2">
+                    <div class="col-12 col-md-6 col-sm-8 text-end">
                         <AuthLinks />
-                        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+                        <a href="https://docs.microsoft.com/aspnet/" class="mx-2" target="_blank">About</a>
                     </div>
                 </NotAuthorized>
             </AuthorizeView>
@@ -60,6 +69,7 @@
     string _TimeFormat = "hh\\:mm";
     public bool ToggleWatchLater { get; set; } = false;
     public bool IsLoading { get; set; }
+
     IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
 
     private bool collapseSidebar = true;
@@ -70,4 +80,6 @@
         collapseSidebar = !collapseSidebar;
         await JS.InvokeVoidAsync("ToggleSidebar", collapseSidebar);
     }
+
+
 }
