@@ -1,6 +1,5 @@
-﻿@using Blazored.LocalStorage;
-@inject IJSRuntime JS
-@inject ILocalStorageService localStorage
+﻿@inherits CustomComponentBase
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Box Office</a>
@@ -28,7 +27,7 @@
             </Authorized>
         </AuthorizeView>
         <div class="nav-item px-3">
-            <select class="form-select" value="@SelectedTheme" @onchange="ToggleTheme">
+            <select class="form-select" value="@SelectedTheme" @onchange="ThemeChanged">
                 <option value="@(Themes.Light)">Light</option>
                 <option value="@(Themes.Dark)">Dark</option>
                 <option value="@(Themes.Amoled)">Amoled</option>
@@ -51,17 +50,47 @@
     }
     protected override async Task OnInitializedAsync()
     {
-        SelectedTheme = await localStorage.GetItemAsync<string>("Theme");        
-        await JS.InvokeVoidAsync("ToggleTheme", SelectedTheme);
+        SelectedTheme = await localStorage.GetItemAsync<string>("Theme");
+        await ToggleTheme(SelectedTheme);
+        await CloseSidebar();
+        //await JS.InvokeVoidAsync("ToggleTheme", SelectedTheme);
     }
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
-    private async Task ToggleTheme(ChangeEventArgs e)
+    private async Task ThemeChanged(ChangeEventArgs e)
     {
-        await JS.InvokeVoidAsync("ToggleTheme", e.Value);
+        await ToggleTheme((string?)e.Value);
         await localStorage.SetItemAsync("Theme", e.Value);
+    }
+
+    //await JS.InvokeVoidAsync("ToggleTheme", e.Value);
+
+
+    private async Task ToggleTheme(string? themeName)
+    {
+        if (themeName == "Dark")
+        {
+            Theme.ThemeName = "dark-mode";
+            Theme.BorderColor = "border-secondary";
+            Theme.BackColor = "bg-dark";
+        }
+        else if (themeName == "Amoled")
+        {
+            Theme.ThemeName = "black-mode";
+            Theme.BorderColor = "border-secondary";
+            Theme.BackColor = "bg-black";
+        }
+        else
+        {
+            Theme.ThemeName = "";
+            Theme.BorderColor = "";
+            Theme.BackColor = "";
+        }
+        StateHasChanged();
+        await CloseSidebar();
+
     }
     private async Task CloseSidebar() => await HideSideBar.InvokeAsync(false);
 

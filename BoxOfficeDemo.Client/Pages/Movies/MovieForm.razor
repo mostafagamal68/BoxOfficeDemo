@@ -1,8 +1,8 @@
 ﻿@page "/Movie"
 @page "/Movie/{id:decimal}"
 @inject IMoviesService MoviesService
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavigationManager
+@inherits CustomComponentBase
+
 <AuthorizeView Roles="Administrator">
     <Authorized Context="Auth">
         <h3 class="py-2">Movie Form</h3>
@@ -51,7 +51,7 @@
         else
             Movie.IsNew = true;
         await MoviesService.SaveMovie(Movie);
-        await JSRuntime.InvokeVoidAsync("alert", "Saved Successfully");
+        await JS.InvokeVoidAsync("alert", "Saved Successfully");
         NavigationManager.NavigateTo("/Movies");
     }
 

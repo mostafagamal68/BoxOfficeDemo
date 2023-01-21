@@ -12,7 +12,7 @@
         SuccessIconClass="fa fa-thumbs-up"
         ErrorIconClass="fa fa-bug" />
 
-<div class="page">
+<div class="page @Theme.ThemeName">
     <div class="sidebar">
         <NavMenu HideSideBar="ToggleSidebar" />
     </div>
@@ -80,6 +80,4 @@
         collapseSidebar = !collapseSidebar;
         await JS.InvokeVoidAsync("ToggleSidebar", collapseSidebar);
     }
-
-
 }
