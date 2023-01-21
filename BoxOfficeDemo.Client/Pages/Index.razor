@@ -2,10 +2,7 @@
 @using Blazored.LocalStorage;
 @inject IMoviesService MoviesService
 @inject IWatchListService WatchListService
-@inject IToastService ToastService
-@inject ILocalStorageService localStorage
-@inject IJSRuntime JS
-@inherits BaseComponent
+@inherits CustomComponentBase
 
 <PageTitle>Box Office</PageTitle>
 
@@ -46,11 +43,11 @@
         base.OnInitialized();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        var ThemeName = await localStorage.GetItemAsync<string>("Theme");
-        await JS.InvokeVoidAsync("ToggleTheme", ThemeName);
-    }
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    var ThemeName = await localStorage.GetItemAsync<string>("Theme");
+    //    await JS.InvokeVoidAsync("ToggleTheme", ThemeName);
+    //}
 
     public async Task AddtoWatchLater(SingleWatchList watchList)
     {

@@ -1,6 +1,5 @@
-﻿@inject NavigationManager NavigationManager
-@inject IAuthorizationService AuthorizationService
-@inject IToastService ToastService
+﻿@inherits CustomComponentBase
+
 <style>
     .zooming {
         transition: transform .2s;
@@ -22,8 +21,8 @@
 </style>
 @if (Index)
 {
-    <div class="card zooming m-1 " style="border-radius:20px">
-        <div class="card-header" style="border-radius:20px">
+    <div class="card zooming m-1 @Theme.BackColor @Theme.BorderColor" style="border-radius:20px">
+        <div class="card-header @Theme.BorderColor" style="border-radius:20px">
             <div class="row">
                 <div class="d-inline-flex col-9 col-sm-9 m-auto p-0">
                     <h5 class="m-1" data-toggle="tooltip" data-placement="top" title="@MovieNameTooltip"><strong>@MovieName</strong></h5>
@@ -54,8 +53,8 @@
 }
 else
 {
-    <div class="card zooming m-1" style="border-radius:20px">
-        <div class="card-header" style="border-radius:20px">
+    <div class="card zooming m-1 @Theme.BackColor @Theme.BorderColor" style="border-radius:20px">
+        <div class="card-header @Theme.BorderColor" style="border-radius:20px">
             <div class="row">
                 <div class="d-inline-flex col-6 col-xl-10 col-md-9 col-sm-8 m-auto p-0">
                     <h5 class="m-1" data-toggle="tooltip" data-placement="top" title="@MovieNameTooltip"><strong>@MovieName</strong></h5>

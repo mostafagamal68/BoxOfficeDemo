@@ -1,7 +1,5 @@
 ﻿@page "/BoxOfficeDemo/Movies"
 @inject IMoviesService MoviesService
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavigationManager
 @inherits MovieCard
 <PageTitle>Movies</PageTitle>
 <AuthorizeView Roles="Administrator">
@@ -83,7 +81,7 @@
 
     async Task Delete(decimal? id)
     {
-        bool answer = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        bool answer = await JS.InvokeAsync<bool>("confirm", "Are you sure?");
         if (answer)
         {
             await MoviesService.DeleteMovie(id);

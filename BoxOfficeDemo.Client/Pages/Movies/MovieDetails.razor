@@ -1,10 +1,9 @@
-﻿@page "/BoxOfficeDemo/Movies/{id}"
+﻿@page "/Movies/{id}"
+@page "/BoxOfficeDemo/Movies/{id}"
 @using Blazored.LocalStorage;
 @using Microsoft.JSInterop.Implementation;
 @inject IMoviesService MoviesService
 @inject IReviewsService ReviewsService
-@inject IJSRuntime JS
-@inject ILocalStorageService localStorage
 @inherits Pages.Index
 
 <PageTitle>Movie : @Movie.MovieName</PageTitle>
@@ -54,7 +53,7 @@
             <div class="row">
                 @foreach (var item in ReviewsService.ReviewsList)
                 {
-                    <div class="col-12 col-xl-3 col-lg-4 col-sm-6 card m-1 pt-3" style="border-radius:15px;">
+                    <div class="col-12 col-xl-3 col-lg-4 col-sm-6 card m-1 pt-3 @Theme.BackColor @Theme.BorderColor" style="border-radius:15px;">
                         <div>
                             <p class="d-inline-block"><strong>Name: </strong>@($"{item.FirstName} {item.LastName}")</p>
                             @if (item.UserID == LoggedUser.Id)
@@ -113,7 +112,7 @@
                 </div>
                 <div class="col-md-6">
                     <label>Feedback</label>
-                    <InputTextArea class="form-control col-md-6" @bind-Value="Review.Feedback" />
+                    <InputTextArea class=@($"form-control col-md-6 {Theme.BackColor}") @bind-Value="Review.Feedback"/>
                 </div>
                 <div class="d-flex my-3">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -145,11 +144,11 @@
         await GetAll();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        var ThemeName = await localStorage.GetItemAsync<string>("Theme");
-        await JS.InvokeVoidAsync("ToggleTheme", ThemeName);
-    }
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    var ThemeName = await localStorage.GetItemAsync<string>("Theme");
+    //    await JS.InvokeVoidAsync("ToggleTheme", ThemeName);
+    //}
 
     async Task GetAll()
     {
