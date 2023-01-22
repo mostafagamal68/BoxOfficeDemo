@@ -5,5 +5,7 @@
         public static string ThemeName { get; set; } = "";
         public static string BorderColor { get; set; } = "";
         public static string BackColor { get; set; } = "";
+        public static string SecondaryColor { get; set; } = "";
+        public static string FontColor { get; set; } = "";
     }
 }
