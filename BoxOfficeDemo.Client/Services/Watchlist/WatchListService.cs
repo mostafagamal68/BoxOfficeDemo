@@ -36,7 +36,11 @@ namespace BoxOfficeDemo.Client.Services.Watchlist
                 OnChange?.Invoke();
             }
         }
-
+        public void Reset()
+        {
+            Count = 0;
+            OnChange?.Invoke();
+        }
         public bool CheckMovieExistance(decimal id)
         {
             if (!WatchListList.Any(a => a.MovieID == id))
