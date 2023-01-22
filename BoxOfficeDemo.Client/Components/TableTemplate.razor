@@ -6,7 +6,7 @@
     </thead>
     <tbody>
         @{
-            var last = Items.Last();
+            var last = Items.Count.ToString();
         }
         @foreach (var (item, index) in Items.Select((value, i) => (value, i + 1)))
         {
@@ -23,7 +23,7 @@
     public RenderFragment? TableHeader { get; set; }
 
     [Parameter]
-    public RenderFragment<(TItem ,string, object)> RowTemplate { get; set; }
+    public RenderFragment<(TItem ,string, string)> RowTemplate { get; set; }
 
     [Parameter, AllowNull]
     public IReadOnlyList<TItem> Items { get; set; }
