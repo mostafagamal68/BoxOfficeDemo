@@ -7,5 +7,6 @@
         public static string BackColor { get; set; } = "";
         public static string SecondaryColor { get; set; } = "";
         public static string FontColor { get; set; } = "";
+        public static string ModalClass { get; set; } = "light-modal";
     }
 }
