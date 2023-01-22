@@ -1,4 +1,15 @@
-﻿window.getElementWidth = (element) => {
+﻿document.onload = () => {
+    let Theme = window.localStorage.getItem("Theme");
+    console.log(Theme);
+    var app = document.getElementById('#app');
+    if (Theme == 'Light') {
+        app.style.backgroundColor = 'white';
+    }
+    else {
+        app.style.backgroundColor = 'black';
+    }
+};
+window.getElementWidth = (element) => {
     return element.offsetWidth;
 };
 
