@@ -3,6 +3,7 @@ using Blazored.Modal.Services;
 using BoxOfficeDemo.Client.Services.Toast;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 
 namespace BoxOfficeDemo.Client.Configurations
@@ -21,8 +22,26 @@ namespace BoxOfficeDemo.Client.Configurations
         public IToastService ToastService { get; set; }
         [Inject]
         public IAuthorizationService AuthorizationService { get; set; }
-        //[Inject]
-        //public Theme Theme { get; set; }
-        public bool IsLoading { get; set; }        
+
+        [CascadingParameter(Name = "DateFormat")]
+        public string DateFormat { get; set; }
+
+        [CascadingParameter(Name = "TimeFormat")]
+        public string TimeFormat { get; set; }
+
+        [CascadingParameter(Name = "Culture")]
+        public IFormatProvider Culture { get; set; }
+
+        [CascadingParameter]
+        public Task<AuthenticationState> authenticationStateTask { get; set; }
+
+        public bool IsLoading { get; set; }
+        public void NavigateToPage(string pagename,decimal? id = null)
+        {
+            if (id != null)
+                NavigationManager.NavigateTo($"/{pagename}/{id.ToString().Replace('.', 'O')}");
+            else
+                NavigationManager.NavigateTo("/"+ pagename);
+        }
     }
 }
