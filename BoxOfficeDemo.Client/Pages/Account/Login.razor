@@ -1,8 +1,6 @@
 ﻿@page "/BoxOfficeDemo/login"
 @inject IAuthenticationService AuthenticationService
-@inject NavigationManager NavigationManager
-@inject CurrentSession CurrentUser
-<h3>Login</h3>
+@inherits CustomComponentBase
 
 @if (ShowAuthError)
 {
@@ -14,31 +12,34 @@
         }
     </div>
 }
+<div class="card @Theme.BackColor" style="border-radius:20px;">
+    <EditForm Model="_userForAuthentication" OnValidSubmit="ExecuteLogin">
+        <DataAnnotationsValidator />
+        <div class="card-body">
+            <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label my-2">Email:</label>
+                <div class="col-sm-9">
+                    <InputText id="email" class=@($"form-control {Theme.BackColor} {Theme.FontColor} my-2 d-inline") @bind-Value="_userForAuthentication.Email" />
+                    <ValidationMessage For="@(() => _userForAuthentication.Email)" style="display:inline;margin:0px 10px" />
+                </div>
+            </div>
 
-<EditForm Model="_userForAuthentication" OnValidSubmit="ExecuteLogin" class="card card-body bg-light mt-5">
-    <DataAnnotationsValidator />
-    <div class="form-group row">
-        <label for="email" class="col-sm-3 col-form-label my-2">Email:</label>
-        <div class="col-sm-9">
-            <InputText id="email" class="form-control my-2 d-inline" @bind-Value="_userForAuthentication.Email" />
-            <ValidationMessage For="@(() => _userForAuthentication.Email)" style="display:inline;margin:0px 10px"/>
-        </div>
-    </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-3 col-form-label my-2">Password:</label>
+                <div class="col-sm-9">
+                    <InputText type="password" id="password" class=@($"form-control {Theme.BackColor} {Theme.FontColor} my-2 d-inline") @bind-Value="_userForAuthentication.Password" />
+                    <ValidationMessage For="@(() => _userForAuthentication.Password)" style="display:inline;margin:0px 10px" />
+                </div>
+            </div>
 
-    <div class="form-group row">
-        <label for="password" class="col-sm-3 col-form-label my-2">Password:</label>
-        <div class="col-sm-9">
-            <InputText type="password" id="password" class="form-control my-2 d-inline" @bind-Value="_userForAuthentication.Password" />
-            <ValidationMessage For="@(() => _userForAuthentication.Password)" style="display:inline;margin:0px 10px"/>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-success">Login</button>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-success">Login</button>
-        </div>
-    </div>
-</EditForm>
+    </EditForm>
+</div>
 
 @code {
     UserForAuthenticationDto _userForAuthentication = new();
@@ -48,11 +49,9 @@
     bool EmailIsNotConfirmed { get; set; } = false;
     string UserID { get; set; }
 
-    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
-
     protected async override Task OnInitializedAsync()
     {
-        var user = (await AuthStat).User;
+        var user = (await authenticationStateTask).User;
         if (user.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo("/");
@@ -77,18 +76,18 @@
         }
         else
         {
-            if(!string.IsNullOrEmpty(result.UserID))
+            if (!string.IsNullOrEmpty(result.UserID))
             {
                 LoggedUser.Id = result.UserID;
                 _userInfo = await AuthenticationService.GetCurrentUserInfo(result.UserID);
-                if(_userInfo != null)
+                if (_userInfo != null)
                 {
                     CurrentUser.Set("Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
                     CurrentUser.Set("UserName", _userInfo.UserName);
                     CurrentUser.Set("Email", _userInfo.Email);
                 }
             }
-            NavigationManager.NavigateTo("/BoxOfficeDemo/");
+            NavigationManager.NavigateTo("/BoxOfficeDemo/",true);
         }
     }
 }
