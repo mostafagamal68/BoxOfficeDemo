@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using Blazored.LocalStorage;
 @inject IMoviesService MoviesService
 @inject IWatchListService WatchListService
 @inherits CustomComponentBase
@@ -42,12 +41,6 @@
         await WatchListService.Init();
         base.OnInitialized();
     }
-
-    //protected override async Task OnAfterRenderAsync(bool firstRender)
-    //{
-    //    var ThemeName = await localStorage.GetItemAsync<string>("Theme");
-    //    await JS.InvokeVoidAsync("ToggleTheme", ThemeName);
-    //}
 
     public async Task AddtoWatchLater(SingleWatchList watchList)
     {

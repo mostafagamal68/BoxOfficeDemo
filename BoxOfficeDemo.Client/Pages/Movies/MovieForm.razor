@@ -1,52 +1,55 @@
 ﻿@page "/Movie"
-@page "/Movie/{id:decimal}"
+@page "/Movie/{id}"
 @inject IMoviesService MoviesService
 @inherits CustomComponentBase
 
-<AuthorizeView Roles="Administrator">
-    <Authorized Context="Auth">
-        <h3 class="py-2">Movie Form</h3>
+<div class="card @Theme.BackColor @Theme.BorderColor" style="border-radius: 20px;">
+    <div class="card-body col-md-6" style="border-radius: 20px;">
+        <AuthorizeView Roles="Administrator">
+            <Authorized Context="Auth">
+                <h3 class="py-2">Movie Form</h3>
 
-        <EditForm Model="Movie" OnValidSubmit="Save" class="w-50">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <strong class="col-form-label my-1">Movie Name</strong>
-            <InputText class="form-control my-2" @bind-Value="Movie.MovieName" />
-            <strong class="col-form-label my-1">Description</strong>
-            <InputTextArea class="form-control my-2" @bind-Value="Movie.Description" />
-            <strong class="col-form-label my-1">ReleasedDate</strong>
-            <InputDate class="form-control my-2" @bind-Value="Movie.ReleasedDate" />
-            <strong class="col-form-label my-1">Genere</strong>
-            <InputSelect class="form-select my-2" @bind-Value="Movie.Genere">
-                <span class="oi oi-arrow-bottom"></span>
-                <option value="" selected disabled hidden>Click and Choose here</option>
-                <option value="Horror">Horror</option>
-                <option value="Drama">Drama</option>
-                <option value="Sc-Fi">Sc-Fi</option>
-                <option value="Action">Action</option>
-                <option value="Romance">Romance</option>
-            </InputSelect>
-            <strong class="col-form-label my-1">Parental Guide</strong>
-            <InputNumber class="form-control my-2" @bind-Value="Movie.ParentalGuide" />
-            <strong class="col-form-label my-1">Length</strong>
-            <input Type="time" class="form-control my-2" @bind="@Movie.Length" />
-            <strong class="col-form-label my-1">Image</strong>
-            <InputFile class="form-control my-2" @bind-Value="Movie.Image" OnChange="@HandleSelected" />
-            <button type="submit" class="btn btn-primary my-2">Save</button>
-        </EditForm>
-    </Authorized>
-</AuthorizeView>
+                <EditForm Model="Movie" OnValidSubmit="Save">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <strong class="col-form-label my-1">Movie Name</strong>
+                    <InputText class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}") @bind-Value="Movie.MovieName" />
+                    <strong class="col-form-label my-1">Description</strong>
+                    <InputTextArea class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Description" />
+                    <strong class="col-form-label my-1">ReleasedDate</strong>
+                    <InputDate class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) style="color:white!important;" @bind-Value="Movie.ReleasedDate" />
+                    <strong class="col-form-label my-1">Genere</strong>
+                    <InputSelect class=@($"form-select my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Genere">                        
+                        <option value="" selected disabled hidden>Click and Choose here</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Sc-Fi">Sc-Fi</option>
+                        <option value="Action">Action</option>
+                        <option value="Romance">Romance</option>
+                    </InputSelect>
+                    <strong class="col-form-label my-1">Parental Guide</strong>
+                    <InputNumber class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.ParentalGuide" />
+                    <strong class="col-form-label my-1">Length</strong>
+                    <input Type="time" class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}") @bind="@Movie.Length" />
+                    <strong class="col-form-label my-1">Image</strong>
+                    <InputFile class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Image" OnChange="@HandleSelected" />
+                    <button type="submit" class="btn btn-primary my-2">Save</button>
+                </EditForm>
+            </Authorized>
+        </AuthorizeView>
+    </div>
+</div>
 @code {
     SingleMovie Movie = new();
 
     protected override async Task OnInitializedAsync()
     {
-        if (ID != null) Movie = await MoviesService.GetMovie(ID);
+        if (Id != null) Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
     }
 
     async Task Save()
     {
-        if (ID != null)
+        if (Id != null)
             Movie.IsNew = false;
         else
             Movie.IsNew = true;
@@ -55,13 +58,13 @@
         NavigationManager.NavigateTo("/Movies");
     }
 
-    private async Task HandleSelected(InputFileChangeEventArgs e)
+    private void HandleSelected(InputFileChangeEventArgs e)
     {
         var imagePath = "/images/" + e.File.Name;
         Movie.Image = imagePath;
     }
 
     [Parameter]
-    public decimal? ID { get; set; }
+    public string? Id { get; set; }
 
 }

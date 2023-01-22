@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <a class="image-card" href="#" @onclick="()=> NavigateToMovie(MovieID,false)" @onclick:preventDefault>
+        <a class="image-card" href="#" @onclick="@(()=> NavigateToPage("Movies",MovieID))" @onclick:preventDefault>
             <img class="card-img-top" src="@Image" alt="@MovieNameTooltip image card">
         </a>
         <div class="card-body">
@@ -81,7 +81,7 @@ else
                 @Description
             </div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer @Theme.BorderColor" style="border-radius: 20px;">
             @Reviews
             <AuthorizeView>
                 <Authorized Context="Auth">
@@ -121,19 +121,6 @@ else
     [Parameter]
     public RenderFragment? ReviewForm { get; set; }
 
-
-    [CascadingParameter(Name = "DateFormat")]
-    public string DateFormat { get; set; }
-
-    [CascadingParameter(Name = "TimeFormat")]
-    public string TimeFormat { get; set; }
-
-    [CascadingParameter(Name = "Culture")]
-    public IFormatProvider Culture { get; set; }
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
-
     [Parameter]
     public EventCallback<SingleWatchList> AddWatchList { get; set; }
 
@@ -162,11 +149,4 @@ else
 
     }
 
-    public void NavigateToMovie(decimal? id, bool Form)
-    {
-        if (Form)
-            NavigationManager.NavigateTo($"/Movie/{id}");
-        else
-            NavigationManager.NavigateTo($"/Movies/{id.ToString().Replace('.', 'O')}");
-    }
 }

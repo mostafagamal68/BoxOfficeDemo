@@ -1,13 +1,13 @@
 ﻿@page "/Movies"
 @inject IMoviesService MoviesService
-@inherits MovieCard
+@inherits CustomComponentBase
 <PageTitle>Movies</PageTitle>
 <AuthorizeView Roles="Administrator">
     <Authorized>
         <div class="row">
             <div class="col-8">
                 <h3 class="d-inline my-2 align-middle">Movies</h3>
-                <button class="btn btn-outline-secondary m-2 " @onclick="()=> NavigateToMovie(null,true)">Add</button>
+                <button class="btn btn-outline-secondary m-2 " @onclick="@(()=> NavigateToPage("Movie"))">Add</button>
             </div>
             <div class="col-4">
                 <div class="position-relative d-inline-block w-75">
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <TableTemplate Items="MoviesService.MoviesList" Context="Movies" class="table table-striped table-hover">
+        <TableTemplate Items="MoviesService.MoviesList" Context="Movies" class=@((!string.IsNullOrEmpty(Theme.BackColor) ? "table table-dark" : "table")+ " table-striped table-hover ")>
             <TableHeader>
                 <th scope="col" style="border-top-left-radius:20px">#</th>
                 <th scope="col">Name</th>
@@ -40,26 +40,19 @@
                 <th style="border-top-right-radius:20px"></th>
             </TableHeader>
             <RowTemplate>
-                @if (Movies.Item2.Equals(Movies.Item3))
-                {
-                    <th scope="row" style="border-bottom-left-radius:20px">@Movies.Item2</th>
-                }
-                else
-                {
-                    <th scope="row">@Movies.Item2</th>
-                }
+                <th scope="row" style=@(Movies.Item2 == Movies.Item3 ? "border-bottom-left-radius:20px" : "")>@Movies.Item2</th>
                 <td>@Movies.Item1.MovieName</td>
                 <td>@(Movies.Item1.ReleasedDate == null ? "" : ((DateTime)Movies.Item1.ReleasedDate).ToString(DateFormat))</td>
                 <td>@Movies.Item1.ParentalGuide</td>
                 <td>@(Movies.Item1.Length == null ? "" : ((TimeSpan)Movies.Item1.Length).ToString(TimeFormat))</td>
                 <td>@Movies.Item1.Genere</td>
                 <td>
-                    <button class="btn btn-outline-primary" style="width:80px" @onclick="()=> NavigateToMovie(Movies.Item1.MovieID,false)">Details</button>
+                    <button class="btn btn-outline-primary" style="width:80px" @onclick="@(()=> NavigateToPage("Movies",Movies.Item1.MovieID))">Details</button>
                 </td>
                 <td>
-                    <button class="btn btn-outline-success" style="width:80px" @onclick="()=> NavigateToMovie(Movies.Item1.MovieID,true)">Edit</button>
+                    <button class="btn btn-outline-success" style="width:80px" @onclick="@(()=> NavigateToPage("Movie",Movies.Item1.MovieID))">Edit</button>
                 </td>
-                <td style="border-bottom-right-radius:20px">
+                <td style=@(Movies.Item2 == Movies.Item3 ? "border-bottom-right-radius:20px" : "")>
                     <button class=" btn btn-outline-danger" style="width:80px" @onclick="()=> Delete(Movies.Item1.MovieID)">Delete</button>
                 </td>
             </RowTemplate>
