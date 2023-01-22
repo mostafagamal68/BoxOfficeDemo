@@ -19,9 +19,9 @@
                     <strong class="col-form-label my-1">Description</strong>
                     <InputTextArea class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Description" />
                     <strong class="col-form-label my-1">ReleasedDate</strong>
-                    <InputDate class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) style="color:white!important;" @bind-Value="Movie.ReleasedDate" />
+                    <InputDate class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.ReleasedDate" />
                     <strong class="col-form-label my-1">Genere</strong>
-                    <InputSelect class=@($"form-select my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Genere">                        
+                    <InputSelect class=@($"form-select my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Genere">
                         <option value="" selected disabled hidden>Click and Choose here</option>
                         <option value="Horror">Horror</option>
                         <option value="Drama">Drama</option>
@@ -46,15 +46,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (Id != null) Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
+        if (!string.IsNullOrEmpty(Id)) Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
     }
 
     async Task Save()
     {
-        if (Id != null)
-            Movie.IsNew = false;
-        else
-            Movie.IsNew = true;
+        Movie.IsNew = string.IsNullOrEmpty(Id) ? true : false;
         await MoviesService.SaveMovie(Movie);
         await JS.InvokeVoidAsync("alert", "Saved Successfully");
         NavigationManager.NavigateTo("/Movies");
