@@ -35,8 +35,11 @@
                     <div class="col-6 col-xxl-1 col-xl-2 col-md-3 col-sm-4 text-center w-auto mx-2">
                         <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List",
                             new ModalOptions{
+                                PositionCustomClass="topright-modal",
+                                Class=$"custom-modal {Theme.ModalClass} size-medium",
                                 ActivateFocusTrap=false,
-                                Position=ModalPosition.TopRight,
+                                Position=ModalPosition.Custom,
+                                Size=ModalSize.Custom,
                                 AnimationType=ModalAnimationType.FadeInOut
                             }))">
                         </WatchListNotify>
@@ -89,6 +92,7 @@
             Theme.BorderColor = "border-secondary";
             Theme.BackColor = "bg-dark";
             Theme.FontColor = "text-white";
+            Theme.ModalClass = "dark-modal";
         }
         else if (themeName == "Amoled")
         {
@@ -96,6 +100,7 @@
             Theme.BorderColor = "border-secondary";
             Theme.BackColor = "bg-black";
             Theme.FontColor = "text-white";
+            Theme.ModalClass = "black-modal";
         }
         else
         {
@@ -103,6 +108,7 @@
             Theme.BorderColor = "";
             Theme.BackColor = "";
             Theme.FontColor = "";
+            Theme.ModalClass = "light-modal";
         }
     }
 }
