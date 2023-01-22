@@ -39,8 +39,10 @@
 @code {
     [Parameter]
     public EventCallback<bool> HideSideBar { get; set; }
+    [Parameter]
+    public EventCallback<string> ChangeTheme { get; set; }
     private bool collapseNavMenu = true;
-    private string SelectedTheme { get; set; }
+    private string? SelectedTheme { get; set; }
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
     enum Themes
     {
@@ -51,9 +53,7 @@
     protected override async Task OnInitializedAsync()
     {
         SelectedTheme = await localStorage.GetItemAsync<string>("Theme");
-        await ToggleTheme(SelectedTheme);
-        await CloseSidebar();
-        //await JS.InvokeVoidAsync("ToggleTheme", SelectedTheme);
+        await ChangeTheme.InvokeAsync(SelectedTheme);
     }
     private void ToggleNavMenu()
     {
@@ -61,36 +61,8 @@
     }
     private async Task ThemeChanged(ChangeEventArgs e)
     {
-        await ToggleTheme((string?)e.Value);
+        await ChangeTheme.InvokeAsync((string?)e.Value);
         await localStorage.SetItemAsync("Theme", e.Value);
-    }
-
-    //await JS.InvokeVoidAsync("ToggleTheme", e.Value);
-
-
-    private async Task ToggleTheme(string? themeName)
-    {
-        if (themeName == "Dark")
-        {
-            Theme.ThemeName = "dark-mode";
-            Theme.BorderColor = "border-secondary";
-            Theme.BackColor = "bg-dark";
-        }
-        else if (themeName == "Amoled")
-        {
-            Theme.ThemeName = "black-mode";
-            Theme.BorderColor = "border-secondary";
-            Theme.BackColor = "bg-black";
-        }
-        else
-        {
-            Theme.ThemeName = "";
-            Theme.BorderColor = "";
-            Theme.BackColor = "";
-        }
-        StateHasChanged();
-        await CloseSidebar();
-
     }
     private async Task CloseSidebar() => await HideSideBar.InvokeAsync(false);
 
