@@ -1,14 +1,24 @@
-﻿document.onload = () => {
+﻿$(document).ready(function (){
     let Theme = window.localStorage.getItem("Theme");
-    console.log(Theme);
-    var app = document.getElementById('#app');
-    if (Theme == 'Light') {
-        app.style.backgroundColor = 'white';
+    var html = document.querySelector('html');
+    var body = document.querySelector('body');
+    var app = document.querySelector('#app');
+    if (Theme == '"Dark"') {
+        html.classList.add('bg-dark');
+        body.classList.add('bg-dark');
+        app.classList.add('bg-dark');
+    }
+    else if (Theme == '"Amoled"') {
+        html.classList.add('bg-black');
+        body.classList.add('bg-black');
+        app.classList.add('bg-black');
     }
     else {
-        app.style.backgroundColor = 'black';
+        html.classList.add('bg-light');
+        body.classList.add('bg-light');
+        app.classList.add('bg-light');
     }
-};
+});
 window.getElementWidth = (element) => {
     return element.offsetWidth;
 };
