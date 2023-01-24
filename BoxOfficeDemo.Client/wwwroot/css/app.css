@@ -60,6 +60,9 @@ main h5 {
 main h6 {
     color: var(--font-color);
 }
+main text {
+    color: var(--font-color);
+}
 article {
     background-color: var(--background);
 }
