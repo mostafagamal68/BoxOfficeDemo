@@ -5,7 +5,7 @@
       "url": "BoxOfficeDemo.Client.styles.css"
     },
     {
-      "hash": "sha256-TkN37c\/qcX2gwmBf+0ipns8tnWiOxpEC1nnCJmMj0Z8=",
+      "hash": "sha256-ejvZOfkAKargb1CueThoeL5L4K9ghRikgjC3KZbnPFc=",
       "url": "css\/app.css"
     },
     {
@@ -109,7 +109,7 @@
       "url": "images\/WheretheCrawdadsSing.jpg"
     },
     {
-      "hash": "sha256-78EBSwMokMg9HndROW\/mEQiUqVOM+JoasxbJkfMK\/rs=",
+      "hash": "sha256-Wq9LMC8755duQdX\/KdBPmqVj7KYQix2ctBGwUNEGR14=",
       "url": "index.html"
     },
     {
@@ -117,7 +117,7 @@
       "url": "manifest.json"
     },
     {
-      "hash": "sha256-\/+g3rKdAQf\/TKARGKpXrtEx4TuwAeGYAFEyu636lINQ=",
+      "hash": "sha256-w19xU+WmuIJqwo3TL\/xLyFTJKskJnh7fc3p1yajwKFI=",
       "url": "scripts\/script.js"
     },
     {
@@ -153,7 +153,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-cYRaymts0S8tBkP1FCKynZmH8pt4fuLEFLwoUF5OKEU=",
+      "hash": "sha256-Z7agCWIuxmVvnrHk5masKrfYuOiBQV\/qmBdh9jgWrK4=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -165,7 +165,7 @@
       "url": "_framework\/Blazored.Modal.dll"
     },
     {
-      "hash": "sha256-HHxXidjGdLEtmIggHni3IEar0Cd\/GDjBO1KoR+kfNOk=",
+      "hash": "sha256-KsYAK++Rhd4mHw5Rb4nPjfXRxuN5QcAOdw15xMvKeyA=",
       "url": "_framework\/BoxOfficeDemo.Client.dll"
     },
     {
@@ -645,5 +645,5 @@
       "url": "_content\/Blazored.Modal\/BlazoredModal.razor.js"
     }
   ],
-  "version": "VvcQinkp"
+  "version": "tRwYeKsv"
 };
