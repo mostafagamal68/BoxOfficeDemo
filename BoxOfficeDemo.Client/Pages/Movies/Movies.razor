@@ -1,16 +1,17 @@
 ﻿@page "/BoxOfficeDemo/Movies"
+@page "/Movies"
 @inject IMoviesService MoviesService
 @inherits CustomComponentBase
 <PageTitle>Movies</PageTitle>
 <AuthorizeView Roles="Administrator">
     <Authorized>
         <div class="row">
-            <div class="col-8">
+            <div class="col-9">
                 <h3 class="d-inline my-2 align-middle">Movies</h3>
-                <button class="btn btn-outline-secondary m-2 " @onclick="@(()=> NavigateToPage("Movie"))">Add</button>
+                <button class="btn btn-outline-secondary m-2 " @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movie"))">Add</button>
             </div>
-            <div class="col-4">
-                <div class="position-relative d-inline-block w-75">
+            <div class="col-3">
+                <div class="position-relative d-inline-block w-100">
                     <input type="text" class="form-control d-inline my-2 align-middle" style="padding-right: 1.4em;" @bind="searchText" @bind:event="oninput" @onkeyup="Search" />
                     <span class="bi bi-search" style="
                 color:gray;
@@ -27,7 +28,7 @@
             </div>
         </div>
 
-        <TableTemplate Items="MoviesService.MoviesList" Context="Movies" class=@((!string.IsNullOrEmpty(Theme.BackColor) ? "table table-dark" : "table")+ " table-striped table-hover ")>
+        <TableTemplate Items="MoviesTable" Context="Movie" class=@((!string.IsNullOrEmpty(Theme.BackColor) ? "table table-dark" : "table")+ " table-striped table-hover ")>
             <TableHeader>
                 <th scope="col" style="border-top-left-radius:20px">#</th>
                 <th scope="col">Name</th>
@@ -40,20 +41,20 @@
                 <th style="border-top-right-radius:20px"></th>
             </TableHeader>
             <RowTemplate>
-                <th scope="row" style=@(Movies.Item2 == Movies.Item3 ? "border-bottom-left-radius:20px" : "")>@Movies.Item2</th>
-                <td>@Movies.Item1.MovieName</td>
-                <td>@(Movies.Item1.ReleasedDate == null ? "" : ((DateTime)Movies.Item1.ReleasedDate).ToString(DateFormat))</td>
-                <td>@Movies.Item1.ParentalGuide</td>
-                <td>@(Movies.Item1.Length == null ? "" : ((TimeSpan)Movies.Item1.Length).ToString(TimeFormat))</td>
-                <td>@Movies.Item1.Genere</td>
+                <th scope="row" style=@(Movie.Item2 == Movie.Item3 ? "border-bottom-left-radius:20px" : "")>@Movie.Item2</th>
+                <td>@Movie.Item1.MovieName</td>
+                <td>@(Movie.Item1.ReleasedDate == null ? "" : ((DateTime)Movie.Item1.ReleasedDate).ToString(DateFormat))</td>
+                <td>@Movie.Item1.ParentalGuide</td>
+                <td>@(Movie.Item1.Length == null ? "" : ((TimeSpan)Movie.Item1.Length).ToString(TimeFormat))</td>
+                <td>@Movie.Item1.Genere</td>
                 <td>
-                    <button class="btn btn-outline-primary" style="width:80px" @onclick="@(()=> NavigateToPage("Movies",Movies.Item1.MovieID))">Details</button>
+                    <button class="btn btn-outline-primary" style="width:80px" @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movies",Movie.Item1.MovieID))">Details</button>
                 </td>
                 <td>
-                    <button class="btn btn-outline-success" style="width:80px" @onclick="@(()=> NavigateToPage("Movie",Movies.Item1.MovieID))">Edit</button>
+                    <button class="btn btn-outline-success" style="width:80px" @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movies",Movie.Item1.MovieID))">Edit</button>
                 </td>
-                <td style=@(Movies.Item2 == Movies.Item3 ? "border-bottom-right-radius:20px" : "")>
-                    <button class=" btn btn-outline-danger" style="width:80px" @onclick="()=> Delete(Movies.Item1.MovieID)">Delete</button>
+                <td style=@(Movie.Item2 == Movie.Item3 ? "border-bottom-right-radius:20px" : "")>
+                    <button class=" btn btn-outline-danger" style="width:80px" @onclick="()=> Delete(Movie.Item1.MovieID)">Delete</button>
                 </td>
             </RowTemplate>
         </TableTemplate>
@@ -61,15 +62,16 @@
 </AuthorizeView>
 @code {
     string? searchText { get; set; }
-
+    List<MoviesList> MoviesTable = new();
     protected override async Task OnInitializedAsync()
     {
         await MoviesService.GetMovies();
+        MoviesTable = MoviesService.MoviesList;
     }
 
     void Search()
     {
-        MoviesService.MoviesList = MoviesService.MoviesList.Where(s => s.MovieName.Contains(searchText)).ToList();
+        MoviesTable = MoviesService.MoviesList.Where(s => s.MovieName.Contains(searchText)).ToList();
     }
 
     async Task Delete(decimal? id)

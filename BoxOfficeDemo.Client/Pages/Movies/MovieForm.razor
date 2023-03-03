@@ -54,7 +54,7 @@
         Movie.IsNew = string.IsNullOrEmpty(Id) ? true : false;
         await MoviesService.SaveMovie(Movie);
         await JS.InvokeVoidAsync("alert", "Saved Successfully");
-        NavigationManager.NavigateTo("/Movies");
+        NavigationManager.NavigateTo("/BoxOfficeDemo/Movies");
     }
 
     private void HandleSelected(InputFileChangeEventArgs e)
