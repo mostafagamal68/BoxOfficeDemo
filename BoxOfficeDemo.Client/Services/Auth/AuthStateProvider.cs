@@ -9,6 +9,7 @@ using BoxOfficeDemo.Shared.Models;
 using System.Text.Json;
 using System.Text;
 using System.Net.Http.Json;
+using BoxOfficeDemo.Client.Services.Toast;
 
 namespace BoxOfficeDemo.Client.Services.Auth
 {
@@ -16,6 +17,7 @@ namespace BoxOfficeDemo.Client.Services.Auth
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
+        private readonly IToastService _toastService;
         private readonly AuthenticationState _anonymous;
         private readonly CurrentSession _currentUser;
 
@@ -29,7 +31,9 @@ namespace BoxOfficeDemo.Client.Services.Auth
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = await _localStorage.GetItemAsync<string>("authToken");
+            try
+            {
+                var token = await _localStorage.GetItemAsync<string>("authToken");
             if (string.IsNullOrWhiteSpace(token))
                 return _anonymous;
 
@@ -44,6 +48,11 @@ namespace BoxOfficeDemo.Client.Services.Auth
                 _currentUser.Set("Email", user.Email);
             }
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
+            }
+            catch (Exception ex)
+            {
+                return new AuthenticationState(new ClaimsPrincipal());
+            }
         }
 
         public void NotifyUserAuthentication(string token)
