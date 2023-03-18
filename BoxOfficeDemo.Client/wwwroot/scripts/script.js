@@ -19,6 +19,16 @@
         app.classList.add('bg-light');
     }
 });
+
+function ToggleBtn(element, toggle) {
+    if (toggle) {
+        element.setAttribute('disabled', 'disabled');
+    }
+    else {
+        element.removeAttribute('disabled');
+    }
+}
+
 window.getElementWidth = (element) => {
     return element.offsetWidth;
 };
@@ -30,7 +40,7 @@ function showPrompt(message) {
 
 function ToggleSidebar(toggleValue) {
     var element = document.querySelector('.sidebar');
-    if (toggleValue == true) {
+    if (toggleValue == false) {
         element.removeAttribute('style');
     }
     else {
@@ -39,7 +49,6 @@ function ToggleSidebar(toggleValue) {
 }
 
 function ToggleTheme(theme) {
-    console.log(theme);
     var page = document.querySelector('.page');
     var cards = document.querySelectorAll('.card');
     var controls = document.querySelectorAll('.form-control');
