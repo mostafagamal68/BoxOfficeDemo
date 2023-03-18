@@ -59,7 +59,7 @@ namespace BoxOfficeDemo.Server.Models
         [Required]
         [StringLength(100)]
         public string MovieName { get; set; }
-        [StringLength(100)]
+        //[StringLength(100)]
         public string Image { get; set; }
         public string Description { get; set; }
         [Column(TypeName = "date")]
