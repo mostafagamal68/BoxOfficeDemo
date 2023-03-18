@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Blazored.Modal.Services;
+using BoxOfficeDemo.Client.Services.Auth;
 using BoxOfficeDemo.Client.Services.Toast;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -23,6 +24,8 @@ namespace BoxOfficeDemo.Client.Configurations
         public IToastService ToastService { get; set; }
         [Inject]
         public IAuthorizationService AuthorizationService { get; set; }
+        [Inject]
+        public IAuthenticationService AuthenticationService { get; set; }
         [Inject]
         public CurrentSession CurrentUser { get; set; }
 
