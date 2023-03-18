@@ -5,13 +5,9 @@
 @inherits CustomComponentBase
 
 <PageTitle>Box Office</PageTitle>
-
+<Loader Toggle="IsLoading"></Loader>
 <div class="container">
     <h1>Movies</h1>
-    <Loader Toggle="IsLoading"></Loader>
-</div>
-
-<div class="container">
     <div class="row">
         <Virtualize Context="Movie" Items="MoviesService.MoviesList">
 
@@ -36,22 +32,36 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-        await MoviesService.GetMovies();
-        IsLoading = false;
-        await WatchListService.Init();
-        base.OnInitialized();
+        try
+        {
+            IsLoading = true;
+            await MoviesService.GetMovies();
+            IsLoading = false;
+            await WatchListService.Init();
+            base.OnInitialized();
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
     public async Task AddtoWatchLater(SingleWatchList watchList)
     {
-        if (WatchListService.CheckMovieExistance(watchList.MovieID))
+        try
         {
-            await WatchListService.AddWatchList(watchList);
-            ToastService.ShowSuccess($"{watchList.MovieName} has been added successfully");
-            await WatchListService.GetWatchList(LoggedUser.Id);
+            if (WatchListService.CheckMovieExistance(watchList.MovieID))
+            {
+                await WatchListService.AddWatchList(watchList);
+                ToastService.ShowSuccess($"{watchList.MovieName} has been added successfully");
+                await WatchListService.GetWatchList(LoggedUser.Id);
+            }
+            else
+                ToastService.ShowWarning($"{watchList.MovieName} already added");
         }
-        else
-            ToastService.ShowWarning($"{watchList.MovieName} already added");
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 }

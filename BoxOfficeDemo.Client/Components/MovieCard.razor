@@ -21,7 +21,7 @@
 </style>
 @if (Index)
 {
-    <div class="card zooming m-1 @Theme.BackColor @Theme.BorderColor" style="border-radius:20px">
+    <div class="card shadow zooming m-1 @Theme.BackColor @Theme.BorderColor" style="border-radius:20px">
         <div class="card-header @Theme.BorderColor" style="border-radius:20px">
             <div class="row">
                 <div class="d-inline-flex col-9 col-sm-9 m-auto p-0">
@@ -42,10 +42,15 @@
             <h5>Released: @(ReleasedDate == null ? "" : ((DateTime)ReleasedDate).ToString(DateFormat))</h5>
             <h5>@Genere  PG-@ParentalGuide @(Length == null ? "" : ((TimeSpan)Length).ToString(TimeFormat, Culture))</h5>
             <div class="text-center">
-                <button @onclick="async ()=> await AddToWatchList()" class="btn btn-outline-primary" style="border-radius: 15px;">
-                    <span class="bi-plus-lg"></span>
-                    Watchlist
-                </button>
+                <CustomBtn Id="@(((decimal)MovieID).ToString().Replace('.','_'))"
+                       Classes="@("btn btn-outline-primary m-auto")"
+                       ClickAction="AddToWatchList"
+                       Style="@("border-radius: 15px")"
+                       Text="@("Watchlist")">
+                    <SpanIcon>
+                        <span class="bi-plus-lg"></span>
+                    </SpanIcon>
+                </CustomBtn>
             </div>
 
         </div>
@@ -53,17 +58,24 @@
 }
 else
 {
-    <div class="card zooming m-1 @Theme.BackColor @Theme.BorderColor" style="border-radius:20px">
+    <div class="card shadow-sm m-3 mt-0 @Theme.BackColor @Theme.BorderColor" style="border-radius:20px">
         <div class="card-header @Theme.BorderColor" style="border-radius:20px">
             <div class="row">
                 <div class="d-inline-flex col-6 col-xl-10 col-md-9 col-sm-8 m-auto p-0">
+                    <a class="my-auto mx-2" href="/BoxOfficeDemo/Movies"><span class="bi bi-arrow-left-circle-fill"></span></a>
                     <h5 class="m-1" data-toggle="tooltip" data-placement="top" title="@MovieNameTooltip"><strong>@MovieName</strong></h5>
                 </div>
                 <div class="d-inline-flex col-6 col-xl-2 col-md-3 col-sm-4 text-center m-auto p-0">
-                    <button @onclick="async ()=> await AddToWatchList()" class="btn btn-outline-primary m-auto" style="border-radius: 15px;">
-                        <span class="bi-plus-lg"></span>
-                        Watchlist
-                    </button>
+                    <CustomBtn 
+                        Id="@(((decimal)MovieID).ToString().Replace('.','_'))" 
+                        Classes="@("btn btn-outline-primary m-auto")" 
+                        ClickAction="AddToWatchList" 
+                        Style="@("border-radius: 15px")"
+                        Text="@("Watchlist")">
+                        <SpanIcon>
+                            <span class="bi-plus-lg"></span>
+                        </SpanIcon>
+                    </CustomBtn>
                     <h4 class="m-1">
                         <span class="bi-star-fill" style="margin:0 5px;padding:0;color:gold;"></span>
                         @Rate
@@ -127,6 +139,8 @@ else
     [Parameter]
     public bool Index { get; set; }
 
+    //ElementReference watchlistbtn;
+
     public async Task AddToWatchList()
     {
         var user = (await authenticationStateTask).User;
@@ -134,19 +148,18 @@ else
         if (user.Identity.IsAuthenticated)
         {
             SingleWatchList watchList = new()
-                {
-                    Id = new GenerateNewID().GetNewID,
-                    MovieID = (decimal)MovieID,
-                    MovieName = MovieName,
-                    UserID = LoggedUser.Id,
-                    AddedDate = DateTime.Now
-                };
+            {
+                Id = new GenerateNewID().GetNewID,
+                MovieID = (decimal)MovieID,
+                MovieName = MovieName,
+                UserID = LoggedUser.Id,
+                AddedDate = DateTime.Now
+            };
 
             await AddWatchList.InvokeAsync(watchList);
         }
         else
             ToastService.ShowInfo("Please Login first!");
-
     }
 
     public void NavigateToMovie(decimal? id, bool Form)

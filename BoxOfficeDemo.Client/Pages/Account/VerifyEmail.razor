@@ -1,7 +1,6 @@
 ﻿@page "/BoxOfficeDemo/VerifyEmail/{Id}"
 @page "/VerifyEmail/{Id}"
-@inject IAuthenticationService AuthenticationService
-@inject NavigationManager NavigationManager
+@inherits CustomComponentBase
 
 @if (ShowVerifyEmailError)
 {
@@ -24,16 +23,23 @@
     public string Error { get; set; }
     public async Task Verify()
     {
-        ShowVerifyEmailError = false;
-        var result = await AuthenticationService.VerifyEmail(Id);
-        if (!result.IsAuthSuccessful)
+        try
         {
-            Error = result.ErrorMessage;
-            ShowVerifyEmailError = true;
+            ShowVerifyEmailError = false;
+            var result = await AuthenticationService.VerifyEmail(Id);
+            if (!result.IsAuthSuccessful)
+            {
+                Error = result.ErrorMessage;
+                ShowVerifyEmailError = true;
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/BoxOfficeDemo");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            NavigationManager.NavigateTo("/BoxOfficeDemo");
+            ToastService.ShowError(ex.Message);
         }
     }
 }

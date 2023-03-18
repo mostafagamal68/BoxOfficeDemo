@@ -18,9 +18,9 @@
     </div>
 
     <main>
-        <div class="top-row">
+        <div class="top-row shadow-sm">
             <div class="col brand-name">
-                <button class="btn btn-outline-primary px-2 py-1" @onclick="ToggleSidebar">
+                <button class="btn btn-outline-primary px-2 py-1" @onclick="() => ToggleSidebar(true)">
                     <span class="bi bi-list"></span>
                 </button>
                 <a class="navbar-brand m-auto text-center align-middle" href="/BoxOfficeDemo/">Box Office</a>
@@ -72,15 +72,14 @@
     string _TimeFormat = "hh\\:mm";
     public bool ToggleWatchLater { get; set; } = false;
     public bool IsLoading { get; set; }
-
     IFormatProvider _Culture = System.Globalization.CultureInfo.InvariantCulture;
 
     private bool collapseSidebar = true;
     private string? hiddenSidebar => collapseSidebar ? "hidden" : "visible";
 
-    private async Task ToggleSidebar()
+    private async Task ToggleSidebar(bool ToggleValue)
     {
-        collapseSidebar = !collapseSidebar;
+        collapseSidebar = ToggleValue;
         await JS.InvokeVoidAsync("ToggleSidebar", collapseSidebar);
     }
 

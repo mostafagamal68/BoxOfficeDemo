@@ -1,6 +1,5 @@
 ﻿@page "/BoxOfficeDemo/registration"
 @page "/registration"
-@inject IAuthenticationService AuthenticationService
 @inherits CustomComponentBase
 
 @if (ShowRegistrationErrors)
@@ -86,16 +85,23 @@
 
     public async Task Register()
     {
-        ShowRegistrationErrors = false;
-        var result = await AuthenticationService.RegisterUser(_userForRegistration);
-        if (!result.IsSuccessfulRegistration)
+        try
         {
-            Errors = result.Errors;
-            ShowRegistrationErrors = true;
+            ShowRegistrationErrors = false;
+            var result = await AuthenticationService.RegisterUser(_userForRegistration);
+            if (!result.IsSuccessfulRegistration)
+            {
+                Errors = result.Errors;
+                ShowRegistrationErrors = true;
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/BoxOfficeDemo", true);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            NavigationManager.NavigateTo("/BoxOfficeDemo",true);
+            ToastService.ShowError(ex.Message);
         }
     }
 }

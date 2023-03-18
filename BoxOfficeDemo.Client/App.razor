@@ -4,7 +4,8 @@
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                     <Authorizing>
-                        <text>Please wait, we are authorizing the user.</text>
+                        <div class="d-flex justify-content-center">Please wait, we are authorizing the user.</div>
+                        <Initialize Toggle="true"/>
                     </Authorizing>
                 </AuthorizeRouteView>
             </Found>

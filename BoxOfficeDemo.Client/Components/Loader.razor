@@ -1,6 +1,18 @@
-﻿@if (Toggle)
+﻿<style>
+    .loader {
+        width: fit-content;
+        position: fixed;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        z-index: 99;
+    }
+</style>
+@if (Toggle)
 {
-    <div class="d-flex justify-content-center">
+    <div class="loader">
         <div class="spinner-border" role="status">
             <span class="sr-only"></span>
         </div>

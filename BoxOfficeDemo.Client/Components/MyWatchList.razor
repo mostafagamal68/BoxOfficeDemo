@@ -11,10 +11,16 @@
             <img src="@WatchList.Image" width="40" height="60" />
         </div>
         <div class="col-6 m-auto">
-            <h4>@WatchList.MovieName</h4>
+            <h4 class="m-0">@WatchList.MovieName</h4>
         </div>
-        <div class="col m-auto">
-            <button class="btn btn-danger" @onclick="async ()=> await Remove(WatchList.Id)">Remove</button>
+        <div class="col text-center m-auto">
+            <CustomBtn Classes="@("btn btn-outline-danger")"
+                       ClickAction="async ()=> await Remove(WatchList.Id, WatchList.MovieName)"
+                       Style="@("border-radius: 15px")">
+                <SpanIcon>
+                    <span class="bi bi-x-lg"></span>
+                </SpanIcon>
+            </CustomBtn>
         </div>
     </div>
 </Virtualize>
@@ -28,16 +34,31 @@
 
     private async Task LoadList()
     {
-        IsLoading = true;
-        if (LoggedUser.Id != null)
-            await WatchListService.GetWatchList(LoggedUser.Id);
-        IsLoading = false;
+        try
+        {
+            IsLoading = true;
+            if (LoggedUser.Id != null)
+                await WatchListService.GetWatchList(LoggedUser.Id);
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
-    private async Task Remove(decimal? id)
+    private async Task Remove(decimal? id, string name)
     {
-        await WatchListService.DeleteWatchList(id);
-        await LoadList();
-        StateHasChanged();
+        try
+        {
+            await WatchListService.DeleteWatchList(id);
+            await LoadList();
+            StateHasChanged();
+            ToastService.ShowSuccess($"{name} has been removed successfully");
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 }

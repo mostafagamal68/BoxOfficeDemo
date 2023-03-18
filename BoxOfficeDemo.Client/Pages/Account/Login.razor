@@ -1,6 +1,5 @@
 ﻿@page "/BoxOfficeDemo/login"
 @page "/login"
-@inject IAuthenticationService AuthenticationService
 @inherits CustomComponentBase
 
 @if (ShowAuthError)
@@ -61,34 +60,41 @@
     }
     async Task ExecuteLogin()
     {
-        ShowAuthError = false;
-        var result = await AuthenticationService.Login(_userForAuthentication);
-        if (!result.IsAuthSuccessful)
+        try
         {
-            Error = result.ErrorMessage;
-            ShowAuthError = true;
-        }
-        else if (!result.VerifiedEmail)
-        {
-            Error = result.ErrorMessage;
-            EmailIsNotConfirmed = true;
-            UserID = result.UserID;
-            ShowAuthError = true;
-        }
-        else
-        {
-            if (!string.IsNullOrEmpty(result.UserID))
+            ShowAuthError = false;
+            var result = await AuthenticationService.Login(_userForAuthentication);
+            if (!result.IsAuthSuccessful)
             {
-                LoggedUser.Id = result.UserID;
-                _userInfo = await AuthenticationService.GetCurrentUserInfo(result.UserID);
-                if (_userInfo != null)
-                {
-                    CurrentUser.Set("Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
-                    CurrentUser.Set("UserName", _userInfo.UserName);
-                    CurrentUser.Set("Email", _userInfo.Email);
-                }
+                Error = result.ErrorMessage;
+                ShowAuthError = true;
             }
-            NavigationManager.NavigateTo("/BoxOfficeDemo",true);
+            else if (!result.VerifiedEmail)
+            {
+                Error = result.ErrorMessage;
+                EmailIsNotConfirmed = true;
+                UserID = result.UserID;
+                ShowAuthError = true;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(result.UserID))
+                {
+                    LoggedUser.Id = result.UserID;
+                    _userInfo = await AuthenticationService.GetCurrentUserInfo(result.UserID);
+                    if (_userInfo != null)
+                    {
+                        CurrentUser.Set("Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
+                        CurrentUser.Set("UserName", _userInfo.UserName);
+                        CurrentUser.Set("Email", _userInfo.Email);
+                    }
+                }
+                NavigationManager.NavigateTo("/BoxOfficeDemo", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
         }
     }
 }

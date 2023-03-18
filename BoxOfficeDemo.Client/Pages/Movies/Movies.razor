@@ -2,7 +2,9 @@
 @page "/Movies"
 @inject IMoviesService MoviesService
 @inherits CustomComponentBase
+
 <PageTitle>Movies</PageTitle>
+<Loader Toggle="IsLoading"></Loader>
 <AuthorizeView Roles="Administrator">
     <Authorized>
         <div class="row">
@@ -51,7 +53,7 @@
                     <button class="btn btn-outline-primary" style="width:80px" @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movies",Movie.Item1.MovieID))">Details</button>
                 </td>
                 <td>
-                    <button class="btn btn-outline-success" style="width:80px" @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movies",Movie.Item1.MovieID))">Edit</button>
+                    <button class="btn btn-outline-success" style="width:80px" @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movie",Movie.Item1.MovieID))">Edit</button>
                 </td>
                 <td style=@(Movie.Item2 == Movie.Item3 ? "border-bottom-right-radius:20px" : "")>
                     <button class=" btn btn-outline-danger" style="width:80px" @onclick="()=> Delete(Movie.Item1.MovieID)">Delete</button>
@@ -65,22 +67,46 @@
     List<MoviesList> MoviesTable = new();
     protected override async Task OnInitializedAsync()
     {
-        await MoviesService.GetMovies();
-        MoviesTable = MoviesService.MoviesList;
+        try
+        {
+            IsLoading = true;
+            await MoviesService.GetMovies();
+            MoviesTable = MoviesService.MoviesList;
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
     void Search()
     {
-        MoviesTable = MoviesService.MoviesList.Where(s => s.MovieName.Contains(searchText)).ToList();
+        try
+        {
+            IsLoading = true;
+            MoviesTable = MoviesService.MoviesList.Where(s => s.MovieName.Contains(searchText)).ToList();
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
     async Task Delete(decimal? id)
     {
-        bool answer = await JS.InvokeAsync<bool>("confirm", "Are you sure?");
-        if (answer)
+        try
         {
-            await MoviesService.DeleteMovie(id);
+            bool answer = await JS.InvokeAsync<bool>("confirm", "Are you sure?");
+            if (answer)
+            {
+                await MoviesService.DeleteMovie(id);
+            }
         }
-
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 }

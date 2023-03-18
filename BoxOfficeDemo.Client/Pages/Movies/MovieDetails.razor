@@ -8,15 +8,6 @@
 
 <PageTitle>Movie : @Movie.MovieName</PageTitle>
 <style>
-    .zooming {
-        transition: transform 0s !important;
-    }
-
-        .zooming:hover {
-            transition: transform 0s !important;
-            transform: scale(1.0) !important;
-        }
-
     .btn-star {
         color: goldenrod;
     }
@@ -112,7 +103,7 @@
                 </div>
                 <div class="col-md-6">
                     <label>Feedback</label>
-                    <InputTextArea class=@($"form-control col-md-6 {Theme.BackColor} {Theme.FontColor}") @bind-Value="Review.Feedback"/>
+                    <InputTextArea class=@($"form-control col-md-6 {Theme.BackColor} {Theme.FontColor}") @bind-Value="Review.Feedback" />
                 </div>
                 <div class="d-flex my-3">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -139,53 +130,79 @@
 
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-        Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
-        await GetAll();
+        try
+        {
+            IsLoading = true;
+            Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
+            await GetReviews();
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
-    async Task GetAll()
+    async Task GetReviews()
     {
-        IsLoading = true;
         await ReviewsService.GetReviews(Convert.ToDecimal(Id.Replace('O', '.')));
         IsReviewed = ReviewsService.ReviewsList.Where(w => w.UserID == LoggedUser.Id).Any();
-        IsLoading = false;
     }
 
     async Task Save()
     {
-        if (!IsReviewed)
+        try
         {
-            Review.IsNew = true;
-            Review.ReviewID = new GenerateNewID().GetNewID;
-            Review.UserID = LoggedUser.Id;
-            Review.MovieID = Convert.ToDecimal(Id.Replace('O', '.'));
-            Review.ReviewDate = DateTime.Now;
-            await ReviewsService.SaveReview(Review);
+            if (!IsReviewed)
+            {
+                Review.IsNew = true;
+                Review.ReviewID = new GenerateNewID().GetNewID;
+                Review.UserID = LoggedUser.Id;
+                Review.MovieID = Convert.ToDecimal(Id.Replace('O', '.'));
+                Review.ReviewDate = DateTime.Now;
+                await ReviewsService.SaveReview(Review);
+            }
+            else
+            {
+                Review.IsNew = false;
+                await ReviewsService.SaveReview(Review);
+                IsEdit = false;
+            }
+            await GetReviews();
+            Review = new();
         }
-        else
+        catch (Exception ex)
         {
-            Review.IsNew = false;
-            await ReviewsService.SaveReview(Review);
-            IsEdit = false;
+            ToastService.ShowError(ex.Message);
         }
-        await GetAll();
-        Review = new();
     }
 
     async Task Edit(decimal? id)
     {
-        IsEdit = true;
-        Review = await ReviewsService.GetSingleReview(id);
+        try
+        {
+            IsEdit = true;
+            Review = await ReviewsService.GetSingleReview(id);
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
     async Task Delete(decimal? id)
     {
-        bool answer = await JS.InvokeAsync<bool>("confirm", "Are you sure to delete your review?");
-        if (answer)
+        try
         {
-            await ReviewsService.DeleteReview(id);
-            await GetAll();
+            if (await JS.InvokeAsync<bool>("confirm", "Are you sure to delete your review?"))
+            {
+                await ReviewsService.DeleteReview(id);
+                await GetReviews();
+            }
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
         }
 
     }

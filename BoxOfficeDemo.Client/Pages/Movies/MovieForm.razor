@@ -5,12 +5,17 @@
 @inject IMoviesService MoviesService
 @inherits CustomComponentBase
 
-<div class="card @Theme.BackColor @Theme.BorderColor" style="border-radius: 20px;">
+<Loader Toggle="IsLoading"></Loader>
+<div class="card shadow-sm m-3 mt-0 @Theme.BackColor @Theme.BorderColor" style="border-radius: 20px;">
+    <div class="card-header @Theme.BorderColor" style="border-radius: 20px;">
+        <div class="row">
+            <h3 class="col-6">@(!string.IsNullOrEmpty(Movie.MovieName) ? $"{Movie.MovieName} Form" : "New Movie")</h3>
+            <a class="col-6 my-auto text-end" href="/BoxOfficeDemo/Movies"><span class="bi bi-arrow-left-circle-fill"></span></a>
+        </div>
+    </div>
     <div class="card-body col-md-6" style="border-radius: 20px;">
         <AuthorizeView Roles="Administrator">
             <Authorized Context="Auth">
-                <h3 class="py-2">Movie Form</h3>
-
                 <EditForm Model="Movie" OnValidSubmit="Save">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
@@ -34,8 +39,12 @@
                     <strong class="col-form-label my-1">Length</strong>
                     <input Type="time" class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}") @bind="@Movie.Length" />
                     <strong class="col-form-label my-1">Image</strong>
-                    <InputFile class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Image" OnChange="@HandleSelected" />
-                    <button type="submit" class="btn btn-primary my-2">Save</button>
+                    <InputFile class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) OnChange="@HandleSelected" accept="image/png, image/jpeg, image/jpg" />
+                    @*<button type="submit" class="btn btn-primary my-2">Save</button>*@
+                    <CustomBtn Classes="@("btn btn-primary my-2")"
+                               Text="@("Save")"
+                               Type="@("submit")">
+                    </CustomBtn>
                 </EditForm>
             </Authorized>
         </AuthorizeView>
@@ -46,21 +55,53 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (!string.IsNullOrEmpty(Id)) Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
+        try
+        {
+            IsLoading = true;
+            if (!string.IsNullOrEmpty(Id))
+                Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
     async Task Save()
     {
-        Movie.IsNew = string.IsNullOrEmpty(Id) ? true : false;
-        await MoviesService.SaveMovie(Movie);
-        await JS.InvokeVoidAsync("alert", "Saved Successfully");
-        NavigationManager.NavigateTo("/BoxOfficeDemo/Movies");
+        try
+        {
+            IsLoading = true;
+            Movie.IsNew = string.IsNullOrEmpty(Id) ? true : false;
+            await MoviesService.SaveMovie(Movie);
+            //NavigationManager.NavigateTo("/BoxOfficeDemo/Movies");
+            ToastService.ShowSuccess("Saved Successfully");
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
-    private void HandleSelected(InputFileChangeEventArgs e)
+    private async Task HandleSelected(InputFileChangeEventArgs e)
     {
-        var imagePath = "/images/" + e.File.Name;
-        Movie.Image = imagePath;
+        try
+        {
+            var file = e.File;
+            //var resizedFile = await file.RequestImageFileAsync(file.ContentType, 640, 480);
+            var buf = new byte[file.Size];
+            using (var stream = file.OpenReadStream())
+            {
+                await stream.ReadAsync(buf);
+            }
+            Movie.Image = $"data:{file.ContentType};base64,{Convert.ToBase64String(buf)}";
+        }
+        catch (Exception ex)
+        {
+            ToastService.ShowError(ex.Message);
+        }
     }
 
     [Parameter]

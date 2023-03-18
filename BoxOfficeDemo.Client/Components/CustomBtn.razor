@@ -1,0 +1,40 @@
+﻿@inherits CustomComponentBase
+
+<button @ref="Element" class="@Classes" @onclick="@RunAction" id="@Id" style="@Style" disabled="@IsDisabled" type="@Type">
+    @SpanIcon
+    @Text
+    @if (IsActionRun)
+    {
+        <span class="spinner-grow spinner-grow-sm mx-1" role="status"></span>
+    }
+</button>
+
+@code{
+    [Parameter] 
+    public string Text { get; set; } = "";
+    [Parameter] 
+    public string Classes { get; set; } = "";
+    [Parameter] 
+    public string Id { get; set; } = "";
+    [Parameter] 
+    public string Style { get; set; } = "";
+    [Parameter] 
+    public string Type { get; set; } = "button";
+    [Parameter] 
+    public EventCallback ClickAction { get; set; }
+    [Parameter] 
+    public RenderFragment? SpanIcon { get; set; }
+
+    private bool IsActionRun = false;
+    private bool IsDisabled = false;
+    private ElementReference Element;
+        
+    protected async Task RunAction()
+    {
+        IsDisabled = true;
+        IsActionRun = true;
+        await ClickAction.InvokeAsync();
+        IsActionRun = false;
+        IsDisabled = false;
+    }
+}
