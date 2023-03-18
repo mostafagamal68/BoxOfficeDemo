@@ -38,19 +38,13 @@ namespace BoxOfficeDemo.Client.Services
         public void SaveReview(SingleReview singleReview)
         {
             if (singleReview.IsNew == true)
-            {
-                Review review = _mapper.Map<Review>(singleReview);
-                _context.Reviews.Add(review);
-            }
+                _context.Reviews.Add(_mapper.Map<Review>(singleReview));
+            
             else if (singleReview.IsNew == false)
             {
-                var review = _context.Reviews.Find(singleReview.ReviewID);
+                Review? review = _context.Reviews.Find(singleReview.ReviewID);
                 if (review != null)
-                {
-                    review.Rate = singleReview.Rate;
-                    review.Feedback = singleReview.Feedback;
-                    review.ReviewDate = DateTime.Now;
-                }
+                    _mapper.Map(singleReview, review);
             }
             _context.SaveChanges();
         }

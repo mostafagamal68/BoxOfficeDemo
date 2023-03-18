@@ -26,7 +26,7 @@ namespace BoxOfficeDemo.Client.Services
             var Movie = _context.Movies.Find(id);
 
             if (Movie == null)
-                throw new Exception();
+                throw new KeyNotFoundException();
 
             return _mapper.Map<SingleMovie>(Movie);
         }
@@ -34,18 +34,16 @@ namespace BoxOfficeDemo.Client.Services
         public void SaveMovie(SingleMovie singleMovie)
         {
             if (singleMovie.IsNew == true)
-            {
-                Movie movie = _mapper.Map<Movie>(singleMovie);
-                _context.Movies.Add(movie);
-            }
+                _context.Movies.Add(_mapper.Map<Movie>(singleMovie));
+            
             else if (singleMovie.IsNew == false)
             {
-                Movie movie = _context.Movies.Find(singleMovie.MovieID);
+                Movie? movie = _context.Movies.Find(singleMovie.MovieID);
                 if (movie != null)
-                    _ = _mapper.Map<Movie>(singleMovie);
+                    _mapper.Map(singleMovie, movie);
             }
-            
-            _context.SaveChanges();
+
+            _context.SaveChanges();                       
         }
 
         public void DeleteMovie(decimal? id)
