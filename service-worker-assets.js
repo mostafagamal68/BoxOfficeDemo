@@ -117,7 +117,7 @@
       "url": "manifest.json"
     },
     {
-      "hash": "sha256-w19xU+WmuIJqwo3TL\/xLyFTJKskJnh7fc3p1yajwKFI=",
+      "hash": "sha256-HJySpAy1+uba\/UEP0kwnxFlWiPzgzV70K6ZXVcEppX0=",
       "url": "scripts\/script.js"
     },
     {
@@ -153,7 +153,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-Mb1ovNauO5U1Fy9PyXdwso4z4KOgNcbcjWaAjZEJu6w=",
+      "hash": "sha256-3Jry8UhrqkCenyKG7iGaeRPIOWeO+0x0o0uJnVes2Y0=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -165,11 +165,11 @@
       "url": "_framework\/Blazored.Modal.dll"
     },
     {
-      "hash": "sha256-OXcFOJDtEuVP7zNmMeH1\/gqDx5hxrFbXW43G\/tey9zs=",
+      "hash": "sha256-8LzyALYnVlSYf7edTMrcMK8IavJF1GLvQMXf9\/Qv0cw=",
       "url": "_framework\/BoxOfficeDemo.Client.dll"
     },
     {
-      "hash": "sha256-3qcG1FvjoSEPVP3uWP6FFKsuaIRLPm9fnNnnmMuG7XI=",
+      "hash": "sha256-UHx9UK8MxKWoaz9ELK8gj1zpob2p3efS4rAUL5\/7dX4=",
       "url": "_framework\/BoxOfficeDemo.Shared.dll"
     },
     {
@@ -181,7 +181,7 @@
       "url": "_framework\/Microsoft.AspNetCore.Components.Authorization.dll"
     },
     {
-      "hash": "sha256-029rElsrXxRVi3gre1x6xlCkFEOnrxPumj9zIMLSd4s=",
+      "hash": "sha256-ep\/+SEWkyXt19NFbvNgZiUQWm9OcSJ6\/HbdA6tS257M=",
       "url": "_framework\/Microsoft.AspNetCore.Components.dll"
     },
     {
@@ -189,7 +189,7 @@
       "url": "_framework\/Microsoft.AspNetCore.Components.Forms.dll"
     },
     {
-      "hash": "sha256-nJRc1JtewEIukNsbA4O35ssXUOb+9wcraAeju0UxDP4=",
+      "hash": "sha256-WGhie5p3f+FH5LycqLEiAkGHYF+Xte2slFrS4DPPdpU=",
       "url": "_framework\/Microsoft.AspNetCore.Components.Web.dll"
     },
     {
@@ -509,7 +509,7 @@
       "url": "_framework\/System.Runtime.CompilerServices.Unsafe.dll"
     },
     {
-      "hash": "sha256-5ZWeFAP4TrmG+axB5h7lV7lijfq68a7lJZgkQrEjX38=",
+      "hash": "sha256-PgEQPg7v5Jl0xSR1NTgWEULXBiXJaRBWLX4w3rd5pNU=",
       "url": "_framework\/System.Runtime.dll"
     },
     {
@@ -645,5 +645,5 @@
       "url": "_content\/Blazored.Modal\/BlazoredModal.razor.js"
     }
   ],
-  "version": "6e1wBQMY"
+  "version": "WqLfjiSc"
 };
