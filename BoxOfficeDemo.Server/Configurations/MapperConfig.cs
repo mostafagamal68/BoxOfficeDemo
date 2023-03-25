@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BoxOfficeDemo.Server.Models;
-using BoxOfficeDemo.Shared.Configurations;
 using BoxOfficeDemo.Shared.DTO.Account;
 using BoxOfficeDemo.Shared.Models;
 

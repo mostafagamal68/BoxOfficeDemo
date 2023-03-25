@@ -21,6 +21,12 @@ namespace BoxOfficeDemo.Server.Controllers
             return Ok(moviesLogic.GetMovies());
         }
 
+        [HttpGet("filter")]
+        public IActionResult GetMoviesList(int page, string? name)
+        {
+            return Ok(moviesLogic.GetMoviesList(page, name));
+        }
+
         // GET: api/Movies/5
         [HttpGet("{id}")]
         public IActionResult GetMovie(decimal? id)

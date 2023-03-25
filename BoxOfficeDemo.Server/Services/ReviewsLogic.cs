@@ -1,11 +1,8 @@
 ﻿using BoxOfficeDemo.Server.Models;
-using System.IO;
-using System.Net.Http.Json;
 using BoxOfficeDemo.Server.Data;
 using BoxOfficeDemo.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using BoxOfficeDemo.Shared.Configurations;
 
 namespace BoxOfficeDemo.Client.Services
 {
@@ -29,10 +26,7 @@ namespace BoxOfficeDemo.Client.Services
         {
             var Review = _context.Reviews.Find(id);
 
-            if (Review == null)
-                throw new Exception();
-
-            return _mapper.Map<SingleReview>(Review);
+            return Review == null ? throw new Exception() : _mapper.Map<SingleReview>(Review);
         }
 
         public void SaveReview(SingleReview singleReview)

@@ -2,90 +2,105 @@
 @page "/Movies"
 @inject IMoviesService MoviesService
 @inherits CustomComponentBase
+@attribute [Authorize(Roles = "Administrator")]
 
 <PageTitle>Movies</PageTitle>
 <Loader Toggle="IsLoading"></Loader>
-<AuthorizeView Roles="Administrator">
-    <Authorized>
-        <div class="row">
-            <div class="col-9">
-                <h3 class="d-inline my-2 align-middle">Movies</h3>
-                <button class="btn btn-outline-secondary m-2 " @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movie"))">Add</button>
-            </div>
-            <div class="col-3">
-                <div class="position-relative d-inline-block w-100">
-                    <input type="text" class="form-control d-inline my-2 align-middle" style="padding-right: 1.4em;" @bind="searchText" @bind:event="oninput" @onkeyup="Search" />
-                    <span class="bi bi-search" style="
-                color:gray;
-                position: absolute;
-                top: 0;
-                right: 0;
-                font-weight: bold;
-                font-size: 1.4em;
-                padding: 0 0.2em;
-                line-height: 2.4em;
-                cursor: pointer;">
-                    </span>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-9">
+        <h3 class="d-inline my-2 align-middle">Movies</h3>
+        <button class="btn btn-warning m-2 " @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movie"))">Add</button>
+    </div>
+    <div class="col-3">
+        <div class="position-relative d-inline-block w-100">
+            <input type="text" class="@($"form-control d-inline my-2 align-middle {Theme.BackColor} {Theme.FontColor}")" style="padding-right: 1.4em;" @bind="searchText" />
+            <span class="bi bi-search" style="
+                        color:gray;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        font-weight: bold;
+                        font-size: 1.4em;
+                        padding: 0 0.2em;
+                        line-height: 2.4em;
+                        cursor: pointer;"
+                  @onclick="()=>Get(0)">
+            </span>
         </div>
+    </div>
+</div>
 
-        <TableTemplate Items="MoviesTable" Context="Movie" class=@((!string.IsNullOrEmpty(Theme.BackColor) ? "table table-dark" : "table")+ " table-striped table-hover ")>
-            <TableHeader>
-                <th scope="col" style="border-top-left-radius:20px">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">ReleasedDate</th>
-                <th scope="col">ParentalGuide</th>
-                <th scope="col">Length</th>
-                <th scope="col">Genere</th>
-                <th></th>
-                <th></th>
-                <th style="border-top-right-radius:20px"></th>
-            </TableHeader>
-            <RowTemplate>
-                <th scope="row" style=@(Movie.Item2 == Movie.Item3 ? "border-bottom-left-radius:20px" : "")>@Movie.Item2</th>
-                <td>@Movie.Item1.MovieName</td>
-                <td>@(Movie.Item1.ReleasedDate == null ? "" : ((DateTime)Movie.Item1.ReleasedDate).ToString(DateFormat))</td>
-                <td>@Movie.Item1.ParentalGuide</td>
-                <td>@(Movie.Item1.Length == null ? "" : ((TimeSpan)Movie.Item1.Length).ToString(TimeFormat))</td>
-                <td>@Movie.Item1.Genere</td>
-                <td>
-                    <button class="btn btn-outline-primary" style="width:80px" @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movies",Movie.Item1.MovieID))">Details</button>
-                </td>
-                <td>
-                    <button class="btn btn-outline-success" style="width:80px" @onclick="@(()=> NavigateToPage("BoxOfficeDemo/Movie",Movie.Item1.MovieID))">Edit</button>
-                </td>
-                <td style=@(Movie.Item2 == Movie.Item3 ? "border-bottom-right-radius:20px" : "")>
-                    <button class=" btn btn-outline-danger" style="width:80px" @onclick="()=> Delete(Movie.Item1.MovieID)">Delete</button>
-                </td>
-            </RowTemplate>
-        </TableTemplate>
-    </Authorized>
-</AuthorizeView>
+<TableTemplate Items="MoviesTable.Items" Context="Movie" class=@((!string.IsNullOrEmpty(Theme.BackColor) ? "table table-dark" : "table")+ " table-striped table-hover ")>
+    <TableHeader>
+        <th scope="col" style="border-top-left-radius:20px">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">ReleasedDate</th>
+        <th scope="col">ParentalGuide</th>
+        <th scope="col">Length</th>
+        <th scope="col">Genere</th>
+        <th style="border-top-right-radius:20px"></th>
+    </TableHeader>
+    <RowTemplate>
+        <th scope="row" style=@(Movie.Item2 == Movie.Item3 ? "border-bottom-left-radius:20px" : "")>@Movie.Item2</th>
+        <td>@Movie.Item1.MovieName</td>
+        <td>@(Movie.Item1.ReleasedDate == null ? "" : ((DateTime)Movie.Item1.ReleasedDate).ToString(DateFormat))</td>
+        <td>@Movie.Item1.ParentalGuide</td>
+        <td>@(Movie.Item1.Length == null ? "" : ((TimeSpan)Movie.Item1.Length).ToString(TimeFormat))</td>
+        <td>@Movie.Item1.Genere</td>
+        <td style=@(Movie.Item2 == Movie.Item3 ? "border-bottom-right-radius:20px" : "")>
+            <CustomBtn Classes="@("btn-outline-primary")"
+                       ClickAction="@(()=> NavigateToPage("BoxOfficeDemo/Movies",Movie.Item1.MovieID))"
+                       Text="@("Details")">
+            </CustomBtn>
+            <CustomBtn Classes="@("btn-outline-success")"
+                       ClickAction="@(()=> NavigateToPage("BoxOfficeDemo/Movie",Movie.Item1.MovieID))"
+                       Text="@("Edit")">
+            </CustomBtn>
+            <CustomBtn Classes="@("btn-outline-danger")"
+                       ClickAction="()=> Delete(Movie.Item1.MovieID)"
+                       Text="@("Delete")">
+            </CustomBtn>
+        </td>
+    </RowTemplate>
+</TableTemplate>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        <li class="page-item @(MoviesTable.PageIndex == 0 ? "disabled" : "")">
+            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(currentPage-1))">Previous</button>
+        </li>
+        <li class="page-item">
+            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(0))">First</button>
+        </li>
+        @foreach (int p in Enumerable.Range(1, MoviesTable.Count))
+        {
+            <li class="page-item">
+                <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(p-1))">@(p)</button>
+            </li>
+        }
+        <li class="page-item">
+            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(MoviesTable.Count-1))">Last</button>
+        </li>
+        <li class="page-item @(MoviesTable.PageIndex == MoviesTable.Count - 1 ? "disabled" : "")">
+            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(currentPage+1))">Next</button>
+        </li>
+    </ul>
+</nav>
 @code {
-    string? searchText { get; set; }
-    List<MoviesList> MoviesTable = new();
+    string searchText { get; set; } = "";
+    int currentPage { get; set; } = 0;
+    MoviesFilterAndPagination MoviesTable = new();
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            IsLoading = true;
-            await MoviesService.GetMovies();
-            MoviesTable = MoviesService.MoviesList;
-            IsLoading = false;
-        }
-        catch (Exception ex)
-        {
-            ToastService.ShowError(ex.Message);
-        }
+        await Get(0);
     }
 
-    void Search()
+    private async Task Get(int page)
     {
         try
         {
             IsLoading = true;
-            MoviesTable = MoviesService.MoviesList.Where(s => s.MovieName.Contains(searchText)).ToList();
+            currentPage = page;
+            MoviesTable = await MoviesService.GetMoviesList(page, searchText);
             IsLoading = false;
         }
         catch (Exception ex)

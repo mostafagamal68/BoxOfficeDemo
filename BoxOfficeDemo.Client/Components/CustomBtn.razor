@@ -1,6 +1,6 @@
 ﻿@inherits CustomComponentBase
 
-<button @ref="Element" class="@Classes" @onclick="@RunAction" id="@Id" style="@Style" disabled="@IsDisabled" type="@Type">
+<button @ref="Element" class="btn roundedbtn my-auto @Classes" @onclick="@RunAction" id="@Id" style="@Style" disabled="@IsActionRun" type="@Type" @attributes="AdditionalAttributes">
     @SpanIcon
     @Text
     @if (IsActionRun)
@@ -24,17 +24,16 @@
     public EventCallback ClickAction { get; set; }
     [Parameter] 
     public RenderFragment? SpanIcon { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; }
 
     private bool IsActionRun = false;
-    private bool IsDisabled = false;
     private ElementReference Element;
         
     protected async Task RunAction()
     {
-        IsDisabled = true;
         IsActionRun = true;
         await ClickAction.InvokeAsync();
         IsActionRun = false;
-        IsDisabled = false;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BoxOfficeDemo.Shared.Configurations
+﻿namespace BoxOfficeDemo.Shared.Extensions
 {
     public class GenerateNewID
     {

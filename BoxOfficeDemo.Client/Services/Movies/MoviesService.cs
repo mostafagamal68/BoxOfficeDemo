@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http.Json;
 using System.Text.Json;
+using BoxOfficeDemo.Shared.DTO;
 using BoxOfficeDemo.Shared.Models;
 
 namespace BoxOfficeDemo.Client.Services.Movies
@@ -29,6 +30,9 @@ namespace BoxOfficeDemo.Client.Services.Movies
             if (respone.IsSuccessStatusCode)
                 MoviesList.Remove(MoviesList.Where(c => c.MovieID == id).FirstOrDefault());
         }
+
+        public async Task<MoviesFilterAndPagination> GetMoviesList(int page, string name = "")
+            => await _client.GetFromJsonAsync<MoviesFilterAndPagination>($"Movies/filter?page={page}&name={name}");
     }
 }
 

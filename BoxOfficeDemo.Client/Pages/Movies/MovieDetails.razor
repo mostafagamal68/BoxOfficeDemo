@@ -8,16 +8,26 @@
 
 <PageTitle>Movie : @Movie.MovieName</PageTitle>
 <style>
-    .btn-star {
-        color: goldenrod;
-    }
-
     .image-card {
         width: auto !important;
     }
 </style>
 
 <Loader Toggle="IsLoading"></Loader>
+<nav class="mx-3" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="animated-underline" href="/BoxOfficeDemo">Home</a></li>
+        <AuthorizeView Roles="Administrator">
+            <Authorized>
+                <li class="breadcrumb-item"><a class="animated-underline" href="/BoxOfficeDemo/Movies">Movies</a></li>
+            </Authorized>
+            <NotAuthorized>
+                <li class="breadcrumb-item"><p class="d-flex m-0">Movies</p></li>
+            </NotAuthorized>
+        </AuthorizeView>
+        <li class="breadcrumb-item active" aria-current="page">@Movie.MovieName</li>
+    </ol>
+</nav>
 <MovieCard MovieID="@Movie.MovieID"
            MovieName="@Movie.MovieName"
            MovieNameTooltip="@Movie.MovieName"
@@ -33,9 +43,7 @@
         <h5>@Movie.Description</h5>
         <h5><strong>Director: </strong>@Movie.Director</h5>
         <h5><strong>Writer: </strong>@Movie.Writer</h5>
-        <h5>
-            <strong>Stars: </strong>@Movie.Stars
-        </h5>
+        <h5><strong>Stars: </strong>@Movie.Stars</h5>
     </Description>
     <Reviews>
         <h4>Users Reviews</h4>
@@ -44,24 +52,28 @@
             <div class="row">
                 @foreach (var item in ReviewsService.ReviewsList)
                 {
-                    <div class="col-12 col-xl-3 col-lg-4 col-sm-6 card m-1 pt-3 @Theme.BackColor @Theme.BorderColor" style="border-radius:15px;">
-                        <div>
-                            <p class="d-inline-block"><strong>Name: </strong>@($"{item.FirstName} {item.LastName}")</p>
+                    <div class="col-12 col-xl-3 col-lg-4 col-sm-6 card m-1 pt-3 roundedcorner @Theme.BackColor @Theme.BorderColor">
+                        <div class="d-flex">
+                            <p class="my-2"><strong>Name: </strong>@($"{item.FirstName} {item.LastName}")</p>
                             @if (item.UserID == LoggedUser.Id)
                             {
-                                <button class="btn d-inline" @onclick="()=> Edit(item.ReviewID)"><span class="bi bi-pencil-fill"></span></button>
-                                <button class="btn d-inline" @onclick="()=> Delete(item.ReviewID)"><span class="bi bi-trash-fill"></span></button>
+                                <CustomBtn ClickAction="async ()=> await Edit(item.ReviewID)">
+                                    <SpanIcon><span class="@($"bi bi-pencil-fill {Theme.FontColor}")"></span></SpanIcon>
+                                </CustomBtn>
+                                <CustomBtn ClickAction="async ()=> await Delete(item.ReviewID)">
+                                    <SpanIcon><span class="@($"bi bi-trash-fill {Theme.FontColor}")"></span></SpanIcon>
+                                </CustomBtn>
                             }
                         </div>
-                        <p>
+                        <p class="my-2">
                             <strong>Rate: </strong>
                             @for (int stars = 1; stars <= item.Rate; stars++)
                             {
                                 <span class="bi bi-star-fill"></span>
                             }
                         </p>
-                        <p><strong>Feedback: </strong>@item.Feedback</p>
-                        <p><strong>Date: </strong>@item.ReviewDate</p>
+                        <p class="my-2"><strong>Feedback: </strong>@item.Feedback</p>
+                        <p class="my-2"><strong>Date: </strong>@item.ReviewDate</p>
                     </div>
                 }
             </div>
@@ -133,7 +145,7 @@
         try
         {
             IsLoading = true;
-            Movie = await MoviesService.GetMovie(Convert.ToDecimal(Id.Replace('O', '.')));
+            Movie = await MoviesService.GetMovie(Id.ToIdDecimal());
             await GetReviews();
             IsLoading = false;
         }
@@ -145,7 +157,7 @@
 
     async Task GetReviews()
     {
-        await ReviewsService.GetReviews(Convert.ToDecimal(Id.Replace('O', '.')));
+        await ReviewsService.GetReviews(Id.ToIdDecimal());
         IsReviewed = ReviewsService.ReviewsList.Where(w => w.UserID == LoggedUser.Id).Any();
     }
 
@@ -158,7 +170,7 @@
                 Review.IsNew = true;
                 Review.ReviewID = new GenerateNewID().GetNewID;
                 Review.UserID = LoggedUser.Id;
-                Review.MovieID = Convert.ToDecimal(Id.Replace('O', '.'));
+                Review.MovieID = Id.ToIdDecimal();
                 Review.ReviewDate = DateTime.Now;
                 await ReviewsService.SaveReview(Review);
             }
@@ -170,6 +182,7 @@
             }
             await GetReviews();
             Review = new();
+            SetRate("", 0);
         }
         catch (Exception ex)
         {
@@ -198,6 +211,8 @@
             {
                 await ReviewsService.DeleteReview(id);
                 await GetReviews();
+                Review = new();
+                SetRate("", 0);
             }
         }
         catch (Exception ex)

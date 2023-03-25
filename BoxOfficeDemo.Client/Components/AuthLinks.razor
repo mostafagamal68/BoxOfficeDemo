@@ -4,10 +4,10 @@
 <AuthorizeView>
     <Authorized>
         Hello, @this.CurrentUser.Get("Name")
-        <a href="Logout" class="mx-2">Log out</a>
+        <a href="Logout" class="animated-underline mx-2">Log out</a>
     </Authorized>
     <NotAuthorized>
-        <a href="/Registration" class="mx-2"
+        <a href="/Registration" class="animated-underline mx-2"
             @onclick="@(()=> ModalService.Show<Registration>("New Account",
                 new ModalOptions{
                     Class=$"custom-modal {Theme.ModalClass} size-medium",
@@ -18,7 +18,7 @@
             @onclick:preventDefault>
             Register
         </a>
-        <a href="/Login" class="mx-2"
+        <a href="/Login" class="animated-underline mx-2"
             @onclick="@(()=> ModalService.Show<Login>("Login",
                 new ModalOptions{
                     Class=$"custom-modal {Theme.ModalClass} size-medium",

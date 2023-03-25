@@ -1,24 +1,26 @@
 ﻿$(document).ready(function (){
     let Theme = window.localStorage.getItem("Theme");
-    var html = document.querySelector('html');
+    ChangeTheme(Theme);
+});
+
+function ChangeTheme(Theme) {
     var body = document.querySelector('body');
     var app = document.querySelector('#app');
-    if (Theme == '"Dark"') {
-        html.classList.add('bg-dark');
+    body.classList.remove('bg-dark', 'bg-black');
+    app.classList.remove('bg-dark', 'bg-light');
+    if (Theme == 'Dark' || Theme == '"Dark"') {
         body.classList.add('bg-dark');
         app.classList.add('bg-dark');
     }
-    else if (Theme == '"Amoled"') {
-        html.classList.add('bg-black');
+    else if (Theme == 'Amoled' || Theme == '"Amoled"') {
         body.classList.add('bg-black');
         app.classList.add('bg-black');
     }
     else {
-        html.classList.add('bg-light');
         body.classList.add('bg-light');
         app.classList.add('bg-light');
     }
-});
+}
 
 function ToggleBtn(element, toggle) {
     if (toggle) {

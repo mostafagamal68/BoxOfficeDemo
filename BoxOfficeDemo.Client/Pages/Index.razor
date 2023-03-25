@@ -9,11 +9,11 @@
 <div class="container">
     <h1>Movies</h1>
     <div class="row">
-        <Virtualize Context="Movie" Items="MoviesService.MoviesList">
+        <Virtualize Context="Movie" Items="MoviesService.MoviesList.OrderByDescending(c=>c.ReleasedDate).ToList()">
 
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3 p-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3 p-2">
                 <MovieCard MovieID="@Movie.MovieID"
-                           MovieName="@(Movie.MovieName.Length > 28 ? $"{Movie.MovieName.Substring(0,25)}..." : Movie.MovieName)"
+                           MovieName="@(Movie.MovieName.Length > 40 ? $"{Movie.MovieName.Substring(0,37)}..." : Movie.MovieName)"
                            MovieNameTooltip="@Movie.MovieName"
                            Genere="@Movie.Genere"
                            Image="@Movie.Image"

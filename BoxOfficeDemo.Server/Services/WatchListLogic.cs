@@ -1,12 +1,9 @@
 ﻿using BoxOfficeDemo.Server.Models;
-using System.IO;
-using System.Net.Http.Json;
 using BoxOfficeDemo.Server.Data;
 using BoxOfficeDemo.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using BoxOfficeDemo.Shared.Configurations;
-
+    
 namespace BoxOfficeDemo.Client.Services
 {
     public class WatchListLogic : IWatchListLogic

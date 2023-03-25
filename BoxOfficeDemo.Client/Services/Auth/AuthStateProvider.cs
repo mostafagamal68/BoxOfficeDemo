@@ -3,11 +3,7 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using BoxOfficeDemo.Shared.Configurations;
 using BoxOfficeDemo.Shared.DTO.Account;
-using BoxOfficeDemo.Shared.Models;
-using System.Text.Json;
-using System.Text;
 using System.Net.Http.Json;
 using BoxOfficeDemo.Client.Services.Toast;
 

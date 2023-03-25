@@ -2,6 +2,8 @@
 using BoxOfficeDemo.Server.Data;
 using BoxOfficeDemo.Shared.Models;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using BoxOfficeDemo.Shared.DTO;
 
 namespace BoxOfficeDemo.Client.Services
 {
@@ -25,17 +27,14 @@ namespace BoxOfficeDemo.Client.Services
         {
             var Movie = _context.Movies.Find(id);
 
-            if (Movie == null)
-                throw new KeyNotFoundException();
-
-            return _mapper.Map<SingleMovie>(Movie);
+            return Movie == null ? throw new Exception() : _mapper.Map<SingleMovie>(Movie);
         }
 
         public void SaveMovie(SingleMovie singleMovie)
         {
             if (singleMovie.IsNew == true)
                 _context.Movies.Add(_mapper.Map<Movie>(singleMovie));
-            
+
             else if (singleMovie.IsNew == false)
             {
                 Movie? movie = _context.Movies.Find(singleMovie.MovieID);
@@ -43,7 +42,7 @@ namespace BoxOfficeDemo.Client.Services
                     _mapper.Map(singleMovie, movie);
             }
 
-            _context.SaveChanges();                       
+            _context.SaveChanges();
         }
 
         public void DeleteMovie(decimal? id)
@@ -54,6 +53,19 @@ namespace BoxOfficeDemo.Client.Services
                 _context.Movies.Remove(movie);
                 _context.SaveChanges();
             }
+        }
+
+        public MoviesFilterAndPagination GetMoviesList(int page, string name)
+        {
+            var list = new MoviesFilterAndPagination();
+            var query = _context.Movies.OrderByDescending(c => c.ReleasedDate).AsQueryable();
+            if (!string.IsNullOrEmpty(name))
+                query = query.Where(x => x.MovieName.Contains(name));
+
+            list.Count = Convert.ToInt32(Math.Round(Convert.ToDecimal(query.Count()) / 10, MidpointRounding.ToPositiveInfinity));
+            list.Items = _mapper.Map<List<MoviesList>>(query.Skip(page * 10).Take(10));
+            list.PageIndex = page;
+            return list;
         }
     }
 }

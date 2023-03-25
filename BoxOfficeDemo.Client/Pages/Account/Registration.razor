@@ -11,7 +11,7 @@
         }
     </div>
 }
-<div class="card @Theme.BackColor" style="border-radius:20px;">
+<div class="card roundedcorner @Theme.BackColor">
     <EditForm Model="_userForRegistration" OnValidSubmit="Register">
         <DataAnnotationsValidator />
         <div class="card-body">
@@ -62,7 +62,10 @@
 
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <button type="submit" class="btn btn-success">Register</button>
+                    <CustomBtn Classes="@("btn-success")"
+                               Text="@("Register")"
+                               Type="@("submit")">
+                    </CustomBtn>
                 </div>
             </div>
         </div>

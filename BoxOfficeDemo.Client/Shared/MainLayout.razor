@@ -20,17 +20,17 @@
     <main>
         <div class="top-row shadow-sm">
             <div class="col brand-name">
-                <button class="btn btn-outline-primary px-2 py-1" @onclick="() => ToggleSidebar(true)">
+                <button class=" btn btn-outline-primary px-2 py-1" @onclick="() => ToggleSidebar(true)">
                     <span class="bi bi-list"></span>
                 </button>
-                <a class="navbar-brand m-auto text-center align-middle" href="/BoxOfficeDemo/">Box Office</a>
+                <a class="navbar-brand animated-underline m-auto text-center align-middle" href="/BoxOfficeDemo/">Box Office</a>
             </div>
 
             <AuthorizeView>
                 <Authorized>
                     <div class="col-6 col-sm-6 text-end">
                         <AuthLinks />
-                        <a href="https://docs.microsoft.com/aspnet/" class="mx-2" target="_blank">About</a>
+                        <a href="https://docs.microsoft.com/aspnet/" class="animated-underline mx-2" target="_blank">About</a>
                     </div>
                     <div class="col-6 col-xxl-1 col-xl-2 col-md-3 col-sm-4 text-center w-auto mx-2">
                         <WatchListNotify ShowWatchList="@(()=> ModalService.Show<MyWatchList>("My Watch List",
@@ -83,7 +83,7 @@
         await JS.InvokeVoidAsync("ToggleSidebar", collapseSidebar);
     }
 
-    private void ToggleTheme(string? themeName)
+    private async Task ToggleTheme(string? themeName)
     {
         if (themeName == "Dark")
         {
@@ -109,5 +109,6 @@
             Theme.FontColor = "";
             Theme.ModalClass = "light-modal";
         }
+        await JS.InvokeVoidAsync("ChangeTheme", themeName);
     }
 }

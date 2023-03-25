@@ -1,4 +1,4 @@
-﻿using BoxOfficeDemo.Shared.Configurations;
+﻿using BoxOfficeDemo.Shared.Extensions;
 using System.ComponentModel.DataAnnotations;
 
 namespace BoxOfficeDemo.Shared.Models

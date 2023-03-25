@@ -14,9 +14,8 @@
             <h4 class="m-0">@WatchList.MovieName</h4>
         </div>
         <div class="col text-center m-auto">
-            <CustomBtn Classes="@("btn btn-outline-danger")"
-                       ClickAction="async ()=> await Remove(WatchList.Id, WatchList.MovieName)"
-                       Style="@("border-radius: 15px")">
+            <CustomBtn Classes="@("btn btn-outline-danger roundedbtn")"
+                       ClickAction="async ()=> await Remove(WatchList.Id, WatchList.MovieName)">
                 <SpanIcon>
                     <span class="bi bi-x-lg"></span>
                 </SpanIcon>
