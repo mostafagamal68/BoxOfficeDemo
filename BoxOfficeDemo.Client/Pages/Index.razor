@@ -9,41 +9,58 @@
 <div class="container">
     <h1>Movies</h1>
     <div class="row">
-        <Virtualize Context="Movie" Items="MoviesService.MoviesList.OrderByDescending(c=>c.ReleasedDate).ToList()">
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3 p-2">
-                <MovieCard MovieID="@Movie.MovieID"
-                           MovieName="@(Movie.MovieName.Length > 40 ? $"{Movie.MovieName.Substring(0,37)}..." : Movie.MovieName)"
-                           MovieNameTooltip="@Movie.MovieName"
-                           Genere="@Movie.Genere"
-                           Image="@Movie.Image"
-                           Length="@Movie.Length"
-                           ParentalGuide="@Movie.ParentalGuide"
-                           Rate="@Movie.Rate"
-                           ReleasedDate="@Movie.ReleasedDate"
-                           AddWatchList="AddtoWatchLater"
-                           Index="true">
-                </MovieCard>
-            </div>
-        </Virtualize>
+        @if (movies != null)
+        {
+            <LazyLoadingContent ObserverTargetId="observerTarget" ObservableTargetReached="async (e) => { if (page <= movies.Count) await LoadMovies(); }">
+                <Virtualize Context="Movie" Items="movies.Items">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3 p-2">
+                        <MovieCard MovieID="@Movie.MovieID"
+                               MovieName="@(Movie.MovieName?.Length > 40 ? $"{Movie.MovieName.Substring(0,37)}..." : Movie.MovieName)"
+                               MovieNameTooltip="@Movie.MovieName"
+                               Genere="@Movie.Genere"
+                               Image="@Movie.Image"
+                               Length="@Movie.Length"
+                               ParentalGuide="@Movie.ParentalGuide"
+                               Rate="@Movie.Rate"
+                               ReleasedDate="@Movie.ReleasedDate"
+                               AddWatchList="AddtoWatchLater"
+                               Index="true">
+                        </MovieCard>
+                    </div>
+                </Virtualize>
+                <div id="observerTarget"></div>
+            </LazyLoadingContent>
+        }
     </div>
 </div>
 
 @code {
+    private int page = 0;
+    MoviesFilterAndPagination movies = new();
     protected override async Task OnInitializedAsync()
     {
         try
         {
             IsLoading = true;
-            await MoviesService.GetMovies();
-            IsLoading = false;
             await WatchListService.Init();
             base.OnInitialized();
         }
         catch (Exception ex)
         {
             ToastService.ShowError(ex.Message);
+            IsLoading = false;
         }
+    }
+
+    private async Task LoadMovies()
+    {
+        IsLoading = true;
+        var result = await MoviesService.GetMoviesList(page);
+        page++;
+        movies.Items.AddRange(result.Items);
+        movies.PageIndex = result.PageIndex;
+        movies.Count = result.Count;
+        IsLoading = false;
     }
 
     public async Task AddtoWatchLater(SingleWatchList watchList)

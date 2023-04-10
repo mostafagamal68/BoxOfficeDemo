@@ -84,13 +84,15 @@
                 ToastSettings = settings
             };
             ToastList.Add(toast);
+            if(level != ToastLevel.Error)
+            {                
+                var timeout = Timeout * 1000;
+                var toastTimer = new Timer(timeout);
 
-            var timeout = Timeout * 1000;
-            var toastTimer = new Timer(timeout);
-
-            toastTimer.Elapsed += (sender, args) => { RemoveToast (toast.Id); };
-            toastTimer.AutoReset = false;
-            toastTimer.Start();
+                toastTimer.Elapsed += (sender, args) => { RemoveToast (toast.Id); };
+                toastTimer.AutoReset = false;
+                toastTimer.Start();
+            }
             StateHasChanged();
         });
     }

@@ -4,6 +4,20 @@
 @inherits CustomComponentBase
 @attribute [Authorize(Roles = "Administrator")]
 
+<style>
+    .search{
+        color: gray;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-weight: bold;
+        font-size: 1.4em;
+        padding: 0 0.2em;
+        line-height: 2.4em;
+        cursor: pointer;        
+    }
+</style>
+
 <PageTitle>Movies</PageTitle>
 <Loader Toggle="IsLoading"></Loader>
 <div class="row">
@@ -14,17 +28,7 @@
     <div class="col-3">
         <div class="position-relative d-inline-block w-100">
             <input type="text" class="@($"form-control d-inline my-2 align-middle {Theme.BackColor} {Theme.FontColor}")" style="padding-right: 1.4em;" @bind="searchText" />
-            <span class="bi bi-search" style="
-                        color:gray;
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                        font-weight: bold;
-                        font-size: 1.4em;
-                        padding: 0 0.2em;
-                        line-height: 2.4em;
-                        cursor: pointer;"
-                  @onclick="()=>Get(0)">
+            <span class="bi bi-search search" @onclick="()=>Get(0)">
             </span>
         </div>
     </div>

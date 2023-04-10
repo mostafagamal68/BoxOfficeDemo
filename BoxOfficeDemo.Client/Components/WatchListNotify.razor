@@ -1,11 +1,11 @@
 ﻿@inject IWatchListService WatchListervice
 
-<button type="button" class="btn btn-outline-primary position-relative m-0 roundedcorner"
+<button type="button" class="btn btn-outline-primary position-relative mx-1 roundedcorner"
         @onclick="async ()=> await ShowWatchList.InvokeAsync()">
     @*@onclick="WatchListervice.Reset"*@
     My Watchlist
     <i class="oi oi-list-rich"></i>
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger my-1">
         @if (WatchListervice.Count > 0)
         {
             @WatchListervice.Count

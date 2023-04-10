@@ -1,0 +1,30 @@
+﻿@inherits CustomComponentBase
+@ChildContent
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public string? ObserverTargetId { get; set; }
+    [Parameter]
+    public EventCallback<bool> ObservableTargetReached { get; set; }
+    private DotNetObjectReference<LazyLoadingContent>? objectRef;
+    private bool IsRunning { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objectRef = DotNetObjectReference.Create(this);
+            var initResult = await JS.InvokeAsync<dynamic>("Observer.Initialize", objectRef, ObserverTargetId);
+        }
+    }
+    [JSInvokable]
+    public async Task OnIntersection()
+    {
+        if (!IsRunning)
+        {
+            IsRunning = true;
+            await ObservableTargetReached.InvokeAsync(true);
+            IsRunning = false;
+        }
+    }
+}

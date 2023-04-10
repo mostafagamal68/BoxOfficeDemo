@@ -1,0 +1,40 @@
+﻿@if (Pages is not null)
+{
+    <nav class="mx-3" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach (var Page in Pages)
+            {
+                if (!Page.IsAuthorized)
+                {
+                    <li class="breadcrumb-item"><a class="animated-underline" href="/BoxOfficeDemo/@Page.PageName">@Page.PageName</a></li>
+                }
+                else
+                {
+                    <AuthorizeView Roles="Administrator">
+                        <Authorized>
+                            <li class="breadcrumb-item"><a class="animated-underline" href="/BoxOfficeDemo/@Page.PageName">@Page.PageName</a></li>
+                        </Authorized>
+                        <NotAuthorized>
+                            <li class="breadcrumb-item"><p class="d-flex m-0">@(string.IsNullOrEmpty(Page.UnAuthorizedPage) ? Page.PageName : Page.UnAuthorizedPage)</p></li>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                }
+            }
+            <li class="breadcrumb-item active" aria-current="page">@CurrentPage</li>
+        </ol>
+    </nav>
+}
+
+@code {
+    [Parameter]
+    public List<BreadCrmubData>? Pages { get; set; }
+    [Parameter]
+    public string? CurrentPage { get; set; }
+
+    public class BreadCrmubData
+    {
+        public string PageName { get; set; } = "";
+        public bool IsAuthorized { get; set; } = false;
+        public string? UnAuthorizedPage { get; set; } = null;
+    }
+}

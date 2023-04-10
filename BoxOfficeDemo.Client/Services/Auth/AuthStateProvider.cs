@@ -13,7 +13,6 @@ namespace BoxOfficeDemo.Client.Services.Auth
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
-        private readonly IToastService _toastService;
         private readonly AuthenticationState _anonymous;
         private readonly CurrentSession _currentUser;
 
@@ -30,22 +29,22 @@ namespace BoxOfficeDemo.Client.Services.Auth
             try
             {
                 var token = await _localStorage.GetItemAsync<string>("authToken");
-            if (string.IsNullOrWhiteSpace(token))
-                return _anonymous;
+                if (string.IsNullOrWhiteSpace(token))
+                    return _anonymous;
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-            var id = JwtParser.ParseClaimsFromJwt(token).Select(s => s.Value).ToArray()[1];
-            LoggedUser.Id = id;
-            var user = await _httpClient.GetFromJsonAsync<UserForLoginDto>("accounts/getuserinfo/"+ id);
-            if (user != null)
-            {
-                _currentUser.Set("Name", $"{user.FirstName} {user.LastName}");
-                _currentUser.Set("UserName", user.UserName);
-                _currentUser.Set("Email", user.Email);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+                var id = JwtParser.ParseClaimsFromJwt(token).Select(s => s.Value).ToArray()[1];
+                LoggedUser.Id = id;
+                var user = await _httpClient.GetFromJsonAsync<UserForLoginDto>("accounts/getuserinfo/" + id);
+                if (user != null)
+                {
+                    _currentUser.Set("Name", $"{user.FirstName} {user.LastName}");
+                    _currentUser.Set("UserName", user.UserName);
+                    _currentUser.Set("Email", user.Email);
+                }
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
             }
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
-            }
-            catch (Exception ex)
+            catch
             {
                 return new AuthenticationState(new ClaimsPrincipal());
             }

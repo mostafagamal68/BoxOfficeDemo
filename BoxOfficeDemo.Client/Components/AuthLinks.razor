@@ -4,7 +4,7 @@
 <AuthorizeView>
     <Authorized>
         Hello, @this.CurrentUser.Get("Name")
-        <a href="Logout" class="animated-underline mx-2">Log out</a>
+        <a href="Logout" class="animated-underline mx-2"><i class="bi bi-box-arrow-left mx-1"></i>Log out</a>
     </Authorized>
     <NotAuthorized>
         <a href="/Registration" class="animated-underline mx-2"
@@ -15,7 +15,8 @@
                     AnimationType=ModalAnimationType.FadeInOut,
                     Position=ModalPosition.Middle
                 }))"
-            @onclick:preventDefault>
+        @onclick:preventDefault>
+            <i class="bi bi-person-plus-fill mx-1"></i>
             Register
         </a>
         <a href="/Login" class="animated-underline mx-2"
@@ -25,8 +26,9 @@
                     ActivateFocusTrap=false,
                     AnimationType=ModalAnimationType.FadeInOut,
                     Position=ModalPosition.Middle
-                }))" 
-            @onclick:preventDefault>
+                }))"
+        @onclick:preventDefault>
+            <i class="bi bi-box-arrow-in-right mx-1"></i>
             Log in
         </a>
     </NotAuthorized>

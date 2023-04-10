@@ -2,11 +2,15 @@
 @page "/Movie/{id}"
 @page "/BoxOfficeDemo/Movie"
 @page "/BoxOfficeDemo/Movie/{id}"
+@using static BoxOfficeDemo.Client.Components.BreadCrumb;
 @inject IMoviesService MoviesService
 @inherits CustomComponentBase
 @attribute [Authorize(Roles = "Administrator")]
 
 <Loader Toggle="IsLoading"></Loader>
+<BreadCrumb Pages="@(new (){ new BreadCrmubData{PageName="Home"}, new BreadCrmubData{PageName="Movies"}})" 
+            CurrentPage="@(string.IsNullOrEmpty(Movie.MovieName) ? "New Movie" : Movie.MovieName)" />
+
 <div class="card shadow-sm m-3 mt-0 roundedcorner @Theme.BackColor @Theme.BorderColor">
     <div class="card-header roundedcorner @Theme.BorderColor">
         <div class="d-flex">
@@ -64,6 +68,10 @@
                     </div>
                     <div class="col text-center my-auto">
                         <CustomBtn Classes="@("col btn-primary")"
+                                   Text="@("New")"
+                                   ClickAction="@(()=>{Movie = new();NavigateToPage("BoxOfficeDemo/Movie");})">
+                        </CustomBtn>
+                        <CustomBtn Classes="@("col btn-success")"
                                    Text="@("Save")"
                                    Type="@("submit")">
                         </CustomBtn>

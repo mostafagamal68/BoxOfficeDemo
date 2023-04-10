@@ -2,32 +2,22 @@
 @page "/BoxOfficeDemo/Movies/{id}"
 @using Blazored.LocalStorage;
 @using Microsoft.JSInterop.Implementation;
+@using static BoxOfficeDemo.Client.Components.BreadCrumb;
 @inject IMoviesService MoviesService
 @inject IReviewsService ReviewsService
 @inherits Pages.Index
 
-<PageTitle>Movie : @Movie.MovieName</PageTitle>
 <style>
     .image-card {
         width: auto !important;
     }
 </style>
 
+<PageTitle>Movie : @Movie.MovieName</PageTitle>
 <Loader Toggle="IsLoading"></Loader>
-<nav class="mx-3" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="animated-underline" href="/BoxOfficeDemo">Home</a></li>
-        <AuthorizeView Roles="Administrator">
-            <Authorized>
-                <li class="breadcrumb-item"><a class="animated-underline" href="/BoxOfficeDemo/Movies">Movies</a></li>
-            </Authorized>
-            <NotAuthorized>
-                <li class="breadcrumb-item"><p class="d-flex m-0">Movies</p></li>
-            </NotAuthorized>
-        </AuthorizeView>
-        <li class="breadcrumb-item active" aria-current="page">@Movie.MovieName</li>
-    </ol>
-</nav>
+<BreadCrumb Pages="@(new (){ new BreadCrmubData{PageName="Home"}, new BreadCrmubData{PageName="Movies", IsAuthorized=true}})" 
+            CurrentPage="@(string.IsNullOrEmpty(Movie.MovieName) ? "New Movie" : Movie.MovieName)" />
+
 <MovieCard MovieID="@Movie.MovieID"
            MovieName="@Movie.MovieName"
            MovieNameTooltip="@Movie.MovieName"
