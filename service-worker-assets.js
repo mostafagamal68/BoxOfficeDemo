@@ -1,7 +1,7 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-pKFOc\/OzZ\/5Ivx22ba84tHFBqmtdvuU1k6fHdlVEJrw=",
+      "hash": "sha256-chslJD\/cgdXIUlR\/xmhbLlf0zCSi5pTM9GtH0Tu7u5g=",
       "url": "BoxOfficeDemo.Client.styles.css"
     },
     {
@@ -69,12 +69,28 @@
       "url": "icon-512.png"
     },
     {
+      "hash": "sha256-wfoBuefM8gpkJ0mY39NlLBN4weyXGsOuNRBZsu+c3l4=",
+      "url": "images\/Ant-Man and the Wasp Quantumania.jpg"
+    },
+    {
+      "hash": "sha256-3kIJPJEu7sCmLcBu2eSfFQFoi\/Ry\/UlzqgmfF5DNfzo=",
+      "url": "images\/Avatar The Way of Water.jpg"
+    },
+    {
       "hash": "sha256-bUNSEAijwarJ48aYVW7+1Zu71Re0W0zTFXh1C9QxIXE=",
       "url": "images\/Beast.jpg"
     },
     {
       "hash": "sha256-5d2o+mCDgs9P5WnViaAt1LlSd6qN1PLhC3CKnJfrsiE=",
       "url": "images\/BulletTrain.jpg"
+    },
+    {
+      "hash": "sha256-3fox7gm42\/aWetuDH4yiPrzVsVIyAtb2NRN5vpMccZs=",
+      "url": "images\/Creed III.jpg"
+    },
+    {
+      "hash": "sha256-94b777Zn+BU0q+3EbFG+WAik9mdZZWOLzs7fo6roUN0=",
+      "url": "images\/da3484abda32170bec140f8fe1a8f05a.gif"
     },
     {
       "hash": "sha256-sxVV3EqLTP6MfZfkkeA1LYzDpCa0JC8hpVx5t1urv5Y=",
@@ -85,6 +101,10 @@
       "url": "images\/DragonBallSuperSuperHero.jpg"
     },
     {
+      "hash": "sha256-4wTE+pIakqI8ePfJyXAtiiUzZoI3NZqTIrQv4D0G\/DA=",
+      "url": "images\/John Wick Chapter 4.jpg"
+    },
+    {
       "hash": "sha256-WDiyASodgYUgUQfPL+VDSrp0zmCBhy7aYewhcEkpMv0=",
       "url": "images\/MinionsTheRiseofGru.jpg"
     },
@@ -93,8 +113,16 @@
       "url": "images\/Puss in Boots The Last Wish.jpg"
     },
     {
+      "hash": "sha256-j9lI0YxKRRqw9L0mYvkciQ6NQpFR8Jkt28hcmWF9lBo=",
+      "url": "images\/Scream VI.jpg"
+    },
+    {
       "hash": "sha256-SIRuf5ok9XXE1ggUW4Kb13FSBsLx7tVENC4u5+4ojLE=",
       "url": "images\/Shazam Fury Of The Gods.jpg"
+    },
+    {
+      "hash": "sha256-c1pCBrK+bv9X7y1DM6a74VxH5qSNy+kwH16kM6SjSKE=",
+      "url": "images\/The Journey A Music Special from Andrea Bocelli.jpg"
     },
     {
       "hash": "sha256-0dBdV0OEatb1YhKsVnImceEZHO7hwk1+sTVVM62khFs=",
@@ -117,12 +145,16 @@
       "url": "images\/WheretheCrawdadsSing.jpg"
     },
     {
-      "hash": "sha256-Wq9LMC8755duQdX\/KdBPmqVj7KYQix2ctBGwUNEGR14=",
+      "hash": "sha256-1b7VchpcuiwWDCzPCCTjEGIjEqVb9rjlQoG2Z7oPGtQ=",
       "url": "index.html"
     },
     {
       "hash": "sha256-FX09qFNm\/pz++2QiOeqARsv5O\/Bwx1XCF8pUltmDPoc=",
       "url": "manifest.json"
+    },
+    {
+      "hash": "sha256-I6uXIm6I9klKAhhnvhsC\/jWuyzCH49FvVpV+HLjF520=",
+      "url": "scripts\/Observer.js"
     },
     {
       "hash": "sha256-x140p4oBNxpNPSW4hZYiXMjIZ5PbnDDu9GYtOwafqlo=",
@@ -161,7 +193,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-1MsjSNoYUUWqVjP1pzPB2gpoVdZG3PyWItivTfXiE3o=",
+      "hash": "sha256-mHkKlYghHtQa7MPn7lvFX8PemyzWOgiFwQPzi9SSopU=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -173,11 +205,11 @@
       "url": "_framework\/Blazored.Modal.dll"
     },
     {
-      "hash": "sha256-Y8MD+T9Y6uVbCbflV9hzwF6mFb3FKCCqGEmP2f+4fBw=",
+      "hash": "sha256-JRStAQoOyQ\/9AzwbRudbbgGItkr99Q60ZbIppbRPeuA=",
       "url": "_framework\/BoxOfficeDemo.Client.dll"
     },
     {
-      "hash": "sha256-CYhozeJc1TuLJHQh6AURPKfT6qhRIqH66rdNdyWHbn8=",
+      "hash": "sha256-hDyTg4BFOktCvKeFNfAaKAMt89zzycLZ69eoo2ssgsk=",
       "url": "_framework\/BoxOfficeDemo.Shared.dll"
     },
     {
@@ -653,5 +685,5 @@
       "url": "_content\/Blazored.Modal\/BlazoredModal.razor.js"
     }
   ],
-  "version": "8Y9OCrbC"
+  "version": "vNkhBCSK"
 };
