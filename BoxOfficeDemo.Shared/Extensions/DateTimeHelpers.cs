@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BoxOfficeDemo.Shared.Extensions
+﻿namespace BoxOfficeDemo.Shared.Extensions
 {
-    public class DateTimeHelpers
+    public static class DateTimeHelpers
     {
+        public static string ToGeneralDateTime(this DateTime dateTime) => dateTime.ToString("G");
+        public static string ToGeneralDate(this DateTime dateTime) => dateTime.ToString("d");
+        public static string ToGeneralTime(this DateTime dateTime) => dateTime.ToString("T");
     }
 }

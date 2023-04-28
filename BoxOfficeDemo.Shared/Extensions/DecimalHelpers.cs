@@ -8,6 +8,7 @@ namespace BoxOfficeDemo.Shared.Extensions
 {
     public static class DecimalHelpers
     {
-        public static decimal ToIdDecimal(this string Id) => Convert.ToDecimal(Id.Replace('O', '.'));
+        public static string ToIdString(this decimal? Id) => Id?.ToString().Replace('.', 'O') ?? "";
+        public static string ToHtmlId(this decimal? Id) => Id?.ToString().Replace('.', '_') ?? "";
     }
 }
