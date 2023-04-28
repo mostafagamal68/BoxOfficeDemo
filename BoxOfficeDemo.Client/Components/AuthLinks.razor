@@ -1,6 +1,6 @@
 ﻿@using BoxOfficeDemo.Client.Pages.Account
 @inject IModalService ModalService
-@inject CurrentSession CurrentUser
+@inject Sessions CurrentUser
 <AuthorizeView>
     <Authorized>
         Hello, @this.CurrentUser.Get("Name")

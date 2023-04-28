@@ -5,7 +5,7 @@
 @attribute [Authorize(Roles = "Administrator")]
 
 <style>
-    .search{
+    .search {
         color: gray;
         position: absolute;
         top: 0;
@@ -14,7 +14,7 @@
         font-size: 1.4em;
         padding: 0 0.2em;
         line-height: 2.4em;
-        cursor: pointer;        
+        cursor: pointer;
     }
 </style>
 
@@ -70,19 +70,19 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
         <li class="page-item @(MoviesTable.PageIndex == 0 ? "disabled" : "")">
-            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(currentPage-1))">Previous</button>
+            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor} ")" @onclick="@(() => Get(currentPage-1))">Previous</button>
         </li>
         <li class="page-item">
             <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(0))">First</button>
         </li>
         @foreach (int p in Enumerable.Range(1, MoviesTable.Count))
         {
-            <li class="page-item">
+            <li class="@($"page-item {(p-1 == currentPage ? "active" : "")}")">
                 <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(p-1))">@(p)</button>
             </li>
         }
         <li class="page-item">
-            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(MoviesTable.Count-1))">Last</button>
+            <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor} ")" @onclick="@(() => Get(MoviesTable.Count-1))">Last</button>
         </li>
         <li class="page-item @(MoviesTable.PageIndex == MoviesTable.Count - 1 ? "disabled" : "")">
             <button class="@($"page-link {Theme.BackColor} {Theme.BorderColor}")" @onclick="@(() => Get(currentPage+1))">Next</button>
@@ -95,16 +95,23 @@
     MoviesFilterAndPagination MoviesTable = new();
     protected override async Task OnInitializedAsync()
     {
-        await Get(0);
+        if (CurrentSession.Get("MoviesCache") != null)
+        {
+            MoviesTable = (MoviesFilterAndPagination)CurrentSession.Get("MoviesCache");
+            currentPage = MoviesTable.PageIndex;
+        }
+        else
+            await Get(0);
     }
 
-    private async Task Get(int page)
+    async Task Get(int page)
     {
         try
         {
             IsLoading = true;
             currentPage = page;
             MoviesTable = await MoviesService.GetMoviesList(page, searchText);
+            CurrentSession.Set("MoviesCache", MoviesTable);
             IsLoading = false;
         }
         catch (Exception ex)

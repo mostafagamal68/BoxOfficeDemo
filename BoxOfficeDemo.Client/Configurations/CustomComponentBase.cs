@@ -27,7 +27,7 @@ namespace BoxOfficeDemo.Client.Configurations
         [Inject]
         public IAuthenticationService AuthenticationService { get; set; }
         [Inject]
-        public CurrentSession CurrentUser { get; set; }
+        public Sessions CurrentSession { get; set; }
 
         [CascadingParameter(Name = "DateFormat")]
         public string DateFormat { get; set; }

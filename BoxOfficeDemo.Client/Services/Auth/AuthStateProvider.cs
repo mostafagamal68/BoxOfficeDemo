@@ -14,9 +14,9 @@ namespace BoxOfficeDemo.Client.Services.Auth
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationState _anonymous;
-        private readonly CurrentSession _currentUser;
+        private readonly Sessions _currentUser;
 
-        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage, CurrentSession currentUser)
+        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage, Sessions currentUser)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;

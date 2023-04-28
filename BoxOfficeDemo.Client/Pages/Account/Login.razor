@@ -87,9 +87,9 @@
                     _userInfo = await AuthenticationService.GetCurrentUserInfo(result.UserID);
                     if (_userInfo != null)
                     {
-                        CurrentUser.Set("Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
-                        CurrentUser.Set("UserName", _userInfo.UserName);
-                        CurrentUser.Set("Email", _userInfo.Email);
+                        CurrentSession.Set("Name", $"{_userInfo.FirstName} {_userInfo.LastName}");
+                        CurrentSession.Set("UserName", _userInfo.UserName);
+                        CurrentSession.Set("Email", _userInfo.Email);
                     }
                 }
                 NavigationManager.NavigateTo("/BoxOfficeDemo", true);

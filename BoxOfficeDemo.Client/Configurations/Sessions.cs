@@ -2,7 +2,7 @@
 
 namespace BoxOfficeDemo.Client.Configurations
 {
-    public class CurrentSession
+    public class Sessions
     {
         private readonly Dictionary<string, object> Session = new();
         public event Action OnChange;
@@ -19,6 +19,12 @@ namespace BoxOfficeDemo.Client.Configurations
         public object? Get(string key)
         {
             return Session.ContainsKey(key) ? Session[key] : null;
+        }
+
+        public void Delete(string key)
+        {
+            if (Session.ContainsKey(key))
+                Session.Remove(key);
         }
 
         public void Clear()
