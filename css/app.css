@@ -222,3 +222,15 @@ article {
     .animated-underline:hover::before {
         transform: scaleX(1);
     }
+
+.search {
+    color: gray;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0 0.2em;
+    line-height: 2.4em;
+    cursor: pointer;
+}
