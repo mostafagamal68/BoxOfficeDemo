@@ -39,8 +39,7 @@ namespace BoxOfficeDemo.Server.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Image")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan?>("Length")
                         .HasColumnType("time");
@@ -69,158 +68,6 @@ namespace BoxOfficeDemo.Server.Migrations
                     b.HasKey("MovieID");
 
                     b.ToTable("Movies");
-
-                    b.HasData(
-                        new
-                        {
-                            MovieID = 0.00000001m,
-                            Description = "A young woman is courted and swept off her feet, only to realize a gothic conspiracy is afoot.",
-                            Director = "Jessica M. Thompson",
-                            Genere = "Horror",
-                            Image = "/images/TheInvitation.jpg",
-                            Length = new TimeSpan(0, 1, 45, 0, 0),
-                            MovieName = "The Invitation",
-                            ParentalGuide = 13,
-                            Rate = 5.3m,
-                            ReleasedDate = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Nathalie Emmanuel,Thomas Doherty,Stephanie Corneliussen",
-                            Writer = "Blair Butler"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000002m,
-                            Description = "Five assassins aboard a fast moving bullet train find out their missions have something in common.",
-                            Director = "David Leitch",
-                            Genere = "Action",
-                            Image = "/images/BulletTrain.jpg",
-                            Length = new TimeSpan(0, 2, 7, 0, 0),
-                            MovieName = "Bullet Train",
-                            ParentalGuide = 15,
-                            Rate = 7.5m,
-                            ReleasedDate = new DateTime(2022, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Brad PittJoey, KingAaron, Taylor-Johnson",
-                            Writer = "Zak Olkewicz"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000003m,
-                            Description = "A father and his two teenage daughters find themselves hunted by a massive rogue lion intent on proving that the Savanna has but one apex predator.",
-                            Director = "Baltasar Kormákur",
-                            Genere = "Drama",
-                            Image = "/images/Beast.jpg",
-                            Length = new TimeSpan(0, 1, 33, 0, 0),
-                            MovieName = "Beast",
-                            ParentalGuide = 16,
-                            Rate = 5.9m,
-                            ReleasedDate = new DateTime(2022, 8, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Liyabuya Gongo, Martin Munro, Daniel Hadebe",
-                            Writer = "Ryan Engle"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000004m,
-                            Description = "After more than thirty years of service as one of the Navy's top aviators, Pete Mitchell is where he belongs, pushing the envelope as a courageous test pilot and dodging the advancement in rank that would ground him.",
-                            Director = "Joseph Kosinski",
-                            Genere = "Action",
-                            Image = "/images/TopGunMaverick.jpg",
-                            Length = new TimeSpan(0, 1, 33, 0, 0),
-                            MovieName = "Top Gun: Maverick",
-                            ParentalGuide = 13,
-                            Rate = 8.5m,
-                            ReleasedDate = new DateTime(2022, 5, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Tom Cruise, Val Kilmer, Miles Teller",
-                            Writer = "Jim Cash"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000005m,
-                            Description = "The Red Ribbon Army from Goku's past has returned with two new androids to challenge him and his friends.",
-                            Director = "Tetsuro Kodama",
-                            Genere = "Animation",
-                            Image = "/images/DragonBallSuperSuperHero.jpg",
-                            Length = new TimeSpan(0, 1, 40, 0, 0),
-                            MovieName = "Dragon Ball Super: Super Hero",
-                            ParentalGuide = 13,
-                            Rate = 7.3m,
-                            ReleasedDate = new DateTime(2022, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Masako Nozawa, Toshio Furukawa, Yûko Minaguchi",
-                            Writer = "Akira Toriyama"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000006m,
-                            Description = "Krypto the Super-Dog and Superman are inseparable best friends, sharing the same superpowers and fighting crime side by side in Metropolis. However, Krypto must master his own powers for a rescue mission when Superman is kidnapped.",
-                            Director = "Jared Stern",
-                            Genere = "Animation",
-                            Image = "/images/DCLeagueofSuperPets.jpg/",
-                            Length = new TimeSpan(0, 1, 45, 0, 0),
-                            MovieName = "DC League of Super-Pets",
-                            ParentalGuide = 7,
-                            Rate = 7.6m,
-                            ReleasedDate = new DateTime(2022, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Dwayne Johnson, Dwayne Johnson, Kate McKinnon",
-                            Writer = "John Whittington"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000007m,
-                            Description = "A lonely scholar, on a trip to Istanbul, discovers a Djinn who offers her three wishes in exchange for his freedom.",
-                            Director = "George Miller",
-                            Genere = "Drama",
-                            Image = "/images/ThreeThousandYearsofLonging.jpg",
-                            Length = new TimeSpan(0, 1, 48, 0, 0),
-                            MovieName = "Three Thousand Years of Longing",
-                            ParentalGuide = 15,
-                            Rate = 6.9m,
-                            ReleasedDate = new DateTime(2022, 8, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Tilda Swinton, Idris Elba, Pia Thunderbolt",
-                            Writer = "Augusta Gore"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000008m,
-                            Description = "The untold story of one twelve-year-old's dream to become the world's greatest supervillain.",
-                            Director = "Kyle Balda",
-                            Genere = "Animation",
-                            Image = "/images/MinionsTheRiseofGru.jpg",
-                            Length = new TimeSpan(0, 1, 27, 0, 0),
-                            MovieName = "Minions: The Rise of Gru",
-                            ParentalGuide = 7,
-                            Rate = 6.6m,
-                            ReleasedDate = new DateTime(2022, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Steve Carell, Pierre Coffin, Alan Arkin",
-                            Writer = "Matthew Fogel"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000009m,
-                            Description = "Thor enlists the help of Valkyrie, Korg and ex-girlfriend Jane Foster to fight Gorr the God Butcher, who intends to make the gods extinct.",
-                            Director = "Taika Waititi",
-                            Genere = "Action",
-                            Image = "/images/ThorLoveandThunder.jpg",
-                            Length = new TimeSpan(0, 1, 58, 0, 0),
-                            MovieName = "Thor: Love and Thunder",
-                            ParentalGuide = 13,
-                            Rate = 6.7m,
-                            ReleasedDate = new DateTime(2022, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Chris Hemsworth, Natalie Portman, Christian Bale",
-                            Writer = "Jennifer Kaytin Robinson"
-                        },
-                        new
-                        {
-                            MovieID = 0.00000010m,
-                            Description = "A woman who raised herself in the marshes of the deep South becomes a suspect in the murder of a man she was once involved with.",
-                            Director = "Olivia Newman",
-                            Genere = "Drama",
-                            Image = "/images/WheretheCrawdadsSing.jpg",
-                            Length = new TimeSpan(0, 2, 5, 0, 0),
-                            MovieName = "Where the Crawdads Sing",
-                            ParentalGuide = 13,
-                            Rate = 7.1m,
-                            ReleasedDate = new DateTime(2022, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Stars = "Daisy Edgar-Jones, Taylor John Smith, Harris Dickinson",
-                            Writer = "Delia Owens"
-                        });
                 });
 
             modelBuilder.Entity("BoxOfficeDemo.Server.Models.Review", b =>
@@ -327,44 +174,6 @@ namespace BoxOfficeDemo.Server.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "cb5b3ced-a42a-413c-92f6-d18a242c2a5a",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "1c92e25f-98de-4635-bd1e-07942b5a7ccb",
-                            Email = "admin@identity.com",
-                            EmailConfirmed = false,
-                            FirstName = "System",
-                            LastName = "Admin",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@IDENTITY.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPlHiMccQ73M3/2GklzjNTTx6mVQCoQAgkUV2nQgYVWlh+mKwfbpjnmoZHQrUenvmQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "43afd52c-1d69-4d4c-9e8f-95e379bf8cab",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = "b6c9180a-621c-4d6c-9827-6a8a1174fd81",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4f27ea7-5a93-4587-9d41-0d6f752c466c",
-                            Email = "user@identity.com",
-                            EmailConfirmed = false,
-                            FirstName = "System",
-                            LastName = "User",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER@IDENTITY.COM",
-                            NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJByo52H0I2V3v+gyAUy75twzn0aTHAyMlJ+sIUAYarX8h8vJdIDvQYBAatpAaHxAQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "225ea77e-d8a0-4dfe-ad8d-858a3cb1cedf",
-                            TwoFactorEnabled = false,
-                            UserName = "user"
-                        });
                 });
 
             modelBuilder.Entity("BoxOfficeDemo.Server.Models.WatchList", b =>
@@ -416,29 +225,6 @@ namespace BoxOfficeDemo.Server.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "32ecd8d0-3110-40a1-beae-04d1a43aca34",
-                            ConcurrencyStamp = "a02163e2-3d2e-4e29-af45-6373e8b188d1",
-                            Name = "Visitor",
-                            NormalizedName = "VISITOR"
-                        },
-                        new
-                        {
-                            Id = "e532da13-62c4-4582-9d7a-834b080b2ac1",
-                            ConcurrencyStamp = "6f07c8ee-a5d5-41e3-82e4-075dc9916971",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "f58b5d1d-9cbd-4fd8-aa12-5ecd0c48b56a",
-                            ConcurrencyStamp = "2ea7171e-721f-4594-91c1-98a3f84e9b5b",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -526,18 +312,6 @@ namespace BoxOfficeDemo.Server.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "cb5b3ced-a42a-413c-92f6-d18a242c2a5a",
-                            RoleId = "e532da13-62c4-4582-9d7a-834b080b2ac1"
-                        },
-                        new
-                        {
-                            UserId = "b6c9180a-621c-4d6c-9827-6a8a1174fd81",
-                            RoleId = "f58b5d1d-9cbd-4fd8-aa12-5ecd0c48b56a"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

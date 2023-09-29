@@ -1,9 +1,9 @@
 ﻿@using BoxOfficeDemo.Client.Pages.Account
 @inject IModalService ModalService
-@inject Sessions CurrentUser
+@inject Sessions User
 <AuthorizeView>
     <Authorized>
-        Hello, @this.CurrentUser.Get("Name")
+        Hello, @User.Get("Name")
         <a href="Logout" class="animated-underline mx-2"><i class="bi bi-box-arrow-left mx-1"></i>Log out</a>
     </Authorized>
     <NotAuthorized>
@@ -37,7 +37,6 @@
 @code {
     protected override void OnInitialized()
     {
-        CurrentUser.OnChange += StateHasChanged;
+        User.OnChange += StateHasChanged;
     }
-
 }

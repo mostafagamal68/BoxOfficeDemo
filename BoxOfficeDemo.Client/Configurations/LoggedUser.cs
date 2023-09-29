@@ -1,8 +1,7 @@
-﻿namespace BoxOfficeDemo.Client.Configurations
+﻿namespace BoxOfficeDemo.Client.Configurations;
+
+public class LoggedUser
 {
-    public class LoggedUser
-    {
-        public static string? Id { get; set; }
-        
-    }
+    public static string? Id { get; set; }
+    
 }

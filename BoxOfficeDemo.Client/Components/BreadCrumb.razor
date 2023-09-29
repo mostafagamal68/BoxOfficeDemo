@@ -27,14 +27,7 @@
 
 @code {
     [Parameter]
-    public List<BreadCrmubData>? Pages { get; set; }
+    public List<BreadCrumbData>? Pages { get; set; }
     [Parameter]
     public string? CurrentPage { get; set; }
-
-    public class BreadCrmubData
-    {
-        public string PageName { get; set; } = "";
-        public bool IsAuthorized { get; set; } = false;
-        public string? UnAuthorizedPage { get; set; } = null;
-    }
 }

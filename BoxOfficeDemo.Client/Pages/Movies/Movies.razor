@@ -4,20 +4,6 @@
 @inherits CustomComponentBase
 @attribute [Authorize(Roles = "Administrator")]
 
-<style>
-    .search {
-        color: gray;
-        position: absolute;
-        top: 0;
-        right: 0;
-        font-weight: bold;
-        font-size: 1.4em;
-        padding: 0 0.2em;
-        line-height: 2.4em;
-        cursor: pointer;
-    }
-</style>
-
 <PageTitle>Movies</PageTitle>
 <Loader Toggle="IsLoading"></Loader>
 <div class="row">

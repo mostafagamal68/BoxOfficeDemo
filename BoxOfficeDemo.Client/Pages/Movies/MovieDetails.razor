@@ -2,7 +2,6 @@
 @page "/BoxOfficeDemo/Movies/{id}"
 @using Blazored.LocalStorage;
 @using Microsoft.JSInterop.Implementation;
-@using static BoxOfficeDemo.Client.Components.BreadCrumb;
 @inject IMoviesService MoviesService
 @inject IReviewsService ReviewsService
 @inherits Pages.Index
@@ -15,7 +14,7 @@
 
 <PageTitle>Movie : @Movie.MovieName</PageTitle>
 <Loader Toggle="IsLoading"></Loader>
-<BreadCrumb Pages="@(new (){ new BreadCrmubData{PageName="Home"}, new BreadCrmubData{PageName="Movies", IsAuthorized=true}})" 
+<BreadCrumb Pages="@BreadCrumbDataList"
             CurrentPage="@(string.IsNullOrEmpty(Movie.MovieName) ? "New Movie" : Movie.MovieName)" />
 
 <MovieCard MovieID="@Movie.MovieID"
@@ -83,23 +82,23 @@
                 <div class="d-flex">
                     <label class="my-2">Rate </label>
                     <button type="button" class="btn"
-                        @onmouseout="@(()=> SetRate("out",1))" @onmouseover="@(()=> SetRate("over",1))" @onclick="@(()=> SetRate("click",1))">
+                    @onmouseout="@(()=> SetRate("out",1))" @onmouseover="@(()=> SetRate("over",1))" @onclick="@(()=> SetRate("click",1))">
                         <span class="bi @firstStar" style="color:goldenrod;"></span>
                     </button>
                     <button type="button" class="btn"
-                        @onmouseout="@(()=> SetRate("out",2))" @onmouseover="@(()=> SetRate("over",2))" @onclick="@(()=> SetRate("click",2))">
+                    @onmouseout="@(()=> SetRate("out",2))" @onmouseover="@(()=> SetRate("over",2))" @onclick="@(()=> SetRate("click",2))">
                         <span class="bi @secondStar" style="color:goldenrod;"></span>
                     </button>
                     <button type="button" class="btn"
-                        @onmouseout="@(()=> SetRate("out",3))" @onmouseover="@(()=> SetRate("over",3))" @onclick="@(()=> SetRate("click",3))">
+                    @onmouseout="@(()=> SetRate("out",3))" @onmouseover="@(()=> SetRate("over",3))" @onclick="@(()=> SetRate("click",3))">
                         <span class="bi @thirdStar" style="color:goldenrod;"></span>
                     </button>
                     <button type="button" class="btn"
-                        @onmouseout="@(()=> SetRate("out",4))" @onmouseover="@(()=> SetRate("over",4))" @onclick="@(()=> SetRate("click",4))">
+                    @onmouseout="@(()=> SetRate("out",4))" @onmouseover="@(()=> SetRate("over",4))" @onclick="@(()=> SetRate("click",4))">
                         <span class="bi @fourthStar" style="color:goldenrod;"></span>
                     </button>
                     <button type="button" class="btn"
-                        @onmouseout="@(()=> SetRate("out",5))" @onmouseover="@(()=> SetRate("over",5))" @onclick="@(()=> SetRate("click",5))">
+                    @onmouseout="@(()=> SetRate("out",5))" @onmouseover="@(()=> SetRate("over",5))" @onclick="@(()=> SetRate("click",5))">
                         <span class="bi @fifthStar" style="color:goldenrod;"></span>
                     </button>
                 </div>
@@ -129,6 +128,18 @@
     string thirdStar = "bi-star";
     string fourthStar = "bi-star";
     string fifthStar = "bi-star";
+    List<BreadCrumbData> BreadCrumbDataList = new()
+    {
+        new BreadCrumbData
+        {
+            PageName = "Home"
+        },
+        new BreadCrumbData
+        {
+            PageName = "Movies",
+            IsAuthorized = true
+        },
+    };
 
     protected override async Task OnInitializedAsync()
     {
