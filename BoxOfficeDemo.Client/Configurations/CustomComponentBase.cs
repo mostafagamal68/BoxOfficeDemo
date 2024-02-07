@@ -42,6 +42,7 @@ public class CustomComponentBase : ComponentBase
     public Task<AuthenticationState> authenticationStateTask { get; set; }
 
     public bool IsLoading { get; set; }
+    public bool IsError { get; set; }
     public void NavigateToPage(string pagename, decimal? id = null)
     {
         if (id != null)

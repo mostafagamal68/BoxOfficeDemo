@@ -11,20 +11,28 @@
     <div class="row">
         @if (movies != null)
         {
+            if (!movies.Items.Any() && !IsLoading)
+            {
+                <div class="alert alert-info">No Content</div>
+            }
+            if (IsError)
+            {
+                <div class="alert alert-danger">Error has been occured</div>
+            }
             <LazyLoadingContent ObserverTargetId="observerTarget" ObservableTargetReached="async (e) => { if (page <= movies.Count) await LoadMovies(); }">
                 <Virtualize Context="Movie" Items="movies.Items">
                     <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3 p-2">
                         <MovieCard MovieID="@Movie.MovieID"
-                               MovieName="@(Movie.MovieName?.Length > 40 ? $"{Movie.MovieName.Substring(0,37)}..." : Movie.MovieName)"
-                               MovieNameTooltip="@Movie.MovieName"
-                               Genere="@Movie.Genere"
-                               Image="@Movie.Image"
-                               Length="@Movie.Length"
-                               ParentalGuide="@Movie.ParentalGuide"
-                               Rate="@Movie.Rate"
-                               ReleasedDate="@Movie.ReleasedDate"
-                               AddWatchList="AddtoWatchLater"
-                               Index="true">
+                                   MovieName="@(Movie.MovieName?.Length > 40 ? $"{Movie.MovieName.Substring(0,37)}..." : Movie.MovieName)"
+                                   MovieNameTooltip="@Movie.MovieName"
+                                   Genere="@Movie.Genere"
+                                   Image="@Movie.Image"
+                                   Length="@Movie.Length"
+                                   ParentalGuide="@Movie.ParentalGuide"
+                                   Rate="@Movie.Rate"
+                                   ReleasedDate="@Movie.ReleasedDate"
+                                   AddWatchList="AddtoWatchLater"
+                                   Index="true">
                         </MovieCard>
                     </div>
                 </Virtualize>
@@ -43,24 +51,38 @@
         {
             IsLoading = true;
             await WatchListService.Init();
-            base.OnInitialized();
         }
         catch (Exception ex)
         {
+            IsError = true;
             ToastService.ShowError(ex.Message);
+        }
+        finally
+        {
             IsLoading = false;
         }
     }
 
     private async Task LoadMovies()
     {
-        IsLoading = true;
-        var result = await MoviesService.GetMoviesList(page);
-        page++;
-        movies.Items.AddRange(result.Items);
-        movies.PageIndex = result.PageIndex;
-        movies.Count = result.Count;
-        IsLoading = false;
+        try
+        {
+            IsLoading = true;
+            var result = await MoviesService.GetMoviesList(page);
+            page++;
+            movies.Items.AddRange(result.Items);
+            movies.PageIndex = result.PageIndex;
+            movies.Count = result.Count;
+        }
+        catch (Exception ex)
+        {
+            IsError = true;
+            ToastService.ShowError(ex.Message);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     public async Task AddtoWatchLater(SingleWatchList watchList)
