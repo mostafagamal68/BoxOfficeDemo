@@ -12,20 +12,17 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var allowedHosts = new List<string> { "localhost", "github"};
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            //policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
-            //        .AllowAnyHeader().AllowAnyMethod();
-            policy.SetIsOriginAllowed(origin => allowedHosts.Contains(new Uri(origin).Host))
-                    .AllowAnyHeader().AllowAnyMethod();
-            //policy.WithOrigins("https://mostafagamal68.github.io")
-            //        .AllowAnyHeader().AllowAnyMethod();
-        });
+    options.AddPolicy("AllowSpecificOrigin",
+            policy =>
+            {
+                policy.WithOrigins(builder.Configuration.GetSection("AllowedOrigins").Value.Split(','))
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -69,9 +66,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
-
-app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
