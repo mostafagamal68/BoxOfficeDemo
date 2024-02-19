@@ -17,12 +17,16 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 //builder.HostEnvironment.BaseAddress
-if (builder.HostEnvironment.IsDevelopment())
-    builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7227/api/") }.EnableIntercept(sp));
-else if (builder.HostEnvironment.IsEnvironment("NotDevelopment"))
-    builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:8010/api/") }.EnableIntercept(sp));
-else
-    builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://boxofficedemo.somee.com/api/") }.EnableIntercept(sp));
+var GetUri = () =>
+{
+    if (builder.HostEnvironment.IsDevelopment())
+        return "https://localhost:7227/api/";
+    else if (builder.HostEnvironment.IsEnvironment("Local"))
+        return "http://localhost:8010/api/";
+    else
+        return "https://boxofficedemo.somee.com/api/";
+};
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(GetUri()) }.EnableIntercept(sp));
 
 builder.Services.AddScoped<IMoviesService,MoviesService>();
 builder.Services.AddScoped<IReviewsService,ReviewsService>();
