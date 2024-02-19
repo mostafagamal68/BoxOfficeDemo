@@ -229,7 +229,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-TZHdaBM8qoErqrMBmXGrbo3o65j5vqb2hPoGacTVtC0=",
+      "hash": "sha256-xRt51gIryx1J9PA5g0qYAofIwQbSY\/GvUwdfbWsKTpE=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -249,11 +249,11 @@
       "url": "_framework\/Blazored.Modal.dll"
     },
     {
-      "hash": "sha256-+aVIrgP\/YwyJ3MB0uG1Vs\/BlaVxxj6ul6QuMiA0XHSM=",
+      "hash": "sha256-fwTniW6hxww3AgI+1cNufCbSf2blqfsAmQWiqBa9OIQ=",
       "url": "_framework\/BoxOfficeDemo.Client.dll"
     },
     {
-      "hash": "sha256-zulreSRmZSW\/9rFu4as2YaZ8b3vgILKMUgkku8CV5ec=",
+      "hash": "sha256-R2lYxSam8dhjVqdnFF0w1DQMKnk89TE1oAIxkos02kM=",
       "url": "_framework\/BoxOfficeDemo.Shared.dll"
     },
     {
@@ -721,5 +721,5 @@
       "url": "_content\/Blazored.Modal\/BlazoredModal.razor.js"
     }
   ],
-  "version": "Bs0fmmhf"
+  "version": "NT3N4VUk"
 };
