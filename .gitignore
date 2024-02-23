@@ -361,4 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/BoxOfficeDemo.Server/appsettings.Development.json
 /BoxOfficeDemo.Server/appsettings.json
+/BoxOfficeDemo.Client/wwwroot/appsettings.json
