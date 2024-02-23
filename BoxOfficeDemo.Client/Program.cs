@@ -24,7 +24,7 @@ var GetUri = () =>
     else if (builder.HostEnvironment.IsEnvironment("Local"))
         return "http://localhost:8010/api/";
     else
-        return "https://boxofficedemo.somee.com/api/";
+        return builder.Configuration.GetSection("Host").Value;
 };
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(GetUri()) }.EnableIntercept(sp));
 

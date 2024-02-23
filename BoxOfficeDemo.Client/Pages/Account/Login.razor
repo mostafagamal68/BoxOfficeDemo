@@ -97,7 +97,7 @@
         }
         catch (Exception ex)
         {
-            ToastService.ShowError(ex.Message);
+            ToastService.ShowError(ex.InnerException?.Message ?? ex.Message);
         }
     }
 }

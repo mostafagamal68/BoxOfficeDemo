@@ -34,7 +34,7 @@
             </div>
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col col-xl-8 col-md-6">
+                    <div class="col col-xl-8 col-md-7">
                         <strong class="col-form-label my-1">Genere</strong>
                         <InputSelect class=@($"form-select my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Genere">
                             <option value="" selected disabled hidden>Click and Choose here</option>
@@ -56,21 +56,35 @@
                         <InputDate class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.ReleasedDate" />
                         <strong class="col-form-label my-1">Length</strong>
                         <input Type="time" class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}") @bind="@Movie.Length" />
-                        <strong class="col-form-label my-1">Rate</strong>
-                        <InputNumber class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Rate" min="0" max="10" />
-                        <strong class="col-form-label my-1">Parental Guide</strong>
-                        <InputNumber class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.ParentalGuide" min="2" max="24" />
+                        <div class="d-flex justify-content-between gap-1">
+                            <div>
+                                <strong class="col-form-label my-1">Rate</strong>
+                                <InputNumber class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.Rate" min="0" max="10" />
+                            </div>
+                            <div>
+                                <strong class="col-form-label my-1">Parental Guide</strong>
+                                <InputNumber class=@($"form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) @bind-Value="Movie.ParentalGuide" min="2" max="24" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="col col-xl-4 col-md-6 text-center my-auto">
+                    <div class="col col-xl-4 col-md-5 text-center p-0 my-auto">
                         <img src="@Movie.Image" width="164" height="256" />
                     </div>
                 </div>
-                <strong class="col-form-label my-1">Image</strong>
                 <div class="row">
-                    <div class="col col-xl-8 col-md-6">
-                        <InputFile class=@($"col-md-6 form-control my-2 {Theme.BackColor} {Theme.FontColor}" ) OnChange="@HandleSelected" accept="image/png, image/jpeg, image/jpg" />
+                    <div class="col col-xl-8 col-md-7">
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <strong class="col-form-label my-1">Image</strong>
+                            <div class="form-check form-switch">
+                                <InputCheckbox @bind-Value="ImageAsPath" class="form-check-input" />
+                                <label class="form-check-label">Image Path</label>
+                            </div>
+                        </div>
+                        <InputFile class=@($"form-control {Theme.BackColor} {Theme.FontColor}" ) OnChange="@HandleSelected" accept="image/png, image/jpeg, image/jpg" />
                     </div>
-                    <div class="col text-center my-auto">
+                </div>
+                <div class="row">
+                    <div class="col text-end mt-3">
                         <CustomBtn Classes="@("col btn-primary")"
                                    Text="@("New")"
                                    ClickAction="@(()=>{Movie = new();NavigateToPage("BoxOfficeDemo/Movie");})">
@@ -80,6 +94,7 @@
                                    Type="@("submit")">
                         </CustomBtn>
                     </div>
+
                 </div>
             </div>
         </EditForm>
@@ -99,7 +114,7 @@
             IsAuthorized = true
         },
     };
-
+    bool ImageAsPath;
     protected override async Task OnInitializedAsync()
     {
         try
@@ -136,13 +151,21 @@
         try
         {
             var file = e.File;
-            var resizedFile = await file.RequestImageFileAsync(file.ContentType, 840, 1200);
-            var buf = new byte[resizedFile.Size];
-            using (var stream = resizedFile.OpenReadStream())
+            if (ImageAsPath)
             {
-                await stream.ReadAsync(buf);
+                Movie.Image = "./images/" + file.Name;
             }
-            Movie.Image = $"data:{resizedFile.ContentType};base64,{Convert.ToBase64String(buf)}";
+            else
+            {
+
+                var resizedFile = await file.RequestImageFileAsync(file.ContentType, 840, 1200);
+                var buf = new byte[resizedFile.Size];
+                using (var stream = resizedFile.OpenReadStream())
+                {
+                    await stream.ReadAsync(buf);
+                }
+                Movie.Image = $"data:{resizedFile.ContentType};base64,{Convert.ToBase64String(buf)}";
+            }
         }
         catch (Exception ex)
         {

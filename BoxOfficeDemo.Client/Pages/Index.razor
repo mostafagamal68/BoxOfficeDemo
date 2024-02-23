@@ -54,12 +54,7 @@
         }
         catch (Exception ex)
         {
-            IsError = true;
             ToastService.ShowError(ex.Message);
-        }
-        finally
-        {
-            IsLoading = false;
         }
     }
 
