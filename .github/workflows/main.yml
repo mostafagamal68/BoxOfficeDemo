@@ -35,10 +35,6 @@ jobs:
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
       
-    # Create appsettings.json in wwwroot
-    - name: Create appsettings.json
-      run: echo '{"Host": "https://boxofficedemo.somee.com/api/"}' > release/wwwroot/appsettings.json
-      
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
