@@ -1,7 +1,7 @@
 {
   "entryAssembly": "BoxOfficeDemo.Client",
   "resources": {
-    "hash": "sha256-7qmr63rXgpiT0M7ZbNtYXwsD4NgiZiRe2JloySpkSGI=",
+    "hash": "sha256-cGuXVqdMl0LTqVd7ySaM/K8q24OMICat3f/Q53xqs0A=",
     "runtime": {
       "dotnet.6.0.27.zuwq2jt0mq.js": "sha256-26GREQBtzf9waPgLefTus1ODJdcs93wyAEl2cY4aiD0=",
       "dotnet.timezones.blat": "sha256-Hu3yTR07LZhOqoVr6q2tVZ2tv621ulhIVgZRupSxU6A=",
@@ -15,8 +15,8 @@
       "Azure.Identity.dll": "sha256-/CphBnWxgDF2cG5+//jGJC2gguTfTv47O/N9ZeR2U10=",
       "Blazored.LocalStorage.dll": "sha256-w2vMoqbIgF9UyzKqfDFXjqgg7IsGRHDvzb6DcyaPW6s=",
       "Blazored.Modal.dll": "sha256-OkL/zDQTP6kkz+pR8Lki2Pljk2hwf99nXDSmE1Id0cY=",
-      "BoxOfficeDemo.Client.dll": "sha256-Y30+rbgI59VLpkSUHHRX0RKAoUwUAjXOPDS7MTLCHqM=",
-      "BoxOfficeDemo.Shared.dll": "sha256-HzhpBcm4wWEtSv4uPd4O0lGfTdw2BW2PwHxcWXRnP5I=",
+      "BoxOfficeDemo.Client.dll": "sha256-XYaiaTlPne4IRq5P/Z3ZzuutG+Yvb1GbGhIZXPNgcDI=",
+      "BoxOfficeDemo.Shared.dll": "sha256-2+doHDPgRlPgXabeku1P1scgBZqt7oVrdduU0D0VkaY=",
       "Microsoft.AspNetCore.Authorization.dll": "sha256-4rDq5HVeDPzYbtiYbapQkaulaoU/KSwjFPju2QVLH+8=",
       "Microsoft.AspNetCore.Components.Authorization.dll": "sha256-Zcmad3lAzi/xd2LGZCJdnGRapO78ZENWzwRCmZfqEsM=",
       "Microsoft.AspNetCore.Components.dll": "sha256-GuX01S1feM/hW5l9azQBvij0yFoeCakRsYhe0a00URI=",
