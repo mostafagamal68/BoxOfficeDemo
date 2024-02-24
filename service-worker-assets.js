@@ -229,7 +229,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-d+Xw1KmZTWZwybFrRYzqgmlW5Lix5Vzkphy8fqjcF+A=",
+      "hash": "sha256-vfF08fNu7bjXEGO\/4dzb4Rr3BDpuokp9eNUrt+YFjVk=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -249,11 +249,11 @@
       "url": "_framework\/Blazored.Modal.dll"
     },
     {
-      "hash": "sha256-XYaiaTlPne4IRq5P\/Z3ZzuutG+Yvb1GbGhIZXPNgcDI=",
+      "hash": "sha256-z52a73GUay4kCCMrb\/9ZMXf6of42Ka9OqdQHtRCgomI=",
       "url": "_framework\/BoxOfficeDemo.Client.dll"
     },
     {
-      "hash": "sha256-2+doHDPgRlPgXabeku1P1scgBZqt7oVrdduU0D0VkaY=",
+      "hash": "sha256-BE1egrahdx6vRvG0Ox+cPgWgR4cxlBbDIQtlg8ER7tE=",
       "url": "_framework\/BoxOfficeDemo.Shared.dll"
     },
     {
@@ -713,6 +713,10 @@
       "url": "_framework\/Toolbelt.Blazor.HttpClientInterceptor.dll"
     },
     {
+      "hash": "sha256-xREj65Um1H01BNM\/RzdKZQzYRFcvPOmMtgvSDjYBQlU=",
+      "url": "appsettings.json"
+    },
+    {
       "hash": "sha256-NRzGRdnlAxAGthP9SY4CJqDqVewUV+0ZXzfRxXher1I=",
       "url": "_content\/Blazored.Modal\/Blazored.Modal.bundle.scp.css"
     },
@@ -721,5 +725,5 @@
       "url": "_content\/Blazored.Modal\/BlazoredModal.razor.js"
     }
   ],
-  "version": "VS4WXZ59"
+  "version": "jyX9\/czq"
 };
