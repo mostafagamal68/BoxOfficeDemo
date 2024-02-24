@@ -27,6 +27,10 @@ jobs:
     - name: Change base-tag in index.html from / to BoxOfficeDemo
       run: sed -i 's/<base href="\/" \/>/<base href="\/BoxOfficeDemo\/" \/>/g' release/wwwroot/index.html
     
+    # changes api in appsettings.json to cloud link
+    - name: Change api in appsettings.json
+      run: sed -i 's/"api">/"https://boxofficedemo.somee.com/api/"/g' release/wwwroot/appsettings.json
+    
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
       run: cp release/wwwroot/index.html release/wwwroot/404.html
