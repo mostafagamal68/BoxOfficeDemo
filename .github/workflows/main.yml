@@ -29,7 +29,7 @@ jobs:
     
     # changes api in appsettings.json to cloud link
     - name: Change api in appsettings.json
-      run: sed -i 's/"api">/"https://boxofficedemo.somee.com/api/"/g' release/wwwroot/appsettings.json
+      run: sed -i 's/"api"/"https:\/\/boxofficedemo.somee.com\/api\/"/g' release/wwwroot/appsettings.json
     
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
